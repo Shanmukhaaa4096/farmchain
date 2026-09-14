@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- Background Warm Cream -->
+  <rect width="1200" height="630" fill="#F5F0E6"/>
+  <!-- Topographic Contour Lines -->
+  <path d="M0 100 Q 300 60, 600 120 T 1200 80 M0 240 Q 400 180, 800 260 T 1200 200 M0 380 Q 350 320, 700 400 T 1200 360" stroke="#173B2B" stroke-width="2" stroke-opacity="0.12" fill="none"/>
+  
+  <!-- Outer Brutalist Frame -->
+  <rect x="30" y="30" width="1140" height="570" fill="none" stroke="#111111" stroke-width="8"/>
+  
+  <!-- Top Status Strip -->
+  <rect x="30" y="30" width="1140" height="60" fill="#111111"/>
+  <text x="60" y="68" fill="#F4C542" font-family="'JetBrains Mono', monospace" font-size="18" font-weight="bold" letter-spacing="2">FARMCHAIN // DEMAND-DRIVEN AGRI-TECH PLATFORM</text>
+  <text x="960" y="68" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="16">TELANGANA x MAHARASHTRA</text>
+  
+  <!-- Logo Box -->
+  <rect x="70" y="140" width="90" height="90" fill="#173B2B" stroke="#111111" stroke-width="6"/>
+  <path d="M115 200 V165 M115 165 C100 160 95 145 115 142 C135 145 130 160 115 165 Z" fill="#F4C542" stroke="#111111" stroke-width="4"/>
+
+  <!-- Headline -->
+  <text x="185" y="190" fill="#111111" font-family="'Space Grotesk', sans-serif" font-size="64" font-weight="900" letter-spacing="-2">FARMCHAIN</text>
+  <text x="185" y="225" fill="#173B2B" font-family="'JetBrains Mono', monospace" font-size="20" font-weight="bold" letter-spacing="4">DIRECT AGRI-DEMAND INFRASTRUCTURE</text>
+
+  <!-- Big Callout Tag -->
+  <rect x="70" y="270" width="820" height="130" fill="#F4C542" stroke="#111111" stroke-width="6"/>
+  <text x="100" y="335" fill="#111111" font-family="'Space Grotesk', sans-serif" font-size="44" font-weight="900">DON'T SELL TO THE MIDDLEMAN.</text>
+  <text x="100" y="380" fill="#173B2B" font-family="'Space Grotesk', sans-serif" font-size="44" font-weight="900">SELL TO THE DEMAND.</text>
+
+  <!-- Supporting Subtitle -->
+  <text x="70" y="450" fill="#111111" font-family="'Inter', sans-serif" font-size="22" font-weight="600">Assisted Onboarding : 1-Tap Accept or Reject : 100% Direct Payout to Farmer Bank Accounts</text>
+  
+  <!-- Bottom Metric Badges -->
+  <rect x="70" y="490" width="280" height="70" fill="#FFFFFF" stroke="#111111" stroke-width="4"/>
+  <text x="90" y="520" fill="#666666" font-family="'JetBrains Mono', monospace" font-size="12">ACTIVE DEMAND VOLUME</text>
+  <text x="90" y="548" fill="#173B2B" font-family="'Space Grotesk', sans-serif" font-size="24" font-weight="900">124+ METRIC TONS</text>
+
+  <rect x="370" y="490" width="280" height="70" fill="#FFFFFF" stroke="#111111" stroke-width="4"/>
+  <text x="390" y="520" fill="#666666" font-family="'JetBrains Mono', monospace" font-size="12">COMMISSION CUT</text>
+  <text x="390" y="548" fill="#173B2B" font-family="'Space Grotesk', sans-serif" font-size="24" font-weight="900">0% TO BROKERS</text>
+
+  <rect x="670" y="490" width="280" height="70" fill="#173B2B" stroke="#111111" stroke-width="4"/>
+  <text x="690" y="520" fill="#F4C542" font-family="'JetBrains Mono', monospace" font-size="12">FARMER EXPERIENCE</text>
+  <text x="690" y="548" fill="#FFFFFF" font-family="'Space Grotesk', sans-serif" font-size="24" font-weight="900">ASSISTED ONBOARDING</text>
+</svg>

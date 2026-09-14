@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <rect width="100" height="100" fill="#173B2B" rx="0"/>
+  <rect x="12" y="12" width="76" height="76" fill="#F4C542" stroke="#111111" stroke-width="6"/>
+  <!-- Sprout / Grain Icon -->
+  <path d="M50 72 V38 M50 38 C35 34 30 20 50 16 C70 20 65 34 50 38 Z" fill="#173B2B" stroke="#111111" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M50 52 C38 48 34 38 42 32 C48 38 49 46 50 52 Z" fill="#173B2B" stroke="#111111" stroke-width="3"/>
+  <path d="M50 58 C62 54 66 44 58 38 C52 44 51 52 50 58 Z" fill="#173B2B" stroke="#111111" stroke-width="3"/>
+</svg>
