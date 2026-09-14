@@ -4,6 +4,7 @@ import { Card } from '../ui/Card';
 import { Badge } from '../ui/Badge';
 import { Button } from '../ui/Button';
 import { AnimatedCounter } from '../ui/AnimatedCounter';
+import { WashiTape, RubberStamp, SketchAnnotation } from '../ui/SketchAccents';
 
 export const MatchingVisual: React.FC = () => {
   const [activeFarmers, setActiveFarmers] = useState<{ [key: string]: boolean }>({
@@ -107,12 +108,16 @@ export const MatchingVisual: React.FC = () => {
             
             {/* Left: Buyer Demand Box (4 cols) */}
             <div className="lg:col-span-4">
-              <div className="bg-farm-green text-paper-white border-brutal p-6 shadow-brutal relative">
+              <div className="bg-blue-crate text-paper-white border-brutal p-6 shadow-brutal relative">
+                <WashiTape color="blue" className="-top-3 left-6 z-10" />
+                {isFulfilled && (
+                  <RubberStamp text="100% MATCHED" variant="green" className="absolute top-4 right-4 z-10" />
+                )}
                 <div className="flex items-center justify-between mb-3">
-                  <span className="font-mono text-xs font-bold text-harvest-yellow px-2 py-0.5 bg-ink-black border border-harvest-yellow">
+                  <span className="font-mono text-xs font-bold text-citrus-yellow px-2 py-0.5 bg-ink-black border border-citrus-yellow">
                     ENTERPRISE DEMAND
                   </span>
-                  <span className="h-2.5 w-2.5 rounded-full bg-terminal-green animate-pulse"></span>
+                  <span className="h-2.5 w-2.5 rounded-full bg-lettuce-green animate-pulse"></span>
                 </div>
 
                 <h4 className="font-heading font-black text-2xl uppercase tracking-tight text-paper-white">
@@ -122,10 +127,10 @@ export const MatchingVisual: React.FC = () => {
                   HYDERABAD (GACHIBOWLI CENTRAL HUB)
                 </p>
 
-                <div className="mt-6 pt-4 border-t border-farm-green-light space-y-2 font-mono text-xs">
+                <div className="mt-6 pt-4 border-t border-blue-800 space-y-2 font-mono text-xs">
                   <div className="flex justify-between">
                     <span className="text-gray-300">REQUIRED CROP:</span>
-                    <strong className="text-harvest-yellow">TOMATOES (GRADE A)</strong>
+                    <strong className="text-citrus-yellow">TOMATOES (GRADE A)</strong>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-300">ORDER VOLUME:</span>
@@ -144,11 +149,11 @@ export const MatchingVisual: React.FC = () => {
                 <div className="mt-6">
                   <div className="flex justify-between text-[11px] font-mono mb-1">
                     <span>AGGREGATION PROGRESS:</span>
-                    <span className="font-bold text-harvest-yellow">{matchedPercent}%</span>
+                    <span className="font-bold text-citrus-yellow">{matchedPercent}%</span>
                   </div>
                   <div className="h-4 bg-ink-black border border-paper-white overflow-hidden">
                     <div 
-                      className={`h-full transition-all duration-300 ${isFulfilled ? 'bg-terminal-green' : 'bg-harvest-yellow'}`}
+                      className={`h-full transition-all duration-300 ${isFulfilled ? 'bg-lettuce-green' : 'bg-citrus-yellow'}`}
                       style={{ width: `${matchedPercent}%` }}
                     ></div>
                   </div>
@@ -209,7 +214,7 @@ export const MatchingVisual: React.FC = () => {
                     />
 
                     {/* Central Consolidation Truck Node */}
-                    <circle cx="150" cy="80" r="18" fill="#F4C542" stroke="#111111" strokeWidth="3.5" />
+                    <circle cx="150" cy="80" r="18" fill="#E6A300" stroke="#111111" strokeWidth="3.5" />
                   </svg>
 
                   {/* Hub Center Icon */}
@@ -218,13 +223,13 @@ export const MatchingVisual: React.FC = () => {
                   </div>
 
                   {/* Crates Traveling Micro-Badge */}
-                  <div className="absolute top-2 left-1/2 -translate-x-1/2 bg-soil-brown text-paper-white text-[9px] font-mono font-bold px-2 py-0.5 border border-ink-black">
+                  <div className="absolute top-2 left-1/2 -translate-x-1/2 bg-blue-crate text-citrus-yellow text-[9px] font-mono font-bold px-2 py-0.5 border border-ink-black shadow-brutal-sm">
                     CRATES IN TRANSIT
                   </div>
                 </div>
 
                 <div className="text-center font-mono text-xs bg-warm-cream border-2 border-ink-black px-4 py-2 shadow-brutal-sm">
-                  <span className="font-bold text-farm-green">SHARED SMART PICKUP LOOP</span>
+                  <span className="font-bold text-blue-crate">SHARED SMART PICKUP LOOP</span>
                   <div className="text-[10px] text-gray-700">1 Reefer Truck • 3 Smallholder Farms • 12.4 KM Circuit</div>
                 </div>
 

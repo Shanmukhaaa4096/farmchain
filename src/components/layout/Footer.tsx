@@ -1,6 +1,7 @@
 import React from 'react';
 import { ShieldCheck, Sprout, ArrowUpRight, Zap, RefreshCw } from 'lucide-react';
 import { Badge } from '../ui/Badge';
+import { RubberStamp, SketchAnnotation } from '../ui/SketchAccents';
 
 interface FooterProps {
   onNavigate: (view: string) => void;
@@ -8,11 +9,13 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   return (
-    <footer className="bg-farm-green text-paper-white border-t-brutal pt-16 pb-12">
+    <footer className="bg-blue-crate text-paper-white border-t-brutal pt-16 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Core Differentiator Banner */}
-        <div className="bg-harvest-yellow text-ink-black border-brutal-thick p-6 md:p-8 mb-16 shadow-brutal-lg">
+        {/* Core Differentiator Banner (Citrus Yellow with Scrapbook Rubber Stamp) */}
+        <div className="bg-citrus-yellow text-ink-black border-brutal-thick p-6 md:p-8 mb-16 shadow-brutal-lg relative">
+          <RubberStamp text="0% BROKERAGE" variant="red" className="absolute -top-3 right-6" />
+          
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div className="max-w-3xl">
               <div className="flex items-center gap-2 mb-2">
@@ -20,6 +23,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 <span className="font-mono text-xs font-bold uppercase tracking-wider bg-ink-black text-paper-white px-2 py-0.5">
                   CRITICAL ARCHITECTURE PRINCIPLE
                 </span>
+                <SketchAnnotation text="NO MIDDLEMAN" color="orange" className="text-sm font-bold -rotate-2 ml-2" />
               </div>
               <h3 className="font-heading font-black text-xl md:text-2xl tracking-tight uppercase">
                 FARMCHAIN DOES NOT BUY OR RESELL FARMERS' PRODUCE.
@@ -40,7 +44,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         </div>
 
         {/* 12-Column Swiss Grid Editorial Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b-2 border-farm-green-light">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b-2 border-blue-900">
           
           {/* Brand Column (4 cols) */}
           <div className="md:col-span-4 space-y-4">
@@ -144,12 +148,12 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           </div>
 
           {/* Telemetry (3 cols) */}
-          <div className="md:col-span-3 space-y-3 bg-farm-green-dark border-2 border-farm-green-light p-4 font-mono text-xs">
-            <div className="flex items-center justify-between text-harvest-yellow font-bold">
+          <div className="md:col-span-3 space-y-3 bg-[#1F265C] border-2 border-blue-800 p-4 font-mono text-xs">
+            <div className="flex items-center justify-between text-citrus-yellow font-bold">
               <span className="flex items-center gap-1.5">
                 <Zap className="w-4 h-4" /> NETWORK TELEMETRY
               </span>
-              <span className="text-[10px] bg-farm-green px-1.5 py-0.5 border border-farm-green-light">v2.6 LIVE</span>
+              <span className="text-[10px] bg-blue-crate text-lettuce-green px-1.5 py-0.5 border border-blue-700">v2.6 LIVE</span>
             </div>
             <div className="space-y-1.5 text-gray-300 text-[11px]">
               <div className="flex justify-between">
@@ -162,7 +166,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               </div>
               <div className="flex justify-between">
                 <span>FARM-GATE TO DOCK:</span>
-                <span className="text-harvest-yellow font-bold">&lt; 12 HOURS</span>
+                <span className="text-citrus-yellow font-bold">&lt; 12 HOURS</span>
               </div>
               <div className="flex justify-between">
                 <span>SETTLEMENT METHOD:</span>

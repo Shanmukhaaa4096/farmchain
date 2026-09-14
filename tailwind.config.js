@@ -7,36 +7,48 @@ export default {
   theme: {
     extend: {
       colors: {
-        'farm-green': '#173B2B',
-        'farm-green-dark': '#0F271C',
-        'farm-green-light': '#2E6B4F',
-        'farm-green-pale': '#E9F0EC',
-        'earth-green': '#234E39',
-        'warm-cream': '#F5F0E6',
-        'warm-cream-dark': '#EADEC9',
-        'harvest-yellow': '#F4C542',
-        'harvest-yellow-hover': '#E5B533',
-        'soil-brown': '#4A3525',
-        'soil-brown-light': '#6A4E38',
-        'grain-gold': '#D4A338',
-        'ink-black': '#111111',
+        // Agricultural Produce Palette (Requested by User)
+        'blue-crate': '#293379',
+        'tomato-red': '#B81817',
+        'citrus-yellow': '#E6A300',
+        'lettuce-green': '#A6AF32',
+        'green-beans': '#607829',
+        'orange-accent': '#EE7302',
+        'paper-cream': '#FAF7F0',
         'paper-white': '#FFFFFF',
-        'rust-red': '#D9483B',
-        'terminal-green': '#00E676',
+        'ink-black': '#111111',
+
+        // Theme Mapping Aliases (Preserves existing component contracts while adopting the new palette)
+        'farm-green': '#293379',        // Primary Blue Crate
+        'farm-green-dark': '#1F2444',   // Deep Blue Crate Tone
+        'farm-green-light': '#607829',  // Green Beans
+        'farm-green-pale': '#F2F5E8',   // Light Lettuce Tint
+        'earth-green': '#607829',       // Green Beans
+        'warm-cream': '#FAF7F0',        // Field Notebook Paper
+        'warm-cream-dark': '#EFE9DA',   // Kraft Paper Accent
+        'harvest-yellow': '#E6A300',    // Citrus Yellow
+        'harvest-yellow-hover': '#CE9200',
+        'soil-brown': '#607829',        // Green Beans Tone
+        'soil-brown-light': '#A6AF32',  // Lettuce Green Tone
+        'grain-gold': '#EE7302',        // Energetic Orange Accent
+        'rust-red': '#B81817',          // Tomato Red
+        'terminal-green': '#A6AF32',    // Lettuce Green Accent
       },
       fontFamily: {
         heading: ['"Space Grotesk"', 'sans-serif'],
         body: ['Inter', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
+        sketch: ['Caveat', 'cursive'],
       },
       boxShadow: {
-        'brutal': '6px 6px 0px #111111',
+        'brutal': '5px 5px 0px #111111',
         'brutal-sm': '3px 3px 0px #111111',
-        'brutal-lg': '10px 10px 0px #111111',
-        'brutal-yellow': '6px 6px 0px #F4C542',
-        'brutal-green': '6px 6px 0px #173B2B',
-        'brutal-soil': '6px 6px 0px #4A3525',
-        'brutal-white': '6px 6px 0px #FFFFFF',
+        'brutal-lg': '8px 8px 0px #111111',
+        'brutal-blue': '5px 5px 0px #293379',
+        'brutal-yellow': '5px 5px 0px #E6A300',
+        'brutal-red': '5px 5px 0px #B81817',
+        'brutal-green': '5px 5px 0px #607829',
+        'brutal-orange': '5px 5px 0px #EE7302',
         'brutal-active': '0px 0px 0px #111111',
       },
       borderWidth: {

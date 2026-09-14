@@ -14,7 +14,7 @@ import {
 import { Card } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
-import { DemandRequirement } from '../types';
+import { DemandRequirement, UserRole } from '../types';
 import { MOCK_MATCHES_FOR_TOMATO } from '../data/mockData';
 
 interface BuyerDashboardProps {
@@ -22,13 +22,17 @@ interface BuyerDashboardProps {
   onOpenPostDemand: () => void;
   onSelectDemand: (demand: DemandRequirement) => void;
   onNavigate: (view: string) => void;
+  requireAuth?: (role: UserRole, action: () => void, promptMessage: string) => void;
+  isAuthenticated?: boolean;
 }
 
 export const BuyerDashboard: React.FC<BuyerDashboardProps> = ({
   demands,
   onOpenPostDemand,
   onSelectDemand,
-  onNavigate
+  onNavigate,
+  requireAuth,
+  isAuthenticated = false
 }) => {
   const buyerDemands = demands.filter(d => d.buyerId.startsWith('BUY'));
 

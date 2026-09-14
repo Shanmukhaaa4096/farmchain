@@ -8,10 +8,14 @@ import {
   TrendingUp,
   Truck,
   Layers,
-  Sparkles
+  Sparkles,
+  ShieldCheck,
+  LogOut,
+  Key
 } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Badge } from '../ui/Badge';
+import { SketchAnnotation } from '../ui/SketchAccents';
 import { UserRole } from '../../types';
 
 interface NavbarProps {
@@ -20,6 +24,9 @@ interface NavbarProps {
   activeRole: UserRole;
   onRoleChange: (role: UserRole) => void;
   onOpenAuth: () => void;
+  isAuthenticated?: boolean;
+  currentUser?: { name: string; role: UserRole; identifier: string } | null;
+  onSignOut?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -27,7 +34,10 @@ export const Navbar: React.FC<NavbarProps> = ({
   onNavigate,
   activeRole,
   onRoleChange,
-  onOpenAuth
+  onOpenAuth,
+  isAuthenticated = false,
+  currentUser = null,
+  onSignOut
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -42,28 +52,37 @@ export const Navbar: React.FC<NavbarProps> = ({
   ];
 
   return (
-    <header className="sticky top-0 z-40 bg-warm-cream border-b-brutal">
-      {/* Top Digital Futurism Status Bar */}
-      <div className="bg-ink-black text-paper-white px-4 py-1.5 text-xs font-mono flex items-center justify-between overflow-x-auto border-b-2 border-ink-black">
+    <header className="sticky top-0 z-40 bg-paper-cream border-b-brutal">
+      {/* Top Agricultural Status Bar (Blue Crate Palette) */}
+      <div className="bg-blue-crate text-paper-white px-4 py-1.5 text-xs font-mono flex items-center justify-between overflow-x-auto border-b-2 border-ink-black">
         <div className="flex items-center gap-4 shrink-0">
-          <span className="flex items-center gap-1.5 text-harvest-yellow">
-            <span className="h-2 w-2 rounded-full bg-terminal-green animate-pulse inline-block"></span>
+          <span className="flex items-center gap-1.5 text-citrus-yellow font-bold">
+            <span className="h-2 w-2 rounded-full bg-lettuce-green animate-pulse inline-block"></span>
             LIVE DEMAND NETWORK: 18.5 MT ACTIVE
           </span>
-          <span className="text-gray-400 hidden sm:inline">|</span>
-          <span className="hidden sm:inline text-gray-300">
+          <span className="text-blue-200/40 hidden sm:inline">|</span>
+          <span className="hidden sm:inline text-paper-white/80">
             TELANGANA × MAHARASHTRA × KARNATAKA
           </span>
         </div>
 
-        {/* Role Quick Selector */}
-        <div className="flex items-center gap-2 shrink-0">
-          <span className="text-gray-400 text-[11px] hidden md:inline">VIEW AS:</span>
-          <div className="flex border border-gray-600 bg-gray-900 p-0.5">
+        {/* Role Quick Selector & Verified Badge */}
+        <div className="flex items-center gap-3 shrink-0">
+          {isAuthenticated && currentUser ? (
+            <div className="flex items-center gap-1.5 bg-green-beans text-paper-white px-2 py-0.5 border border-paper-white/40 text-[10px] font-bold">
+              <ShieldCheck className="w-3.5 h-3.5 text-citrus-yellow" />
+              <span>{currentUser.identifier}</span>
+            </div>
+          ) : (
+            <span className="text-paper-white/60 text-[11px] hidden md:inline">PUBLIC GUEST BROWSING</span>
+          )}
+
+          <span className="text-blue-200/40 hidden sm:inline">|</span>
+          <div className="flex border border-blue-900 bg-[#1F265C] p-0.5">
             <button
               onClick={() => onRoleChange('farmer')}
               className={`px-2 py-0.5 text-[11px] font-bold uppercase transition-colors ${
-                activeRole === 'farmer' ? 'bg-harvest-yellow text-ink-black' : 'text-gray-300 hover:text-white'
+                activeRole === 'farmer' ? 'bg-citrus-yellow text-ink-black' : 'text-paper-white/70 hover:text-white'
               }`}
             >
               FARMER
@@ -71,7 +90,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={() => onRoleChange('buyer')}
               className={`px-2 py-0.5 text-[11px] font-bold uppercase transition-colors ${
-                activeRole === 'buyer' ? 'bg-harvest-yellow text-ink-black' : 'text-gray-300 hover:text-white'
+                activeRole === 'buyer' ? 'bg-citrus-yellow text-ink-black' : 'text-paper-white/70 hover:text-white'
               }`}
             >
               BUYER
@@ -79,7 +98,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={() => onRoleChange('logistics')}
               className={`px-2 py-0.5 text-[11px] font-bold uppercase transition-colors ${
-                activeRole === 'logistics' ? 'bg-harvest-yellow text-ink-black' : 'text-gray-300 hover:text-white'
+                activeRole === 'logistics' ? 'bg-citrus-yellow text-ink-black' : 'text-paper-white/70 hover:text-white'
               }`}
             >
               LOGISTICS
@@ -97,20 +116,21 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => onNavigate('landing')}
             className="flex items-center gap-3 cursor-pointer select-none group"
           >
-            <div className="h-11 w-11 bg-farm-green text-harvest-yellow border-brutal flex items-center justify-center shadow-brutal-sm group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform">
+            <div className="h-11 w-11 bg-blue-crate text-citrus-yellow border-brutal flex items-center justify-center shadow-brutal-sm group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform">
               <Sprout className="w-7 h-7 stroke-[2.5]" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-heading font-black text-2xl tracking-tighter text-ink-black">
+                <span className="font-heading font-black text-2xl tracking-tighter text-blue-crate">
                   FARMCHAIN
                 </span>
-                <span className="bg-harvest-yellow border-2 border-ink-black text-[10px] font-mono font-bold px-1.5 py-0.2 text-ink-black">
-                  v2.6
+                <span className="bg-citrus-yellow border-2 border-ink-black text-[10px] font-mono font-bold px-1.5 py-0.2 text-ink-black">
+                  PRODUCE DEMAND
                 </span>
+                <SketchAnnotation text="NO MIDDLEMAN" color="orange" className="hidden xl:inline-block ml-1 text-sm -rotate-3" />
               </div>
-              <p className="font-mono text-[10px] text-farm-green font-bold tracking-widest uppercase">
-                DEMAND × SUPPLY × LOGISTICS
+              <p className="font-mono text-[10px] text-green-beans font-bold tracking-widest uppercase">
+                DEMAND × AGGREGATION × DIRECT CONTRACTS
               </p>
             </div>
           </div>
@@ -125,7 +145,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   onClick={() => onNavigate(item.id)}
                   className={`px-3 py-1.5 font-heading text-xs font-bold tracking-wider transition-all border-2 ${
                     isActive
-                      ? 'bg-ink-black text-paper-white border-ink-black shadow-brutal-sm -translate-y-0.5'
+                      ? 'bg-blue-crate text-paper-white border-ink-black shadow-brutal-sm -translate-y-0.5'
                       : 'border-transparent text-ink-black hover:border-ink-black hover:bg-paper-white'
                   }`}
                 >
@@ -135,21 +155,40 @@ export const Navbar: React.FC<NavbarProps> = ({
             })}
           </nav>
 
-          {/* Action CTAs */}
+          {/* Action CTAs & Auth Controls */}
           <div className="hidden sm:flex items-center gap-3">
-            <button
-              onClick={onOpenAuth}
-              className="font-heading font-bold text-xs uppercase px-3 py-2 border-2 border-transparent hover:border-ink-black transition-all"
-            >
-              LOGIN
-            </button>
+            {isAuthenticated ? (
+              <div className="flex items-center gap-2">
+                <Badge variant="lettuce" size="sm" dot>
+                  {currentUser?.role.toUpperCase()} VERIFIED
+                </Badge>
+                {onSignOut && (
+                  <button
+                    onClick={onSignOut}
+                    className="font-mono text-xs font-bold text-tomato-red hover:underline flex items-center gap-1 px-2 py-1 border border-tomato-red/30 bg-red-50"
+                  >
+                    <LogOut className="w-3.5 h-3.5" />
+                    <span>EXIT</span>
+                  </button>
+                )}
+              </div>
+            ) : (
+              <button
+                onClick={onOpenAuth}
+                className="font-heading font-bold text-xs uppercase px-3.5 py-2 border-2 border-ink-black bg-paper-white text-blue-crate hover:bg-citrus-yellow hover:text-ink-black shadow-brutal-sm transition-all flex items-center gap-1.5"
+              >
+                <Key className="w-3.5 h-3.5" />
+                <span>SIGN IN / VERIFY</span>
+              </button>
+            )}
+
             <Button
               variant="yellow"
               size="sm"
               onClick={() => onNavigate('marketplace')}
               className="flex items-center gap-1.5"
             >
-              <span>JOIN FARMCHAIN</span>
+              <span>DEMAND BOARD</span>
               <ChevronRight className="w-4 h-4 stroke-[3]" />
             </Button>
           </div>
@@ -172,7 +211,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-warm-cream border-t-brutal px-4 py-6 space-y-3 animate-in slide-in-from-top-2">
+        <div className="lg:hidden bg-paper-cream border-t-brutal px-4 py-6 space-y-3 animate-in slide-in-from-top-2">
           <div className="grid grid-cols-2 gap-2 pb-2">
             {navItems.map((item) => (
               <button
@@ -182,7 +221,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   setMobileMenuOpen(false);
                 }}
                 className={`p-3 text-left font-heading text-xs font-bold tracking-wider border-brutal ${
-                  currentView === item.id ? 'bg-harvest-yellow text-ink-black' : 'bg-paper-white'
+                  currentView === item.id ? 'bg-citrus-yellow text-ink-black' : 'bg-paper-white'
                 }`}
               >
                 {item.label}
@@ -201,22 +240,40 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               EXPLORE DEMAND BOARD
             </Button>
-            <Button
-              variant="white"
-              fullWidth
-              onClick={() => {
-                onOpenAuth();
-                setMobileMenuOpen(false);
-              }}
-            >
-              ACCOUNT AND VERIFICATION
-            </Button>
+
+            {isAuthenticated ? (
+              <div className="p-3 bg-green-beans text-paper-white border-2 border-ink-black flex items-center justify-between">
+                <span className="font-mono text-xs font-bold">{currentUser?.identifier}</span>
+                {onSignOut && (
+                  <button
+                    onClick={() => {
+                      onSignOut();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="text-xs font-bold underline text-citrus-yellow"
+                  >
+                    SIGN OUT
+                  </button>
+                )}
+              </div>
+            ) : (
+              <Button
+                variant="yellow"
+                fullWidth
+                onClick={() => {
+                  onOpenAuth();
+                  setMobileMenuOpen(false);
+                }}
+              >
+                SIGN IN / VERIFY ROLE
+              </Button>
+            )}
 
             {/* Clickable Mobile Contacts */}
             <div className="pt-2 border-t border-ink-black/20 font-mono text-[11px] flex flex-col gap-1 text-gray-700">
               <a 
                 href="tel:+918001234567" 
-                className="font-bold text-farm-green hover:underline flex items-center gap-1.5 py-1"
+                className="font-bold text-blue-crate hover:underline flex items-center gap-1.5 py-1"
               >
                 CALL HELPDESK: +91 800 123 4567
               </a>

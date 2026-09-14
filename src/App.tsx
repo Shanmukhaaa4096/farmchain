@@ -25,6 +25,12 @@ export const App: React.FC = () => {
   const [activeRole, setActiveRole] = useState<UserRole>('farmer');
   const [demands, setDemands] = useState<DemandRequirement[]>(INITIAL_DEMANDS);
   
+  // Authentication & Role-based Access State
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [currentUser, setCurrentUser] = useState<{ name: string; role: UserRole; identifier: string } | null>(null);
+  const [authPromptMessage, setAuthPromptMessage] = useState<string | undefined>(undefined);
+  const [pendingAction, setPendingAction] = useState<(() => void) | null>(null);
+
   // Modals
   const [selectedDemand, setSelectedDemand] = useState<DemandRequirement | null>(null);
   const [isPostDemandOpen, setIsPostDemandOpen] = useState<boolean>(false);
@@ -37,6 +43,52 @@ export const App: React.FC = () => {
   const showToast = (message: string, type: 'success' | 'error' = 'success') => {
     setToast({ message, type });
     setTimeout(() => setToast(null), 4000);
+  };
+
+  /**
+   * Action Gating Helper:
+   * Protects any action requiring farmer, buyer, or logistics authentication.
+   * If unauthenticated, displays the AuthModal with custom prompt and stores action for execution on login.
+   */
+  const requireAuth = (role: UserRole, action: () => void, promptMessage: string) => {
+    if (isAuthenticated && currentUser?.role === role) {
+      action();
+    } else {
+      setActiveRole(role);
+      setAuthPromptMessage(promptMessage);
+      setPendingAction(() => action);
+      setIsAuthOpen(true);
+    }
+  };
+
+  const handleLoginSuccess = (role: UserRole) => {
+    setIsAuthenticated(true);
+    const userProfiles: Record<UserRole, { name: string; role: UserRole; identifier: string }> = {
+      farmer: { name: 'Ramesh Reddy', role: 'farmer', identifier: 'KISAN: TS-RR-902184' },
+      buyer: { name: 'UrbanFork Kitchens', role: 'buyer', identifier: 'GSTIN: 36AAACU9120K' },
+      logistics: { name: 'Kisan Cold Logistics', role: 'logistics', identifier: 'FLEET: TS-08-NP-2026' },
+    };
+    const loggedUser = userProfiles[role];
+    setCurrentUser(loggedUser);
+    setActiveRole(role);
+    setAuthPromptMessage(undefined);
+    showToast(`Access granted: Logged in as verified ${role.toUpperCase()} (${loggedUser.identifier})`);
+
+    // Execute pending gated action immediately upon successful authentication
+    if (pendingAction) {
+      setTimeout(() => {
+        pendingAction();
+        setPendingAction(null);
+      }, 200);
+    }
+  };
+
+  const handleSignOut = () => {
+    setIsAuthenticated(false);
+    setCurrentUser(null);
+    setPendingAction(null);
+    setAuthPromptMessage(undefined);
+    showToast('Signed out of FarmChain. Public guest browsing mode active.');
   };
 
   // Dynamic Page Title Strategy
@@ -103,6 +155,22 @@ export const App: React.FC = () => {
     showToast(`Successfully pledged ${quantityKg} KG harvest at ₹${agreedRate}/KG! Added to collection loop.`);
   };
 
+  const handleOpenPostDemand = () => {
+    requireAuth(
+      'buyer',
+      () => setIsPostDemandOpen(true),
+      'Commercial buyer authentication required to create and post a purchase order. Please verify your buyer credentials to publish demand.'
+    );
+  };
+
+  const handlePledgeDemand = (demand: DemandRequirement) => {
+    requireAuth(
+      'farmer',
+      () => setPledgeTargetDemand(demand),
+      `Farmer authentication required to pledge harvest for ${demand.crop} (${demand.id}). Please sign in with your Kisan ID / Registered mobile.`
+    );
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-warm-cream font-body text-ink-black antialiased selection:bg-harvest-yellow">
       
@@ -115,7 +183,13 @@ export const App: React.FC = () => {
           setActiveRole(role);
           showToast(`Switched active view profile to: ${role.toUpperCase()}`);
         }}
-        onOpenAuth={() => setIsAuthOpen(true)}
+        onOpenAuth={() => {
+          setAuthPromptMessage(undefined);
+          setIsAuthOpen(true);
+        }}
+        isAuthenticated={isAuthenticated}
+        currentUser={currentUser}
+        onSignOut={handleSignOut}
       />
 
       {/* Floating Action Toast Notification (Success / Error) */}
@@ -151,7 +225,7 @@ export const App: React.FC = () => {
         {currentView === 'landing' && (
           <LandingPage
             onNavigate={handleNavigate}
-            onOpenPostDemand={() => setIsPostDemandOpen(true)}
+            onOpenPostDemand={handleOpenPostDemand}
             liveDemands={demands}
             onSelectDemand={(demand) => setSelectedDemand(demand)}
           />
@@ -161,8 +235,8 @@ export const App: React.FC = () => {
           <MarketplacePage
             demands={demands}
             onSelectDemand={(demand) => setSelectedDemand(demand)}
-            onOpenPostDemand={() => setIsPostDemandOpen(true)}
-            onPledgeDemand={(demand) => setPledgeTargetDemand(demand)}
+            onOpenPostDemand={handleOpenPostDemand}
+            onPledgeDemand={handlePledgeDemand}
             userRole={activeRole}
           />
         )}
@@ -171,22 +245,29 @@ export const App: React.FC = () => {
           <FarmerDashboard
             demands={demands}
             onSelectDemand={(demand) => setSelectedDemand(demand)}
-            onPledgeDemand={(demand) => setPledgeTargetDemand(demand)}
+            onPledgeDemand={handlePledgeDemand}
             onNavigate={handleNavigate}
+            requireAuth={requireAuth}
+            isAuthenticated={isAuthenticated}
           />
         )}
 
         {currentView === 'buyer' && (
           <BuyerDashboard
             demands={demands}
-            onOpenPostDemand={() => setIsPostDemandOpen(true)}
+            onOpenPostDemand={handleOpenPostDemand}
             onSelectDemand={(demand) => setSelectedDemand(demand)}
             onNavigate={handleNavigate}
+            requireAuth={requireAuth}
+            isAuthenticated={isAuthenticated}
           />
         )}
 
         {currentView === 'logistics' && (
-          <LogisticsPage />
+          <LogisticsPage 
+            requireAuth={requireAuth}
+            isAuthenticated={isAuthenticated}
+          />
         )}
 
         {currentView === 'forecast' && (
@@ -219,7 +300,7 @@ export const App: React.FC = () => {
         isOpen={selectedDemand !== null}
         onClose={() => setSelectedDemand(null)}
         demand={selectedDemand}
-        onPledgeClick={(demand) => setPledgeTargetDemand(demand)}
+        onPledgeClick={(demand) => handlePledgeDemand(demand)}
         userRole={activeRole}
       />
 
@@ -238,9 +319,15 @@ export const App: React.FC = () => {
 
       <AuthModal
         isOpen={isAuthOpen}
-        onClose={() => setIsAuthOpen(false)}
+        onClose={() => {
+          setIsAuthOpen(false);
+          setAuthPromptMessage(undefined);
+          setPendingAction(null);
+        }}
         activeRole={activeRole}
         onRoleChange={(role) => setActiveRole(role)}
+        promptMessage={authPromptMessage}
+        onLoginSuccess={handleLoginSuccess}
       />
 
       {/* Bold Neo-Brutalist Footer */}

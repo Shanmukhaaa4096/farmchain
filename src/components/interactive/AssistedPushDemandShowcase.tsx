@@ -15,6 +15,7 @@ import {
 import { Button } from '../ui/Button';
 import { Badge } from '../ui/Badge';
 import { Card } from '../ui/Card';
+import { WashiTape, RubberStamp, SketchAnnotation } from '../ui/SketchAccents';
 
 type LanguageCode = 'en' | 'te' | 'hi' | 'kn' | 'mr';
 
@@ -219,7 +220,8 @@ export const AssistedPushDemandShowcase: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
         {/* Left 7 Cols: The Farmer 1-Tap Accept / Reject Card */}
-        <div className="lg:col-span-7 bg-paper-white border-brutal-thick p-5 sm:p-6 shadow-brutal space-y-4">
+        <div className="lg:col-span-7 bg-paper-white border-brutal-thick p-5 sm:p-6 shadow-brutal space-y-4 relative">
+          <WashiTape color="yellow" className="-top-3 left-10 z-10" />
           
           <div className="flex items-center justify-between pb-3 border-b-2 border-ink-black">
             <div className="flex items-center gap-2">
@@ -227,6 +229,7 @@ export const AssistedPushDemandShowcase: React.FC = () => {
               <span className="font-mono text-xs font-bold text-ink-black uppercase">
                 FARMER DEVICE NOTIFICATION
               </span>
+              <SketchAnnotation text="ONE-TAP CONTRACT" color="orange" className="text-xs font-bold -rotate-1 hidden sm:inline-block ml-2" />
             </div>
             <span className="bg-harvest-yellow text-ink-black font-mono text-[10px] font-bold px-2 py-0.5 border border-ink-black">
               SMS / WHATSAPP / APP
@@ -300,12 +303,13 @@ export const AssistedPushDemandShowcase: React.FC = () => {
 
           {orderState === 'ACCEPTED' && (
             <div className="pt-4 border-t-2 border-ink-black space-y-3">
-              <div className="p-4 bg-green-50 border-2 border-farm-green text-farm-green space-y-1 font-mono text-xs">
+              <div className="p-4 bg-green-50 border-2 border-farm-green text-farm-green space-y-1 font-mono text-xs relative">
+                <RubberStamp text="DIRECT SALE ✓" variant="green" className="absolute top-3 right-3" />
                 <div className="flex items-center gap-2 font-heading font-black text-sm uppercase">
                   <Check className="w-4 h-4 stroke-[3]" />
                   <span>{content.acceptedSuccessTitle}</span>
                 </div>
-                <p className="text-[11px] text-gray-800 leading-relaxed font-sans">
+                <p className="text-[11px] text-gray-800 leading-relaxed font-sans max-w-sm">
                   {content.acceptedSuccessDesc}
                 </p>
               </div>
@@ -337,7 +341,8 @@ export const AssistedPushDemandShowcase: React.FC = () => {
         {/* Right 5 Cols: Assisted Onboarding & Operational Safeguards */}
         <div className="lg:col-span-5 space-y-4">
           
-          <div className="p-5 bg-warm-cream border-brutal space-y-3">
+          <div className="p-5 bg-warm-cream border-brutal space-y-3 relative">
+            <WashiTape color="blue" className="-top-2.5 right-6 z-10" />
             <span className="bg-ink-black text-harvest-yellow font-mono text-[10px] font-bold px-2 py-0.5 uppercase block w-fit">
               STEP 1: ASSISTED ONBOARDING
             </span>
@@ -353,7 +358,8 @@ export const AssistedPushDemandShowcase: React.FC = () => {
             </div>
           </div>
 
-          <div className="p-5 bg-paper-white border-brutal space-y-3">
+          <div className="p-5 bg-paper-white border-brutal space-y-3 relative">
+            <WashiTape color="red" className="-top-2.5 left-6 z-10" />
             <span className="bg-farm-green text-paper-white font-mono text-[10px] font-bold px-2 py-0.5 uppercase block w-fit">
               STEP 2: ZERO-SEARCH SELLING
             </span>

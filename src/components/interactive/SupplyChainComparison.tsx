@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ArrowDown, AlertTriangle, CheckCircle2, TrendingDown, TrendingUp, Users, Building, Truck, Store } from 'lucide-react';
 import { Card } from '../ui/Card';
 import { Badge } from '../ui/Badge';
+import { WashiTape, RubberStamp, SketchAnnotation } from '../ui/SketchAccents';
 
 export const SupplyChainComparison: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'traditional' | 'farmchain'>('farmchain');
@@ -30,7 +31,7 @@ export const SupplyChainComparison: React.FC = () => {
           <button
             onClick={() => setActiveTab('traditional')}
             className={`btn-brutal px-5 py-2.5 text-xs md:text-sm font-heading ${
-              activeTab === 'traditional' ? 'bg-rust-red text-paper-white' : 'bg-paper-white text-ink-black'
+              activeTab === 'traditional' ? 'bg-tomato-red text-paper-white' : 'bg-paper-white text-ink-black'
             }`}
           >
             TRADITIONAL BROKER CHAIN (5 LAYERS)
@@ -38,7 +39,7 @@ export const SupplyChainComparison: React.FC = () => {
           <button
             onClick={() => setActiveTab('farmchain')}
             className={`btn-brutal px-5 py-2.5 text-xs md:text-sm font-heading ${
-              activeTab === 'farmchain' ? 'bg-farm-green text-paper-white' : 'bg-paper-white text-ink-black'
+              activeTab === 'farmchain' ? 'bg-blue-crate text-paper-white' : 'bg-paper-white text-ink-black'
             }`}
           >
             FARMCHAIN DEMAND-MATCHED FLOW (DIRECT)
@@ -51,15 +52,18 @@ export const SupplyChainComparison: React.FC = () => {
           {/* Visual Flow Column (7 cols) */}
           <div className="lg:col-span-7">
             {activeTab === 'traditional' ? (
-              <Card variant="white" shadow="lg" className="p-6 md:p-8 space-y-4 border-rust-red/50">
+              <Card variant="white" shadow="lg" className="p-6 md:p-8 space-y-4 border-tomato-red/50 relative">
+                <WashiTape color="red" className="-top-3 left-10 z-10" />
+                <RubberStamp text="38% CROP LOSS" variant="red" className="absolute top-4 right-4 z-10" />
+
                 <div className="flex items-center justify-between pb-4 border-b-2 border-ink-black">
                   <div>
-                    <h3 className="font-heading font-black text-xl text-rust-red uppercase">
+                    <h3 className="font-heading font-black text-xl text-tomato-red uppercase">
                       TRADITIONAL BROKER CHAIN
                     </h3>
                     <p className="font-mono text-xs text-gray-600">FRUIT & VEGETABLE LOSS: ~38%</p>
                   </div>
-                  <Badge variant="red" size="sm">HIGH LOSS RATE</Badge>
+                  <Badge variant="red" size="sm">5 MIDDLEMEN</Badge>
                 </div>
 
                 {/* Step Flow */}
@@ -106,15 +110,18 @@ export const SupplyChainComparison: React.FC = () => {
                 </div>
               </Card>
             ) : (
-              <Card variant="white" shadow="lg" className="p-6 md:p-8 space-y-4 border-farm-green">
+              <Card variant="white" shadow="lg" className="p-6 md:p-8 space-y-4 border-blue-crate relative">
+                <WashiTape color="blue" className="-top-3 left-10 z-10" />
+                <RubberStamp text="78% FARMER PAYOUT" variant="green" className="absolute top-4 right-4 z-10" />
+
                 <div className="flex items-center justify-between pb-4 border-b-2 border-ink-black">
                   <div>
-                    <h3 className="font-heading font-black text-xl text-farm-green uppercase">
+                    <h3 className="font-heading font-black text-xl text-blue-crate uppercase">
                       FARMCHAIN DEMAND-FIRST FLOW
                     </h3>
                     <p className="font-mono text-xs text-gray-600">ZERO BROKERS // MACHINE OPTIMIZED</p>
                   </div>
-                  <Badge variant="green" size="sm" dot>FARMER GETS 78%+</Badge>
+                  <Badge variant="lettuce" size="sm" dot>FARMER GETS 78%+</Badge>
                 </div>
 
                 {/* Step Flow */}

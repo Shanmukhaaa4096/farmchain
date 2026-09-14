@@ -18,13 +18,17 @@ interface AuthModalProps {
   onClose: () => void;
   activeRole: UserRole;
   onRoleChange: (role: UserRole) => void;
+  promptMessage?: string;
+  onLoginSuccess?: (role: UserRole) => void;
 }
 
 export const AuthModal: React.FC<AuthModalProps> = ({
   isOpen,
   onClose,
   activeRole,
-  onRoleChange
+  onRoleChange,
+  promptMessage,
+  onLoginSuccess
 }) => {
   const [phone, setPhone] = useState('98492 01842');
   const [otp, setOtp] = useState('4096');
@@ -39,20 +43,35 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     e.preventDefault();
     setStep('success');
     setTimeout(() => {
+      if (onLoginSuccess) {
+        onLoginSuccess(activeRole);
+      }
       onClose();
       setStep('phone');
-    }, 1200);
+    }, 900);
   };
 
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="FARMCHAIN ACCESS & VERIFICATION"
-      subtitle="IDENTITY // ROLE-BASED ACCESS PROTOCOL"
+      title="FARMCHAIN VERIFIED ACCESS"
+      subtitle="IDENTITY // ROLE-BASED ACCESS CONTROL"
       maxWidth="md"
     >
-      <div className="space-y-6 font-mono text-xs">
+      <div className="space-y-5 font-mono text-xs">
+        
+        {/* Protected Action Context Alert (Shown when user is gated) */}
+        {promptMessage && (
+          <div className="p-3.5 bg-yellow-50 border-2 border-citrus-yellow text-ink-black space-y-1">
+            <span className="font-bold text-tomato-red uppercase block">
+              SIGN-IN REQUIRED TO PROCEED:
+            </span>
+            <p className="text-[11px] text-gray-800 font-sans">
+              {promptMessage}
+            </p>
+          </div>
+        )}
         
         {/* Role Selector Grid */}
         <div>
@@ -64,11 +83,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               onClick={() => onRoleChange('farmer')}
               className={`p-3 border-2 border-ink-black text-center font-heading font-black transition-all ${
                 activeRole === 'farmer' 
-                  ? 'bg-farm-green text-paper-white shadow-brutal-sm' 
-                  : 'bg-warm-cream text-ink-black hover:bg-white'
+                  ? 'bg-green-beans text-paper-white shadow-brutal-sm' 
+                  : 'bg-paper-cream text-ink-black hover:bg-white'
               }`}
             >
-              <Sprout className="w-5 h-5 mx-auto mb-1" />
+              <Sprout className="w-5 h-5 mx-auto mb-1 text-citrus-yellow" />
               <span className="text-xs uppercase block">FARMER / FPO</span>
             </button>
 
@@ -76,11 +95,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               onClick={() => onRoleChange('buyer')}
               className={`p-3 border-2 border-ink-black text-center font-heading font-black transition-all ${
                 activeRole === 'buyer' 
-                  ? 'bg-harvest-yellow text-ink-black shadow-brutal-sm' 
-                  : 'bg-warm-cream text-ink-black hover:bg-white'
+                  ? 'bg-citrus-yellow text-ink-black shadow-brutal-sm' 
+                  : 'bg-paper-cream text-ink-black hover:bg-white'
               }`}
             >
-              <Building2 className="w-5 h-5 mx-auto mb-1" />
+              <Building2 className="w-5 h-5 mx-auto mb-1 text-blue-crate" />
               <span className="text-xs uppercase block">ENTERPRISE BUYER</span>
             </button>
 
@@ -88,23 +107,23 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               onClick={() => onRoleChange('logistics')}
               className={`p-3 border-2 border-ink-black text-center font-heading font-black transition-all ${
                 activeRole === 'logistics' 
-                  ? 'bg-ink-black text-paper-white shadow-brutal-sm' 
-                  : 'bg-warm-cream text-ink-black hover:bg-white'
+                  ? 'bg-blue-crate text-paper-white shadow-brutal-sm' 
+                  : 'bg-paper-cream text-ink-black hover:bg-white'
               }`}
             >
-              <Truck className="w-5 h-5 mx-auto mb-1" />
+              <Truck className="w-5 h-5 mx-auto mb-1 text-citrus-yellow" />
               <span className="text-xs uppercase block">LOGISTICS FLEET</span>
             </button>
           </div>
         </div>
 
         {/* Verification Status Pill */}
-        <div className="p-3 bg-farm-green text-paper-white border-brutal space-y-1">
+        <div className="p-3 bg-blue-crate text-paper-white border-brutal space-y-1">
           <div className="flex items-center justify-between font-bold">
-            <span className="flex items-center gap-1.5 text-harvest-yellow">
+            <span className="flex items-center gap-1.5 text-citrus-yellow">
               <ShieldCheck className="w-4 h-4" /> CREDENTIAL STATUS:
             </span>
-            <span className="text-terminal-green">VERIFIED ACTIVE ✓</span>
+            <span className="text-lettuce-green">VERIFIED ACTIVE ✓</span>
           </div>
           {activeRole === 'farmer' && (
             <p className="text-[11px] text-gray-300">

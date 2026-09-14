@@ -3,6 +3,7 @@ import { MapPin, Calendar, Users, ArrowRight, ShieldCheck, Zap } from 'lucide-re
 import { Card } from '../ui/Card';
 import { Badge } from '../ui/Badge';
 import { Button } from '../ui/Button';
+import { WashiTape } from '../ui/SketchAccents';
 import { DemandRequirement } from '../../types';
 
 interface DemandCardProps {
@@ -26,9 +27,12 @@ export const DemandCard: React.FC<DemandCardProps> = ({
       variant="white" 
       shadow="default" 
       interactive 
-      className="p-6 border-brutal flex flex-col justify-between group"
+      className="p-6 border-brutal flex flex-col justify-between group relative"
       onClick={() => onSelect(demand)}
     >
+      {demand.urgency === 'HIGH' && (
+        <WashiTape color="red" className="-top-2.5 right-6 z-10" />
+      )}
       <div>
         {/* Card Header */}
         <div className="flex items-start justify-between gap-2 pb-4 border-b-2 border-ink-black">
@@ -36,7 +40,7 @@ export const DemandCard: React.FC<DemandCardProps> = ({
             <span className="font-mono text-[10px] font-bold text-gray-500 uppercase tracking-widest block">
               {demand.id}
             </span>
-            <h3 className="font-heading font-black text-2xl uppercase tracking-tight text-ink-black group-hover:text-farm-green transition-colors">
+            <h3 className="font-heading font-black text-2xl uppercase tracking-tight text-ink-black group-hover:text-blue-crate transition-colors">
               {demand.crop}
             </h3>
             <span className="font-mono text-xs text-gray-600 block">
@@ -67,22 +71,22 @@ export const DemandCard: React.FC<DemandCardProps> = ({
           </div>
           <div className="flex justify-between items-center text-xs mt-1 pt-1 border-t border-gray-300">
             <span className="text-gray-600">TARGET OFFER:</span>
-            <strong className="text-farm-green font-bold">₹{demand.targetPricePerKg} / KG</strong>
+            <strong className="text-green-beans font-bold">₹{demand.targetPricePerKg} / KG</strong>
           </div>
         </div>
 
         {/* Location & Delivery Info */}
         <div className="space-y-2 font-mono text-xs text-gray-800 pb-4">
           <div className="flex items-center gap-2">
-            <MapPin className="w-3.5 h-3.5 text-farm-green shrink-0" />
+            <MapPin className="w-3.5 h-3.5 text-green-beans shrink-0" />
             <span className="truncate">{demand.deliveryLocation}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Calendar className="w-3.5 h-3.5 text-farm-green shrink-0" />
+            <Calendar className="w-3.5 h-3.5 text-green-beans shrink-0" />
             <span>DELIVERY BY: <strong>{demand.requiredDate}</strong></span>
           </div>
           <div className="flex items-center gap-2">
-            <Users className="w-3.5 h-3.5 text-farm-green shrink-0" />
+            <Users className="w-3.5 h-3.5 text-green-beans shrink-0" />
             <span>MATCH STATUS: <strong>{demand.matchedFarmersCount} FARMERS PLEDGED</strong></span>
           </div>
         </div>
@@ -97,7 +101,7 @@ export const DemandCard: React.FC<DemandCardProps> = ({
           </div>
           <div className="h-2.5 w-full bg-gray-200 border border-ink-black overflow-hidden">
             <div 
-              className={`h-full transition-all duration-300 ${isFulfilled ? 'bg-farm-green' : 'bg-harvest-yellow'}`}
+              className={`h-full transition-all duration-300 ${isFulfilled ? 'bg-lettuce-green' : 'bg-citrus-yellow'}`}
               style={{ width: `${percentFulfilled}%` }}
             ></div>
           </div>

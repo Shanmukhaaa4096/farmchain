@@ -18,9 +18,19 @@ import {
 import { Card } from '../ui/Card';
 import { Badge } from '../ui/Badge';
 import { Button } from '../ui/Button';
+import { WashiTape, SketchAnnotation, RubberStamp } from '../ui/SketchAccents';
 import { MOCK_LOGISTICS_ROUTE } from '../../data/mockData';
+import { UserRole } from '../../types';
 
-export const LogisticsMap: React.FC = () => {
+interface LogisticsMapProps {
+  requireAuth?: (role: UserRole, action: () => void, promptMessage: string) => void;
+  isAuthenticated?: boolean;
+}
+
+export const LogisticsMap: React.FC<LogisticsMapProps> = ({
+  requireAuth,
+  isAuthenticated = false
+}) => {
   const [route, setRoute] = useState(MOCK_LOGISTICS_ROUTE);
   const [selectedWaypoint, setSelectedWaypoint] = useState(route.waypoints[0]);
   const [isSimulating, setIsSimulating] = useState(false);
@@ -33,6 +43,18 @@ export const LogisticsMap: React.FC = () => {
         wp.id === id ? { ...wp, completed: !wp.completed } : wp
       )
     }));
+  };
+
+  const handleToggleWaypoint = (id: string) => {
+    if (!isAuthenticated && requireAuth) {
+      requireAuth(
+        'logistics',
+        () => toggleWaypointStatus(id),
+        'Logistics carrier authentication required to verify and check off farm collection waypoints.'
+      );
+    } else {
+      toggleWaypointStatus(id);
+    }
   };
 
   const simulateTransit = () => {
@@ -291,14 +313,15 @@ export const LogisticsMap: React.FC = () => {
               variant={selectedWaypoint.completed ? "outline" : "primary"}
               fullWidth
               size="sm"
-              onClick={() => toggleWaypointStatus(selectedWaypoint.id)}
+              onClick={() => handleToggleWaypoint(selectedWaypoint.id)}
             >
               {selectedWaypoint.completed ? "MARK AS UNCONFIRMED" : "CONFIRM LOADING CHECKLIST ✓"}
             </Button>
           </Card>
 
           {/* Driver Manifest Card */}
-          <Card variant="cream" shadow="default" className="p-5 space-y-3 font-mono text-xs">
+          <Card variant="cream" shadow="default" className="p-5 space-y-3 font-mono text-xs relative">
+            <WashiTape color="blue" className="-top-3 left-6" />
             <div className="flex items-center gap-2 text-ink-black font-bold border-b border-ink-black pb-2">
               <Shield className="w-4 h-4 text-farm-green" />
               <span>DRIVER & COMPLIANCE MANIFEST</span>
@@ -315,6 +338,10 @@ export const LogisticsMap: React.FC = () => {
               <div className="p-2.5 bg-paper-white border border-ink-black text-[11px] text-gray-700">
                 <strong>ZERO DETOUR POLICY:</strong> The vehicle route is geofenced. Deviation beyond 1.5km triggers an automated logistics alert to both farmer and buyer.
               </div>
+            </div>
+
+            <div className="pt-2 flex justify-end">
+              <RubberStamp text="DIRECT TRANSIT" variant="green" />
             </div>
           </Card>
 

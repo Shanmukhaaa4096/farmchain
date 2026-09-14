@@ -49,7 +49,19 @@
 }
 
 .shadow-brutal-soil {
-  box-shadow: 6px 6px 0px #4A3525;
+  box-shadow: 6px 6px 0px #607829;
+}
+
+.shadow-brutal-blue {
+  box-shadow: 5px 5px 0px #293379;
+}
+
+.shadow-brutal-red {
+  box-shadow: 5px 5px 0px #B81817;
+}
+
+.shadow-brutal-yellow {
+  box-shadow: 5px 5px 0px #E6A300;
 }
 
 /* Tactile Clickable Neo-Brutalist Buttons */
@@ -77,23 +89,59 @@
   box-shadow: 0px 0px 0px #111111;
 }
 
-/* Special Button Variants */
+/* Produce Color Button Variants */
 .btn-brutal-primary {
-  background-color: #173B2B;
+  background-color: #293379; /* Blue Crate */
   color: #FFFFFF;
 }
 
 .btn-brutal-primary:hover {
-  background-color: #0F271C;
+  background-color: #1F2444;
 }
 
 .btn-brutal-yellow {
-  background-color: #F4C542;
+  background-color: #E6A300; /* Citrus Yellow */
   color: #111111;
 }
 
 .btn-brutal-yellow:hover {
-  background-color: #E5B533;
+  background-color: #CE9200;
+}
+
+.btn-brutal-red {
+  background-color: #B81817; /* Tomato Red */
+  color: #FFFFFF;
+}
+
+.btn-brutal-red:hover {
+  background-color: #961312;
+}
+
+.btn-brutal-green {
+  background-color: #607829; /* Green Beans */
+  color: #FFFFFF;
+}
+
+.btn-brutal-green:hover {
+  background-color: #4B5E20;
+}
+
+.btn-brutal-lettuce {
+  background-color: #A6AF32; /* Lettuce Green */
+  color: #111111;
+}
+
+.btn-brutal-lettuce:hover {
+  background-color: #919929;
+}
+
+.btn-brutal-orange {
+  background-color: #EE7302; /* Orange Accent */
+  color: #FFFFFF;
+}
+
+.btn-brutal-orange:hover {
+  background-color: #D46500;
 }
 
 .btn-brutal-white {
@@ -102,34 +150,129 @@
 }
 
 .btn-brutal-white:hover {
-  background-color: #F5F0E6;
+  background-color: #FAF7F0;
 }
 
 .btn-brutal-soil {
-  background-color: #4A3525;
-  color: #F5F0E6;
+  background-color: #607829;
+  color: #FAF7F0;
 }
 
 .btn-brutal-soil:hover {
-  background-color: #38271A;
+  background-color: #4B5E20;
 }
 
 /* Interactive Cards with subtle lift & border emphasis */
 .card-brutal {
   background-color: #FFFFFF;
   border: 2.5px solid #111111;
-  box-shadow: 6px 6px 0px #111111;
+  box-shadow: 5px 5px 0px #111111;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .card-brutal-interactive:hover {
-  transform: translate(-3px, -3px);
-  box-shadow: 9px 9px 0px #111111;
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0px #111111;
+}
+
+/* SCRAPBOOK & FIELD NOTEBOOK VISUAL ACCENTS */
+
+/* 1. Translucent Paper / Washi Tape Strips */
+.washi-tape {
+  position: absolute;
+  height: 18px;
+  width: 90px;
+  backdrop-filter: blur(1px);
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  z-index: 20;
+  pointer-events: none;
+}
+
+.washi-tape-yellow {
+  background-color: rgba(230, 163, 0, 0.55);
+}
+
+.washi-tape-blue {
+  background-color: rgba(41, 51, 121, 0.45);
+}
+
+.washi-tape-red {
+  background-color: rgba(184, 24, 23, 0.45);
+}
+
+.washi-tape-green {
+  background-color: rgba(96, 120, 41, 0.50);
+}
+
+.washi-tape-white {
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+/* 2. Authentic Agricultural Rubber Stamps */
+.rubber-stamp {
+  font-family: 'Space Grotesk', monospace;
+  text-transform: uppercase;
+  font-weight: 900;
+  border: 2.5px dashed currentColor;
+  padding: 3px 10px;
+  display: inline-block;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+  user-select: none;
+}
+
+.rubber-stamp-red {
+  color: #B81817;
+  background-color: rgba(184, 24, 23, 0.06);
+}
+
+.rubber-stamp-green {
+  color: #607829;
+  background-color: rgba(96, 120, 41, 0.06);
+}
+
+.rubber-stamp-blue {
+  color: #293379;
+  background-color: rgba(41, 51, 121, 0.06);
+}
+
+.rubber-stamp-yellow {
+  color: #8C6200;
+  border-color: #E6A300;
+  background-color: rgba(230, 163, 0, 0.12);
+}
+
+/* 3. Scrapbook Subtle Rotation Angles */
+.scrapbook-tilt-left {
+  transform: rotate(-1.25deg);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scrapbook-tilt-left:hover {
+  transform: rotate(0deg) translate(-2px, -2px);
+}
+
+.scrapbook-tilt-right {
+  transform: rotate(1.2deg);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scrapbook-tilt-right:hover {
+  transform: rotate(0deg) translate(-2px, -2px);
+}
+
+/* 4. Field Notebook Grid Pattern */
+.bg-notebook-grid {
+  background-color: #FAF7F0;
+  background-size: 22px 22px;
+  background-image: 
+    linear-gradient(to right, rgba(41, 51, 121, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(41, 51, 121, 0.06) 1px, transparent 1px);
 }
 
 /* AGRICULTURAL BACKGROUND PATTERNS */
 
-/* 1. Subtle Grid Pattern */
+/* Subtle Grid Pattern */
 .bg-grid-pattern {
   background-size: 24px 24px;
   background-image: 
@@ -137,29 +280,29 @@
     linear-gradient(to bottom, rgba(17, 17, 17, 0.07) 1px, transparent 1px);
 }
 
-/* 2. Topographic Elevation / Farmland Contour Pattern */
+/* Topographic Elevation / Farmland Contour Pattern */
 .bg-topo-pattern {
-  background-color: #F5F0E6;
-  background-image: radial-gradient(circle at 50% 50%, transparent 45%, rgba(23, 59, 43, 0.04) 46%, rgba(23, 59, 43, 0.04) 47%, transparent 48%),
-                    radial-gradient(circle at 20% 80%, transparent 40%, rgba(74, 53, 37, 0.04) 41%, rgba(74, 53, 37, 0.04) 42%, transparent 43%),
-                    radial-gradient(circle at 80% 20%, transparent 55%, rgba(244, 197, 66, 0.05) 56%, rgba(244, 197, 66, 0.05) 57%, transparent 58%);
+  background-color: #FAF7F0;
+  background-image: radial-gradient(circle at 50% 50%, transparent 45%, rgba(41, 51, 121, 0.04) 46%, rgba(41, 51, 121, 0.04) 47%, transparent 48%),
+                    radial-gradient(circle at 20% 80%, transparent 40%, rgba(96, 120, 41, 0.04) 41%, rgba(96, 120, 41, 0.04) 42%, transparent 43%),
+                    radial-gradient(circle at 80% 20%, transparent 55%, rgba(230, 163, 0, 0.05) 56%, rgba(230, 163, 0, 0.05) 57%, transparent 58%);
   background-size: 140px 140px;
 }
 
-/* 3. Plowed Crop Furrows Pattern */
+/* Plowed Crop Furrows Pattern */
 .bg-furrow-pattern {
   background-image: repeating-linear-gradient(
     -45deg,
-    rgba(23, 59, 43, 0.035),
-    rgba(23, 59, 43, 0.035) 4px,
+    rgba(41, 51, 121, 0.035),
+    rgba(41, 51, 121, 0.035) 4px,
     transparent 4px,
     transparent 14px
   );
 }
 
-/* 4. Soil Seed Speckle Texture */
+/* Soil Seed Speckle Texture */
 .bg-soil-speckle {
-  background-image: radial-gradient(rgba(74, 53, 37, 0.12) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(96, 120, 41, 0.12) 1px, transparent 1px);
   background-size: 16px 16px;
 }
 
@@ -264,15 +407,15 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #F5F0E6;
+  background: #FAF7F0;
   border-left: 2px solid #111111;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #173B2B;
+  background: #293379;
   border: 2px solid #111111;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #F4C542;
+  background: #E6A300;
 }

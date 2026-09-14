@@ -13,7 +13,7 @@ export const ForecastPage: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b-brutal">
           <div>
             <div className="flex items-center gap-2 mb-2 font-mono text-xs font-bold">
-              <Badge variant="dark" size="sm">PREDICTIVE INTELLIGENCE</Badge>
+              <Badge variant="blue" size="sm">PREDICTIVE INTELLIGENCE</Badge>
               <Badge variant="yellow" size="sm">AGRI-LSTM v2.4</Badge>
             </div>
             <h1 className="font-heading font-black text-4xl sm:text-6xl uppercase tracking-tight text-ink-black">
@@ -24,8 +24,8 @@ export const ForecastPage: React.FC = () => {
             </p>
           </div>
 
-          <div className="p-4 bg-farm-green text-paper-white border-2 border-ink-black font-mono text-xs shadow-brutal-sm">
-            <span className="text-harvest-yellow block text-[10px] font-bold">ACCURACY SCORE</span>
+          <div className="p-4 bg-blue-crate text-paper-white border-2 border-ink-black font-mono text-xs shadow-brutal-sm">
+            <span className="text-citrus-yellow block text-[10px] font-bold">ACCURACY SCORE</span>
             <strong className="text-xl font-heading font-black text-paper-white">88.4% MEAN MAP</strong>
             <div className="text-[10px] text-gray-300">Across 12 APMC Mandis</div>
           </div>
@@ -37,7 +37,7 @@ export const ForecastPage: React.FC = () => {
         {/* Deep Dive: How AI Forecasting Protects Farmers */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
           <Card variant="white" shadow="sm" className="p-6 border-brutal space-y-2">
-            <div className="w-10 h-10 bg-farm-green text-harvest-yellow border-2 border-ink-black flex items-center justify-center font-bold">
+            <div className="w-10 h-10 bg-blue-crate text-citrus-yellow border-2 border-ink-black flex items-center justify-center font-bold">
               01
             </div>
             <h3 className="font-heading font-black text-lg uppercase text-ink-black">

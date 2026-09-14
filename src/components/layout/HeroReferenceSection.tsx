@@ -16,6 +16,7 @@ import { Button } from '../ui/Button';
 import { Badge } from '../ui/Badge';
 import { AnimatedCounter } from '../ui/AnimatedCounter';
 import { AgriImage } from '../ui/AgriImage';
+import { WashiTape, SketchAnnotation, RubberStamp, SketchArrow } from '../ui/SketchAccents';
 
 interface HeroReferenceSectionProps {
   onNavigate: (view: string) => void;
@@ -72,12 +73,16 @@ export const HeroReferenceSection: React.FC<HeroReferenceSectionProps> = ({
 
               {/* Massive Bold Headline (Reference Typography) */}
               <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <SketchAnnotation text="FIELD NOTE: DIRECT POOLING" color="yellow" className="text-sm font-bold tracking-wider -rotate-2" />
+                </div>
                 <h1 className="font-heading font-black text-4xl sm:text-6xl lg:text-7xl xl:text-8xl tracking-tight uppercase leading-[0.92] text-paper-white">
                   DON'T SELL <br />
                   <span className="text-warm-cream/50 line-through decoration-rust-red decoration-4">TO THE MIDDLEMAN.</span> <br />
                   <span className="text-harvest-yellow inline-block mt-1">
                     SELL TO THE DEMAND.
                   </span>
+                  <SketchAnnotation text="FARM → BUYER DIRECT" color="orange" className="text-xl sm:text-2xl ml-3 -rotate-3 inline-block font-black align-middle" />
                 </h1>
                 <div className="w-24 h-2 bg-harvest-yellow border border-ink-black"></div>
               </div>
@@ -88,13 +93,19 @@ export const HeroReferenceSection: React.FC<HeroReferenceSectionProps> = ({
               </p>
 
               {/* Visual Flow Indicator: FARMERS -> DEMAND -> MATCH -> LOGISTICS -> BUYERS */}
-              <div className="p-3 bg-farm-green-dark/90 border-2 border-paper-white/40 max-w-2xl font-mono text-[11px] text-warm-cream flex flex-wrap items-center justify-between gap-2 shadow-brutal-sm">
+              <div className="p-3 bg-farm-green-dark/90 border-2 border-paper-white/40 max-w-2xl font-mono text-[11px] text-warm-cream flex flex-wrap items-center justify-between gap-2 shadow-brutal-sm relative">
                 <span className="text-harvest-yellow font-bold">FLOW:</span>
                 <span className="font-bold text-paper-white">FARMERS</span>
                 <span className="text-harvest-yellow">→</span>
-                <span className="font-bold text-paper-white">DEMAND</span>
+                <span className="font-bold text-paper-white relative">
+                  DEMAND
+                  <span className="absolute -top-4 left-0 text-[10px] text-harvest-yellow font-sketch font-bold">PULLED</span>
+                </span>
                 <span className="text-harvest-yellow">→</span>
-                <span className="font-bold text-paper-white">PUSH MATCH</span>
+                <span className="font-bold text-paper-white relative">
+                  PUSH MATCH
+                  <span className="absolute -top-4 left-0 text-[10px] text-terminal-green font-sketch font-bold">MATCHED</span>
+                </span>
                 <span className="text-harvest-yellow">→</span>
                 <span className="font-bold text-paper-white">LOGISTICS</span>
                 <span className="text-harvest-yellow">→</span>
@@ -139,8 +150,11 @@ export const HeroReferenceSection: React.FC<HeroReferenceSectionProps> = ({
             {/* Right 4 Cols: Layered Floating UI Cards & Video Pill (Reference Style) */}
             <div className="lg:col-span-4 flex flex-col gap-4 relative">
               
-              {/* Floating Farmer Video Card */}
-              <div className="bg-paper-white border-brutal-thick p-3.5 shadow-brutal-lg max-w-sm ml-auto">
+              {/* Floating Farmer Video Card with Scrapbook Washi Tape & Rubber Stamp */}
+              <div className="bg-paper-white border-brutal-thick p-3.5 shadow-brutal-lg max-w-sm ml-auto relative transform sm:rotate-1 hover:rotate-0 transition-transform duration-300">
+                <WashiTape color="yellow" className="-top-3 left-10 z-20" />
+                <RubberStamp text="CO-OP VERIFIED" variant="green" className="absolute -bottom-2 -left-2 z-20" />
+                
                 <div className="relative h-44 w-full border border-ink-black overflow-hidden group cursor-pointer" onClick={onOpenVideo}>
                   <img
                     src="/farmer_video_thumb.jpg"
@@ -172,8 +186,9 @@ export const HeroReferenceSection: React.FC<HeroReferenceSectionProps> = ({
                 </div>
               </div>
 
-              {/* Floating Layered Demand Pill 1: Live Demand */}
-              <div className="bg-harvest-yellow border-2 border-ink-black p-3.5 shadow-brutal max-w-xs ml-auto font-mono text-xs space-y-1">
+              {/* Floating Layered Demand Pill 1: Live Demand with Washi Tape */}
+              <div className="bg-harvest-yellow border-2 border-ink-black p-3.5 shadow-brutal max-w-xs ml-auto font-mono text-xs space-y-1 relative transform sm:-rotate-1 hover:rotate-0 transition-transform">
+                <WashiTape color="blue" className="-top-2.5 right-6 z-20" />
                 <div className="flex items-center justify-between text-[10px] font-bold pb-1 border-b border-ink-black">
                   <span className="flex items-center gap-1 text-ink-black uppercase">
                     <Radio className="w-3 h-3 text-rust-red animate-pulse" />
@@ -188,10 +203,14 @@ export const HeroReferenceSection: React.FC<HeroReferenceSectionProps> = ({
                   <span>3 FARMERS MATCHED</span>
                   <span className="text-farm-green">14 KM RADIUS</span>
                 </div>
+                <div className="text-right">
+                  <SketchAnnotation text="DEMAND MATCHED" color="orange" className="text-xs font-bold -rotate-1 inline-block" />
+                </div>
               </div>
 
-              {/* Floating Layered Demand Pill 2: Route Optimized */}
-              <div className="bg-paper-white border-2 border-ink-black p-3 shadow-brutal-sm max-w-xs ml-auto font-mono text-xs flex items-center justify-between gap-3">
+              {/* Floating Layered Demand Pill 2: Route Optimized with Washi Tape */}
+              <div className="bg-paper-white border-2 border-ink-black p-3 shadow-brutal-sm max-w-xs ml-auto font-mono text-xs flex items-center justify-between gap-3 relative">
+                <WashiTape color="red" className="-top-2 left-6 z-20" />
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 bg-farm-green text-harvest-yellow flex items-center justify-center font-bold">
                     <Truck className="w-4 h-4" />

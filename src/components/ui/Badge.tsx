@@ -2,7 +2,7 @@ import React from 'react';
 
 export interface BadgeProps {
   children: React.ReactNode;
-  variant?: 'green' | 'yellow' | 'white' | 'dark' | 'red' | 'outline';
+  variant?: 'green' | 'yellow' | 'white' | 'dark' | 'red' | 'outline' | 'blue' | 'lettuce' | 'orange';
   size?: 'sm' | 'md';
   dot?: boolean;
   className?: string;
@@ -15,7 +15,7 @@ export const Badge: React.FC<BadgeProps> = ({
   dot = false,
   className = ''
 }) => {
-  const baseStyles = "inline-flex items-center gap-1.5 font-mono uppercase font-bold tracking-wider border-2 border-ink-black";
+  const baseStyles = "inline-flex items-center gap-1.5 font-mono uppercase font-bold tracking-wider border-2 border-ink-black select-none";
   
   const sizeStyles = {
     sm: "px-2 py-0.5 text-[10px]",
@@ -23,11 +23,14 @@ export const Badge: React.FC<BadgeProps> = ({
   };
 
   const variantStyles = {
-    green: "bg-farm-green text-paper-white",
-    yellow: "bg-harvest-yellow text-ink-black",
+    green: "bg-green-beans text-paper-white",
+    blue: "bg-blue-crate text-paper-white",
+    yellow: "bg-citrus-yellow text-ink-black",
+    lettuce: "bg-lettuce-green text-ink-black",
+    orange: "bg-orange-accent text-paper-white",
     white: "bg-paper-white text-ink-black",
     dark: "bg-ink-black text-paper-white",
-    red: "bg-rust-red text-paper-white",
+    red: "bg-tomato-red text-paper-white",
     outline: "bg-transparent text-ink-black"
   };
 

@@ -2,9 +2,17 @@ import React from 'react';
 import { Truck, Navigation, Gauge, ShieldCheck, MapPin, Radio } from 'lucide-react';
 import { LogisticsMap } from '../components/interactive/LogisticsMap';
 import { Badge } from '../components/ui/Badge';
-import { Card } from '../components/ui/Card';
+import { UserRole } from '../types';
 
-export const LogisticsPage: React.FC = () => {
+interface LogisticsPageProps {
+  requireAuth?: (role: UserRole, action: () => void, promptMessage: string) => void;
+  isAuthenticated?: boolean;
+}
+
+export const LogisticsPage: React.FC<LogisticsPageProps> = ({
+  requireAuth,
+  isAuthenticated = false
+}) => {
   return (
     <div className="py-12 bg-warm-cream min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
@@ -13,8 +21,8 @@ export const LogisticsPage: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b-brutal">
           <div>
             <div className="flex items-center gap-2 mb-2 font-mono text-xs font-bold">
-              <Badge variant="dark" size="sm">LOGISTICS ENGINE</Badge>
-              <Badge variant="green" size="sm" dot>COLD-CHAIN TELEMETRY LIVE</Badge>
+              <Badge variant="blue" size="sm">LOGISTICS ENGINE</Badge>
+              <Badge variant="lettuce" size="sm" dot>COLD-CHAIN TELEMETRY LIVE</Badge>
             </div>
             <h1 className="font-heading font-black text-4xl sm:text-6xl uppercase tracking-tight text-ink-black">
               OPTIMIZED RURAL TRANSIT.
@@ -26,12 +34,12 @@ export const LogisticsPage: React.FC = () => {
 
           <div className="p-3 bg-paper-white border-2 border-ink-black font-mono text-xs shadow-brutal-sm">
             <span className="text-gray-500 block text-[10px]">CURRENT FLEET STATUS</span>
-            <strong className="text-farm-green font-bold">14 VANS & REEFERS ACTIVE</strong>
+            <strong className="text-green-beans font-bold">14 VANS & REEFERS ACTIVE</strong>
           </div>
         </div>
 
         {/* The Interactive Map Component */}
-        <LogisticsMap />
+        <LogisticsMap requireAuth={requireAuth} isAuthenticated={isAuthenticated} />
 
         {/* Regional Dispatch Manifest Table */}
         <div className="space-y-4 pt-6">

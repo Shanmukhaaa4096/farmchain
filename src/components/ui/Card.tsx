@@ -1,8 +1,8 @@
 import React from 'react';
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: 'white' | 'cream' | 'green' | 'yellow';
-  shadow?: 'default' | 'sm' | 'lg' | 'none';
+  variant?: 'white' | 'cream' | 'green' | 'yellow' | 'blue' | 'red' | 'lettuce' | 'orange';
+  shadow?: 'default' | 'sm' | 'lg' | 'none' | 'blue' | 'yellow' | 'red';
   interactive?: boolean;
   children: React.ReactNode;
 }
@@ -17,15 +17,22 @@ export const Card: React.FC<CardProps> = ({
 }) => {
   const bgStyles = {
     white: "bg-paper-white text-ink-black",
-    cream: "bg-warm-cream text-ink-black",
-    green: "bg-farm-green text-paper-white",
-    yellow: "bg-harvest-yellow text-ink-black",
+    cream: "bg-paper-cream text-ink-black",
+    blue: "bg-blue-crate text-paper-white",
+    green: "bg-green-beans text-paper-white",
+    yellow: "bg-citrus-yellow text-ink-black",
+    red: "bg-tomato-red text-paper-white",
+    lettuce: "bg-lettuce-green text-ink-black",
+    orange: "bg-orange-accent text-paper-white",
   };
 
   const shadowStyles = {
     default: "shadow-brutal",
     sm: "shadow-brutal-sm",
     lg: "shadow-brutal-lg",
+    blue: "shadow-brutal-blue",
+    yellow: "shadow-brutal-yellow",
+    red: "shadow-brutal-red",
     none: "shadow-none",
   };
 

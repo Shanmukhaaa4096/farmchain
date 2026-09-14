@@ -15,7 +15,7 @@ import {
 import { Card } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
-import { DemandRequirement, Farmer } from '../types';
+import { DemandRequirement, Farmer, UserRole } from '../types';
 import { MOCK_FARMERS } from '../data/mockData';
 
 interface FarmerDashboardProps {
@@ -23,6 +23,8 @@ interface FarmerDashboardProps {
   onSelectDemand: (demand: DemandRequirement) => void;
   onPledgeDemand: (demand: DemandRequirement) => void;
   onNavigate: (view: string) => void;
+  requireAuth?: (role: UserRole, action: () => void, promptMessage: string) => void;
+  isAuthenticated?: boolean;
 }
 
 export const FarmerDashboard: React.FC<FarmerDashboardProps> = ({
@@ -30,6 +32,8 @@ export const FarmerDashboard: React.FC<FarmerDashboardProps> = ({
   onSelectDemand,
   onPledgeDemand,
   onNavigate,
+  requireAuth,
+  isAuthenticated = false,
 }) => {
   const currentFarmer = MOCK_FARMERS[0]; // Ramesh Reddy (Sri Lakshmi Farm)
 
@@ -44,20 +48,44 @@ export const FarmerDashboard: React.FC<FarmerDashboardProps> = ({
   const [newCropName, setNewCropName] = useState('Tomatoes');
   const [newQty, setNewQty] = useState('500');
 
+  const handleToggleAddProduce = () => {
+    if (!isAuthenticated && requireAuth) {
+      requireAuth(
+        'farmer',
+        () => setShowAddProduce(true),
+        'Farmer authentication required to register crops and add harvest capacity to the regional pool.'
+      );
+    } else {
+      setShowAddProduce(!showAddProduce);
+    }
+  };
+
   const handleAddProduce = (e: React.FormEvent) => {
     e.preventDefault();
-    setCropsInventory(prev => [
-      ...prev,
-      {
-        crop: newCropName,
-        variety: 'Local Verified Certified',
-        acreage: 1.0,
-        readyDate: 'Within 7 Days',
-        estimatedKg: Number(newQty) || 500,
-        pledgedKg: 0,
-      }
-    ]);
-    setShowAddProduce(false);
+    const executeAdd = () => {
+      setCropsInventory(prev => [
+        ...prev,
+        {
+          crop: newCropName,
+          variety: 'Local Verified Certified',
+          acreage: 1.0,
+          readyDate: 'Within 7 Days',
+          estimatedKg: Number(newQty) || 500,
+          pledgedKg: 0,
+        }
+      ]);
+      setShowAddProduce(false);
+    };
+
+    if (!isAuthenticated && requireAuth) {
+      requireAuth(
+        'farmer',
+        executeAdd,
+        'Farmer authentication required to register harvest produce in the aggregation pool.'
+      );
+    } else {
+      executeAdd();
+    }
   };
 
   return (
@@ -297,7 +325,7 @@ export const FarmerDashboard: React.FC<FarmerDashboardProps> = ({
                 <Button
                   variant="yellow"
                   size="sm"
-                  onClick={() => setShowAddProduce(!showAddProduce)}
+                  onClick={handleToggleAddProduce}
                   className="text-xs p-1.5"
                 >
                   <Plus className="w-4 h-4" />

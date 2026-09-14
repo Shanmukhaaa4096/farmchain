@@ -67,15 +67,15 @@ export const PostDemandModal: React.FC<PostDemandModalProps> = ({
       <form onSubmit={handleSubmit} className="space-y-5 font-mono text-xs">
         
         {/* Real-time Match Forecast Banner */}
-        <div className="p-4 bg-farm-green text-paper-white border-brutal space-y-1">
+        <div className="p-4 bg-blue-crate text-paper-white border-brutal space-y-1">
           <div className="flex items-center justify-between">
-            <span className="flex items-center gap-1.5 text-harvest-yellow font-bold uppercase">
+            <span className="flex items-center gap-1.5 text-citrus-yellow font-bold uppercase">
               <Sparkles className="w-4 h-4" /> LIVE SUPPLY ENGINE MATCHING
             </span>
             <Badge variant="yellow" size="sm">94% MATCH CERTAINTY</Badge>
           </div>
           <p className="text-[11px] text-gray-200">
-            Identified <strong className="text-harvest-yellow">{estimatedFarmersCount} verified farmers / FPOs</strong> within 35km with approx <strong className="text-harvest-yellow">{nearbyAvailableKg.toLocaleString()} KG</strong> ready harvest.
+            Identified <strong className="text-citrus-yellow">{estimatedFarmersCount} verified farmers / FPOs</strong> within 35km with approx <strong className="text-citrus-yellow">{nearbyAvailableKg.toLocaleString()} KG</strong> ready harvest.
           </p>
         </div>
 
