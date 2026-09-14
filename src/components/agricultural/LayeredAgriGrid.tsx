@@ -21,18 +21,18 @@ interface LayeredAgriGridProps {
 
 export const LayeredAgriGrid: React.FC<LayeredAgriGridProps> = ({ onNavigate }) => {
   return (
-    <section className="py-20 bg-warm-cream bg-topo-pattern border-b-brutal">
+    <section className="py-16 md:py-24 bg-warm-cream bg-topo-pattern border-b-brutal">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header (Editorial Style from Reference) */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
           <span className="bg-farm-green text-harvest-yellow font-mono text-xs font-bold px-3 py-1 border-2 border-ink-black shadow-brutal-sm uppercase inline-flex items-center gap-1.5 mb-3">
             <Sprout className="w-3.5 h-3.5" /> OUR CAPABILITIES
           </span>
-          <h2 className="font-heading font-black text-3xl sm:text-5xl lg:text-5xl uppercase tracking-tight text-ink-black leading-tight">
+          <h2 className="font-heading font-black text-2xl sm:text-4xl lg:text-5xl uppercase tracking-tight text-ink-black leading-tight">
             DISCOVER OUR DIRECT <span className="text-farm-green">AGRI-TECH INFRASTRUCTURE</span> BUILT FOR FARMERS, FPOS, AND BUYERS.
           </h2>
-          <p className="font-body text-base text-gray-700 mt-3 font-medium">
+          <p className="font-body text-sm sm:text-base text-gray-700 mt-3 font-medium max-w-2xl mx-auto">
             From algorithmic demand clustering to cold-chain dispatch, FarmChain replaces fragmented broker speculation with organized, transparent supply execution.
           </p>
         </div>
@@ -44,7 +44,7 @@ export const LayeredAgriGrid: React.FC<LayeredAgriGridProps> = ({ onNavigate }) 
           <div className="md:col-span-4 flex flex-col justify-between gap-6">
             
             {/* Card 1: Direct Demand Matching */}
-            <div className="p-6 bg-paper-white border-brutal shadow-brutal flex-1 space-y-3 relative">
+            <div className="p-5 sm:p-6 bg-paper-white border-brutal shadow-brutal flex-1 space-y-3 relative">
               <WashiTape color="blue" className="-top-3 left-6 z-10" />
               <div className="w-12 h-12 bg-farm-green text-harvest-yellow border-2 border-ink-black flex items-center justify-center">
                 <Sprout className="w-6 h-6 stroke-[2.5]" />
@@ -61,7 +61,7 @@ export const LayeredAgriGrid: React.FC<LayeredAgriGridProps> = ({ onNavigate }) 
             </div>
 
             {/* Card 2: Group Aggregation (Solid Harvest Yellow) */}
-            <div className="p-6 bg-harvest-yellow border-brutal shadow-brutal space-y-4 relative">
+            <div className="p-5 sm:p-6 bg-harvest-yellow border-brutal shadow-brutal space-y-4 relative">
               <WashiTape color="red" className="-top-3 right-6 z-10" />
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[10px] uppercase font-bold tracking-wider bg-ink-black text-paper-white px-2 py-0.5">
@@ -69,7 +69,7 @@ export const LayeredAgriGrid: React.FC<LayeredAgriGridProps> = ({ onNavigate }) 
                 </span>
                 <SketchAnnotation text="POOLING" color="white" className="text-xs" />
               </div>
-              <h3 className="font-heading font-black text-2xl uppercase text-ink-black leading-tight">
+              <h3 className="font-heading font-black text-xl sm:text-2xl uppercase text-ink-black leading-tight">
                 SMALL FARMS. <br />
                 ONE BIG ORDER.
               </h3>
@@ -78,7 +78,7 @@ export const LayeredAgriGrid: React.FC<LayeredAgriGridProps> = ({ onNavigate }) 
               </p>
               <button
                 onClick={() => onNavigate('marketplace')}
-                className="font-heading font-bold text-xs uppercase flex items-center gap-1 hover:underline text-ink-black pt-1"
+                className="font-heading font-bold text-xs uppercase flex items-center gap-1 hover:underline text-ink-black pt-1 min-h-[36px]"
               >
                 <span>EXPLORE ACTIVE CO-OPS</span>
                 <ArrowRight className="w-4 h-4" />
@@ -87,9 +87,9 @@ export const LayeredAgriGrid: React.FC<LayeredAgriGridProps> = ({ onNavigate }) 
 
           </div>
 
-          {/* Middle Column (4 cols): Tall Vertical High-Res Photographic Card (Scrapbook Tilt + Washi Tape) */}
+          {/* Middle Column (4 cols): Photographic Card with responsive height */}
           <div className="md:col-span-4 flex flex-col">
-            <div className="relative h-full min-h-[480px] bg-paper-white border-brutal-thick shadow-brutal-lg overflow-hidden flex flex-col group transform sm:-rotate-1 hover:rotate-0 transition-transform duration-300">
+            <div className="relative h-full min-h-[340px] sm:min-h-[420px] md:min-h-[480px] bg-paper-white border-brutal-thick shadow-brutal-lg overflow-hidden flex flex-col group transform sm:-rotate-1 hover:rotate-0 transition-transform duration-300">
               <WashiTape color="yellow" className="-top-3 left-1/3 z-20" />
               <RubberStamp text="100% FARM-GATE" variant="red" className="absolute top-4 right-4 z-20" />
 

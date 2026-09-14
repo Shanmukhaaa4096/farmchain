@@ -49,11 +49,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   onSelectDemand,
 }) => {
   const [isVideoOpen, setIsVideoOpen] = React.useState(false);
+  const [isGrowthIndicatorOpen, setIsGrowthIndicatorOpen] = React.useState(false);
 
   return (
     <div className="space-y-0">
       
-      {/* REFERENCE-INSPIRED AGRICULTURAL HERO (Bold typography, cinematic Indian farmland, floating UI cards & guarantee banner) */}
+      {/* 1. REFERENCE-INSPIRED AGRICULTURAL HERO (What FarmChain Is) */}
       <HeroReferenceSection
         onNavigate={onNavigate}
         onOpenPostDemand={onOpenPostDemand}
@@ -66,12 +67,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         onClose={() => setIsVideoOpen(false)}
       />
 
-      {/* LIVE MARKET DEMAND TICKER & REAL-TIME AGGREGATION */}
-      <section className="py-12 bg-warm-cream bg-topo-pattern border-b-brutal">
+      {/* 2. LIVE MARKET DEMAND TICKER (Real-Time Proof of Demand) */}
+      <section className="py-12 sm:py-16 bg-warm-cream bg-topo-pattern border-b-brutal">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <Card variant="white" shadow="lg" className="p-6 md:p-8 border-brutal-thick relative">
-            <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b-2 border-ink-black">
+          <Card variant="white" shadow="lg" className="p-5 sm:p-8 border-brutal-thick relative">
+            <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b-2 border-ink-black">
               <div className="flex items-center gap-2">
                 <span className="h-2.5 w-2.5 rounded-full bg-terminal-green animate-pulse"></span>
                 <span className="font-mono text-xs font-bold uppercase tracking-wider text-farm-green">
@@ -84,23 +85,23 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </div>
 
             {/* Demand Ticker Rows with Animated Counters */}
-            <div className="divide-y-2 divide-ink-black/20 font-mono text-sm pt-2">
+            <div className="divide-y-2 divide-ink-black/20 font-mono text-xs sm:text-sm pt-2">
               <div 
                 onClick={() => onSelectDemand(liveDemands[0])}
-                className="py-3 flex items-center justify-between hover:bg-warm-cream/50 px-2 cursor-pointer transition-colors"
+                className="py-3.5 flex items-center justify-between hover:bg-warm-cream/50 px-2 cursor-pointer transition-colors"
               >
-                <div className="flex items-center gap-3">
-                  <span className="font-heading font-black text-base uppercase text-ink-black">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <span className="font-heading font-black text-sm sm:text-base uppercase text-ink-black">
                     TOMATOES (GRADE A)
                   </span>
                   <Badge variant="green" size="sm">URBANFORK</Badge>
                 </div>
-                <div className="flex items-center gap-6">
+                <div className="flex items-center gap-4 sm:gap-6">
                   <span className="font-bold text-ink-black">
                     <AnimatedCounter value={2400} suffix=" KG" />
                   </span>
                   <span className="font-bold text-farm-green flex items-center gap-1">
-                    <TrendingUp className="w-4 h-4" /> ↑ 18%
+                    <TrendingUp className="w-3.5 h-3.5" /> ↑ 18%
                   </span>
                   <span className="text-xs text-farm-green font-bold underline hidden sm:inline">
                     VIEW →
@@ -110,20 +111,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
               <div 
                 onClick={() => onSelectDemand(liveDemands[1])}
-                className="py-3 flex items-center justify-between hover:bg-warm-cream/50 px-2 cursor-pointer transition-colors"
+                className="py-3.5 flex items-center justify-between hover:bg-warm-cream/50 px-2 cursor-pointer transition-colors"
               >
-                <div className="flex items-center gap-3">
-                  <span className="font-heading font-black text-base uppercase text-ink-black">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <span className="font-heading font-black text-sm sm:text-base uppercase text-ink-black">
                     ONIONS (PINK MEDIUM)
                   </span>
                   <Badge variant="yellow" size="sm">FRESHSPROUT</Badge>
                 </div>
-                <div className="flex items-center gap-6">
+                <div className="flex items-center gap-4 sm:gap-6">
                   <span className="font-bold text-ink-black">
                     <AnimatedCounter value={5000} suffix=" KG" />
                   </span>
                   <span className="font-bold text-farm-green flex items-center gap-1">
-                    <TrendingUp className="w-4 h-4" /> ↑ 11%
+                    <TrendingUp className="w-3.5 h-3.5" /> ↑ 11%
                   </span>
                   <span className="text-xs text-farm-green font-bold underline hidden sm:inline">
                     VIEW →
@@ -133,15 +134,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
               <div 
                 onClick={() => onSelectDemand(liveDemands[2])}
-                className="py-3 flex items-center justify-between hover:bg-warm-cream/50 px-2 cursor-pointer transition-colors"
+                className="py-3.5 flex items-center justify-between hover:bg-warm-cream/50 px-2 cursor-pointer transition-colors"
               >
-                <div className="flex items-center gap-3">
-                  <span className="font-heading font-black text-base uppercase text-ink-black">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <span className="font-heading font-black text-sm sm:text-base uppercase text-ink-black">
                     POTATOES (CHIPS GRADE)
                   </span>
                   <Badge variant="white" size="sm">DECCAN AGRO</Badge>
                 </div>
-                <div className="flex items-center gap-6">
+                <div className="flex items-center gap-4 sm:gap-6">
                   <span className="font-bold text-ink-black">
                     <AnimatedCounter value={8500} suffix=" KG" />
                   </span>
@@ -155,144 +156,151 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               </div>
             </div>
 
-            {/* Bottom Card Strip */}
-            <div className="mt-4 pt-3 border-t-2 border-ink-black flex items-center justify-between text-xs font-mono">
+            {/* Bottom Card Strip with Progressive Crop Growth Toggle */}
+            <div className="mt-4 pt-3 border-t-2 border-ink-black flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
               <span className="text-gray-600">ZERO MIDDLEMEN // DIRECT CONTRACT ESCROW</span>
-              <button 
-                onClick={() => onNavigate('marketplace')}
-                className="font-bold text-farm-green hover:underline flex items-center gap-1"
-              >
-                EXPLORE ALL 28 ACTIVE DEMANDS →
-              </button>
+              <div className="flex items-center gap-4">
+                <button 
+                  onClick={() => setIsGrowthIndicatorOpen(!isGrowthIndicatorOpen)}
+                  className="font-bold text-gray-700 hover:text-ink-black underline flex items-center gap-1"
+                >
+                  {isGrowthIndicatorOpen ? 'HIDE HARVEST CYCLE ▲' : 'CROP HARVEST CYCLE ▼'}
+                </button>
+                <button 
+                  onClick={() => onNavigate('marketplace')}
+                  className="font-bold text-farm-green hover:underline flex items-center gap-1"
+                >
+                  EXPLORE 28 DEMANDS →
+                </button>
+              </div>
             </div>
           </Card>
 
-          {/* Crop Growth Stages Infographic */}
-          <div className="mt-8">
-            <CropGrowthStageIndicator cropName="Tomatoes (Grade A) : Current Harvest Cycle" />
-          </div>
+          {/* Progressive Crop Growth Stages Infographic */}
+          {isGrowthIndicatorOpen && (
+            <div className="mt-6 animate-in fade-in duration-200">
+              <CropGrowthStageIndicator cropName="Tomatoes (Grade A) : Current Harvest Cycle" />
+            </div>
+          )}
 
         </div>
       </section>
 
-      {/* LAYERED AGRI GRID (Mirroring Reference Image Editorial Layout) */}
-      <LayeredAgriGrid onNavigate={onNavigate} />
-
-      {/* SECTION 11: PROBLEM SECTION // WHERE DOES THE MONEY GO? */}
+      {/* 3. THE PROBLEM IT SOLVES // WHERE DOES THE MONEY GO? */}
       <SupplyChainComparison />
 
-      {/* SECTION 12: HOW FARMCHAIN WORKS // 5-STEP EDITORIAL GRID */}
-      <section className="py-20 bg-warm-cream bg-topo-pattern">
+      {/* 4. HOW FARMCHAIN WORKS // 5-STEP EDITORIAL GRID */}
+      <section className="py-16 sm:py-24 bg-warm-cream bg-topo-pattern">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16">
             <div>
               <Badge variant="dark" size="sm" className="mb-3">
-                SECTION 05 // SYSTEM WORKFLOW
+                SECTION 03 // SYSTEM WORKFLOW
               </Badge>
-              <h2 className="font-heading font-black text-4xl md:text-5xl lg:text-6xl uppercase tracking-tighter text-ink-black">
+              <h2 className="font-heading font-black text-3xl sm:text-5xl lg:text-6xl uppercase tracking-tighter text-ink-black leading-tight">
                 HOW FARMCHAIN WORKS
               </h2>
-              <p className="font-body text-base text-gray-700 max-w-2xl mt-2 font-medium">
+              <p className="font-body text-sm sm:text-base text-gray-700 max-w-2xl mt-2 font-medium">
                 Five structured, transparent operational steps turning fragmented village supply into enterprise-grade direct fulfillment.
               </p>
             </div>
 
             {/* Tractor vector illustration in corner */}
-            <div className="w-56 hidden md:block opacity-90">
+            <div className="w-48 hidden md:block opacity-90">
               <TractorInFieldIllustration />
             </div>
           </div>
 
-          {/* 5-Step Editorial Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          {/* 5-Step Editorial Cards Responsive Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
             
             {/* Step 01 */}
-            <Card variant="white" shadow="default" className="p-6 border-brutal flex flex-col justify-between">
+            <Card variant="white" shadow="default" className="p-5 sm:p-6 border-brutal flex flex-col justify-between">
               <div>
-                <span className="font-heading font-black text-4xl text-farm-green block mb-4">
+                <span className="font-heading font-black text-3xl sm:text-4xl text-farm-green block mb-3">
                   01
                 </span>
-                <h3 className="font-heading font-black text-lg uppercase tracking-tight text-ink-black mb-2">
+                <h3 className="font-heading font-black text-base sm:text-lg uppercase tracking-tight text-ink-black mb-2">
                   BUYER POSTS DEMAND
                 </h3>
                 <p className="font-body text-xs text-gray-700 leading-relaxed">
                   Restaurants and retailers publish specific requirements: crop, quantity, quality grade, location and target delivery date.
                 </p>
               </div>
-              <div className="mt-6 pt-3 border-t border-gray-200 font-mono text-[10px] text-farm-green font-bold">
+              <div className="mt-6 pt-3 border-t border-gray-200 font-mono text-[11px] text-farm-green font-bold">
                 ✓ VERIFIED PURCHASE ORDERS
               </div>
             </Card>
 
             {/* Step 02 */}
-            <Card variant="white" shadow="default" className="p-6 border-brutal flex flex-col justify-between">
+            <Card variant="white" shadow="default" className="p-5 sm:p-6 border-brutal flex flex-col justify-between">
               <div>
-                <span className="font-heading font-black text-4xl text-farm-green block mb-4">
+                <span className="font-heading font-black text-3xl sm:text-4xl text-farm-green block mb-3">
                   02
                 </span>
-                <h3 className="font-heading font-black text-lg uppercase tracking-tight text-ink-black mb-2">
+                <h3 className="font-heading font-black text-base sm:text-lg uppercase tracking-tight text-ink-black mb-2">
                   FARMERS GET MATCHED
                 </h3>
                 <p className="font-body text-xs text-gray-700 leading-relaxed">
                   FarmChain identifies nearby farmers & FPOs with ready crops and alerts them with clear demand parameters.
                 </p>
               </div>
-              <div className="mt-6 pt-3 border-t border-gray-200 font-mono text-[10px] text-farm-green font-bold">
+              <div className="mt-6 pt-3 border-t border-gray-200 font-mono text-[11px] text-farm-green font-bold">
                 ✓ GEOLOCATION PROXIMITY
               </div>
             </Card>
 
             {/* Step 03 */}
-            <Card variant="yellow" shadow="default" className="p-6 border-brutal flex flex-col justify-between">
+            <Card variant="yellow" shadow="default" className="p-5 sm:p-6 border-brutal flex flex-col justify-between">
               <div>
-                <span className="font-heading font-black text-4xl text-ink-black block mb-4">
+                <span className="font-heading font-black text-3xl sm:text-4xl text-ink-black block mb-3">
                   03
                 </span>
-                <h3 className="font-heading font-black text-lg uppercase tracking-tight text-ink-black mb-2">
+                <h3 className="font-heading font-black text-base sm:text-lg uppercase tracking-tight text-ink-black mb-2">
                   SMALL QUANTITIES COMBINE
                 </h3>
                 <p className="font-body text-xs text-ink-black leading-relaxed font-medium">
                   Multiple smallholder farmers voluntarily form digital groups to fulfill large multi-ton commercial orders.
                 </p>
               </div>
-              <div className="mt-6 pt-3 border-t border-ink-black font-mono text-[10px] text-ink-black font-bold">
+              <div className="mt-6 pt-3 border-t border-ink-black font-mono text-[11px] text-ink-black font-bold">
                 ✓ DIGITAL COOPERATIVE POWER
               </div>
             </Card>
 
             {/* Step 04 */}
-            <Card variant="white" shadow="default" className="p-6 border-brutal flex flex-col justify-between">
+            <Card variant="white" shadow="default" className="p-5 sm:p-6 border-brutal flex flex-col justify-between">
               <div>
-                <span className="font-heading font-black text-4xl text-farm-green block mb-4">
+                <span className="font-heading font-black text-3xl sm:text-4xl text-farm-green block mb-3">
                   04
                 </span>
-                <h3 className="font-heading font-black text-lg uppercase tracking-tight text-ink-black mb-2">
+                <h3 className="font-heading font-black text-base sm:text-lg uppercase tracking-tight text-ink-black mb-2">
                   LOGISTICS ARE OPTIMIZED
                 </h3>
                 <p className="font-body text-xs text-gray-700 leading-relaxed">
                   The platform coordinates shared transportation, cold-chain trucks, and optimized circular pickup routes.
                 </p>
               </div>
-              <div className="mt-6 pt-3 border-t border-gray-200 font-mono text-[10px] text-farm-green font-bold">
+              <div className="mt-6 pt-3 border-t border-gray-200 font-mono text-[11px] text-farm-green font-bold">
                 ✓ 91% FLEET UTILIZATION
               </div>
             </Card>
 
             {/* Step 05 */}
-            <Card variant="green" shadow="default" className="p-6 border-brutal flex flex-col justify-between">
+            <Card variant="green" shadow="default" className="p-5 sm:p-6 border-brutal flex flex-col justify-between sm:col-span-2 lg:col-span-1">
               <div>
-                <span className="font-heading font-black text-4xl text-harvest-yellow block mb-4">
+                <span className="font-heading font-black text-3xl sm:text-4xl text-harvest-yellow block mb-3">
                   05
                 </span>
-                <h3 className="font-heading font-black text-lg uppercase tracking-tight text-paper-white mb-2">
+                <h3 className="font-heading font-black text-base sm:text-lg uppercase tracking-tight text-paper-white mb-2">
                   FARMERS SELL DIRECTLY
                 </h3>
                 <p className="font-body text-xs text-warm-cream leading-relaxed">
                   Buyers and farmers agree on pricing directly. 100% of payment goes straight from buyer to the farmer's account.
                 </p>
               </div>
-              <div className="mt-6 pt-3 border-t border-farm-green-light font-mono text-[10px] text-harvest-yellow font-bold">
+              <div className="mt-6 pt-3 border-t border-farm-green-light font-mono text-[11px] text-harvest-yellow font-bold">
                 ✓ 0% BROKER COMMISSION
               </div>
             </Card>
@@ -302,29 +310,32 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </div>
       </section>
 
-      {/* SECTION 16 & 17: GROUP AGGREGATION & MATCHING VISUALIZATION */}
-      <MatchingVisual />
-
-      {/* ASSISTED ONBOARDING & PUSH-DEMAND SECTION */}
-      <section className="py-20 bg-warm-cream bg-topo-pattern border-t-brutal">
+      {/* 5. ASSISTED ONBOARDING & PUSH-DEMAND SECTION */}
+      <section className="py-16 sm:py-24 bg-warm-cream bg-topo-pattern border-t-brutal">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <AssistedPushDemandShowcase />
           <FieldPlotVisual />
         </div>
       </section>
 
-      {/* SECTION 22: TRUST & VERIFICATION // DIRECT DOESN'T MEAN UNVERIFIED */}
-      <section className="py-20 bg-warm-cream border-t-brutal">
+      {/* 6. PLATFORM CAPABILITIES & HARVEST INFRASTRUCTURE */}
+      <LayeredAgriGrid onNavigate={onNavigate} />
+
+      {/* 7. GROUP AGGREGATION & MATCHING ENGINE (Interactive Simulation) */}
+      <MatchingVisual />
+
+      {/* 8. TRUST & VERIFICATION // DIRECT DOESN'T MEAN UNVERIFIED */}
+      <section className="py-16 sm:py-24 bg-warm-cream border-t-brutal">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-14">
+          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
             <Badge variant="dark" size="sm" className="mb-3">
               SECTION 06 // RISK MITIGATION & TRUST
             </Badge>
-            <h2 className="font-heading font-black text-4xl md:text-5xl lg:text-6xl uppercase tracking-tighter text-ink-black">
+            <h2 className="font-heading font-black text-3xl sm:text-5xl lg:text-6xl uppercase tracking-tighter text-ink-black leading-tight">
               DIRECT DOESN'T MEAN UNVERIFIED.
             </h2>
-            <p className="font-body text-base text-gray-700 mt-2 font-medium">
+            <p className="font-body text-sm sm:text-base text-gray-700 mt-2 font-medium">
               Every participant on FarmChain passes strict operational identity verification before transacting.
             </p>
           </div>

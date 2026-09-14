@@ -54,52 +54,55 @@ export const Navbar: React.FC<NavbarProps> = ({
   return (
     <header className="sticky top-0 z-40 bg-paper-cream border-b-brutal">
       {/* Top Agricultural Status Bar (Blue Crate Palette) */}
-      <div className="bg-blue-crate text-paper-white px-4 py-1.5 text-xs font-mono flex items-center justify-between overflow-x-auto border-b-2 border-ink-black">
-        <div className="flex items-center gap-4 shrink-0">
-          <span className="flex items-center gap-1.5 text-citrus-yellow font-bold">
-            <span className="h-2 w-2 rounded-full bg-lettuce-green animate-pulse inline-block"></span>
-            LIVE DEMAND NETWORK: 18.5 MT ACTIVE
+      <div className="bg-blue-crate text-paper-white px-3 sm:px-4 py-1.5 text-xs font-mono flex items-center justify-between border-b-2 border-ink-black select-none">
+        <div className="flex items-center gap-2 sm:gap-4 truncate">
+          <span className="flex items-center gap-1.5 text-citrus-yellow font-bold text-[11px] sm:text-xs">
+            <span className="h-2 w-2 rounded-full bg-lettuce-green animate-pulse inline-block shrink-0"></span>
+            <span className="hidden xs:inline">LIVE NETWORK:</span> 18.5 MT ACTIVE
           </span>
-          <span className="text-blue-200/40 hidden sm:inline">|</span>
-          <span className="hidden sm:inline text-paper-white/80">
+          <span className="text-blue-200/40 hidden md:inline">|</span>
+          <span className="hidden md:inline text-paper-white/80 text-[11px]">
             TELANGANA × MAHARASHTRA × KARNATAKA
           </span>
         </div>
 
         {/* Role Quick Selector & Verified Badge */}
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-2 shrink-0">
           {isAuthenticated && currentUser ? (
             <div className="flex items-center gap-1.5 bg-green-beans text-paper-white px-2 py-0.5 border border-paper-white/40 text-[10px] font-bold">
-              <ShieldCheck className="w-3.5 h-3.5 text-citrus-yellow" />
-              <span>{currentUser.identifier}</span>
+              <ShieldCheck className="w-3.5 h-3.5 text-citrus-yellow shrink-0" />
+              <span className="truncate max-w-[110px] sm:max-w-none">{currentUser.identifier}</span>
             </div>
           ) : (
-            <span className="text-paper-white/60 text-[11px] hidden md:inline">PUBLIC GUEST BROWSING</span>
+            <span className="text-paper-white/60 text-[10px] hidden lg:inline">PUBLIC GUEST BROWSING</span>
           )}
 
           <span className="text-blue-200/40 hidden sm:inline">|</span>
           <div className="flex border border-blue-900 bg-[#1F265C] p-0.5">
             <button
               onClick={() => onRoleChange('farmer')}
-              className={`px-2 py-0.5 text-[11px] font-bold uppercase transition-colors ${
+              className={`px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-[11px] font-bold uppercase transition-colors ${
                 activeRole === 'farmer' ? 'bg-citrus-yellow text-ink-black' : 'text-paper-white/70 hover:text-white'
               }`}
+              title="Switch to Farmer view"
             >
               FARMER
             </button>
             <button
               onClick={() => onRoleChange('buyer')}
-              className={`px-2 py-0.5 text-[11px] font-bold uppercase transition-colors ${
+              className={`px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-[11px] font-bold uppercase transition-colors ${
                 activeRole === 'buyer' ? 'bg-citrus-yellow text-ink-black' : 'text-paper-white/70 hover:text-white'
               }`}
+              title="Switch to Buyer view"
             >
               BUYER
             </button>
             <button
               onClick={() => onRoleChange('logistics')}
-              className={`px-2 py-0.5 text-[11px] font-bold uppercase transition-colors ${
+              className={`px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-[11px] font-bold uppercase transition-colors ${
                 activeRole === 'logistics' ? 'bg-citrus-yellow text-ink-black' : 'text-paper-white/70 hover:text-white'
               }`}
+              title="Switch to Logistics view"
             >
               LOGISTICS
             </button>

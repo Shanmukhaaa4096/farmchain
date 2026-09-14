@@ -161,11 +161,10 @@ export const MatchingVisual: React.FC = () => {
               </div>
             </div>
 
-            {/* Middle: Aggregation Hub & Transit SVG (4 cols) with Animated Produce Crates */}
-            <div className="lg:col-span-4 flex flex-col items-center justify-center p-4">
-              <div className="w-full relative flex flex-col items-center">
-                
-                {/* Visual SVG connecting lines */}
+            {/* Middle: Aggregation Hub & Transit (Desktop: SVG Cables, Mobile: Vertical Connector) */}
+            <div className="lg:col-span-4 flex flex-col items-center justify-center p-2 sm:p-4">
+              {/* Desktop SVG Visualization */}
+              <div className="hidden lg:flex w-full relative flex-col items-center">
                 <div className="w-full h-48 flex items-center justify-center relative">
                   <svg className="w-full h-full" viewBox="0 0 300 160">
                     {/* Cable 1 to Farm A */}
@@ -232,7 +231,16 @@ export const MatchingVisual: React.FC = () => {
                   <span className="font-bold text-blue-crate">SHARED SMART PICKUP LOOP</span>
                   <div className="text-[10px] text-gray-700">1 Reefer Truck • 3 Smallholder Farms • 12.4 KM Circuit</div>
                 </div>
+              </div>
 
+              {/* Mobile Vertical Pipeline Connector */}
+              <div className="flex lg:hidden flex-col items-center py-4 w-full text-center">
+                <div className="h-6 w-0.5 bg-ink-black border-dashed"></div>
+                <div className="bg-citrus-yellow border-2 border-ink-black px-4 py-2.5 shadow-brutal-sm font-mono text-xs font-bold text-ink-black flex items-center justify-center gap-2 max-w-sm w-full">
+                  <Truck className="w-4 h-4 shrink-0" />
+                  <span>SHARED LOOP: 1 TRUCK • 3 FARMS (12.4 KM)</span>
+                </div>
+                <div className="h-6 w-0.5 bg-ink-black border-dashed"></div>
               </div>
             </div>
 
@@ -293,25 +301,25 @@ export const MatchingVisual: React.FC = () => {
           </div>
 
           {/* Bottom Live Metrics Banner */}
-          <div className="mt-6 pt-6 border-t-2 border-ink-black bg-warm-cream p-4 grid grid-cols-2 md:grid-cols-4 gap-4 font-mono text-center">
-            <div className="border-r border-ink-black pr-2">
+          <div className="mt-8 pt-6 border-t-2 border-ink-black bg-warm-cream p-4 sm:p-6 grid grid-cols-2 md:grid-cols-4 gap-4 font-mono text-center">
+            <div className="p-2 bg-paper-white border border-ink-black shadow-brutal-sm">
               <span className="text-[11px] text-gray-600 block">TOTAL COMBINED</span>
-              <strong className="text-lg font-black font-heading text-ink-black">
+              <strong className="text-base sm:text-xl font-black font-heading text-ink-black block">
                 <AnimatedCounter value={currentTotal} suffix=" KG" />
               </strong>
             </div>
-            <div className="border-r border-ink-black pr-2">
+            <div className="p-2 bg-paper-white border border-ink-black shadow-brutal-sm">
               <span className="text-[11px] text-gray-600 block">FARMERS MATCHED</span>
-              <strong className="text-lg font-black font-heading text-farm-green">{farmerCount} FARMERS</strong>
+              <strong className="text-base sm:text-xl font-black font-heading text-farm-green block">{farmerCount} FARMERS</strong>
             </div>
-            <div className="border-r border-ink-black pr-2">
+            <div className="p-2 bg-paper-white border border-ink-black shadow-brutal-sm">
               <span className="text-[11px] text-gray-600 block">TRANSIT DISTANCE</span>
-              <strong className="text-lg font-black font-heading text-ink-black">12.4 KM TOTAL</strong>
+              <strong className="text-base sm:text-xl font-black font-heading text-ink-black block">12.4 KM TOTAL</strong>
             </div>
-            <div>
+            <div className="p-2 bg-paper-white border border-ink-black shadow-brutal-sm">
               <span className="text-[11px] text-gray-600 block">COLLECTION STATUS</span>
-              <strong className="text-sm font-bold text-farm-green uppercase">
-                {isFulfilled ? "✓ ROUTE DISPATCHABLE" : `AWAITING +${targetQty - currentTotal} KG`}
+              <strong className="text-xs sm:text-sm font-bold text-farm-green uppercase block mt-1 truncate">
+                {isFulfilled ? "✓ DISPATCHABLE" : `+${targetQty - currentTotal} KG REQ`}
               </strong>
             </div>
           </div>

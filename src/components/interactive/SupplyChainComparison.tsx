@@ -6,48 +6,77 @@ import { WashiTape, RubberStamp, SketchAnnotation } from '../ui/SketchAccents';
 
 export const SupplyChainComparison: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'traditional' | 'farmchain'>('farmchain');
+  const [isBreakdownExpanded, setIsBreakdownExpanded] = useState<boolean>(false);
 
   return (
-    <section className="py-16 bg-warm-cream border-y-brutal">
+    <section className="py-16 md:py-24 bg-warm-cream border-y-brutal">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="mb-12">
+        <div className="mb-10 md:mb-14">
           <div className="flex items-center gap-2 mb-3">
-            <span className="font-mono text-xs font-bold px-2 py-0.5 bg-ink-black text-paper-white">
+            <span className="font-mono text-xs font-bold px-2.5 py-1 bg-ink-black text-paper-white">
               SECTION 02 // STRUCTURAL INEFFICIENCY
             </span>
           </div>
-          <h2 className="font-heading font-black text-4xl md:text-5xl lg:text-6xl uppercase tracking-tighter text-ink-black">
+          <h2 className="font-heading font-black text-3xl sm:text-5xl lg:text-6xl uppercase tracking-tighter text-ink-black leading-tight">
             WHERE DOES THE MONEY GO?
           </h2>
-          <p className="font-body text-base md:text-lg text-gray-800 max-w-3xl mt-3 font-medium">
+          <p className="font-body text-base md:text-lg text-gray-800 max-w-3xl mt-3 font-medium leading-relaxed">
             In the traditional system, produce passes through five distinct brokers before reaching commercial kitchens or store shelves. Each middleman takes a margin while adding zero shelf-life.
           </p>
         </div>
 
         {/* View Switcher Controls */}
-        <div className="flex flex-wrap items-center gap-3 mb-8">
+        <div className="flex flex-wrap items-center gap-3 mb-6">
           <button
             onClick={() => setActiveTab('traditional')}
-            className={`btn-brutal px-5 py-2.5 text-xs md:text-sm font-heading ${
-              activeTab === 'traditional' ? 'bg-tomato-red text-paper-white' : 'bg-paper-white text-ink-black'
+            className={`btn-brutal px-4 sm:px-6 py-3 text-xs md:text-sm font-heading transition-all ${
+              activeTab === 'traditional' ? 'bg-tomato-red text-paper-white shadow-brutal' : 'bg-paper-white text-ink-black hover:bg-gray-100'
             }`}
           >
             TRADITIONAL BROKER CHAIN (5 LAYERS)
           </button>
           <button
             onClick={() => setActiveTab('farmchain')}
-            className={`btn-brutal px-5 py-2.5 text-xs md:text-sm font-heading ${
-              activeTab === 'farmchain' ? 'bg-blue-crate text-paper-white' : 'bg-paper-white text-ink-black'
+            className={`btn-brutal px-4 sm:px-6 py-3 text-xs md:text-sm font-heading transition-all ${
+              activeTab === 'farmchain' ? 'bg-blue-crate text-paper-white shadow-brutal' : 'bg-paper-white text-ink-black hover:bg-gray-100'
             }`}
           >
             FARMCHAIN DEMAND-MATCHED FLOW (DIRECT)
           </button>
         </div>
 
+        {/* High-Level Executive Summary Card (Instant scanning before diving into 5 steps) */}
+        <div className="mb-8 p-4 sm:p-6 bg-paper-white border-brutal-thick shadow-brutal">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-gray-600 block">
+                {activeTab === 'traditional' ? 'TRADITIONAL SYSTEM SNAPSHOT' : 'FARMCHAIN DIRECT MODEL SNAPSHOT'}
+              </span>
+              <h3 className="font-heading font-black text-xl sm:text-2xl uppercase text-ink-black">
+                {activeTab === 'traditional' ? '5 MIDDLEMEN LAYERS • 38% PRODUCE DECAY' : '0 MIDDLEMEN • 12-HOUR HARVEST-TO-KITCHEN'}
+              </h3>
+              <p className="font-body text-xs sm:text-sm text-gray-700 max-w-2xl">
+                {activeTab === 'traditional' 
+                  ? 'Produce spends 36 to 48 hours bouncing between village agents, wholesale mandis, and city distributors before delivery.'
+                  : 'Commercial buyers post exact demand parameters. Nearby farmer clusters combine volume and dispatch directly along an optimized route.'}
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3 shrink-0">
+              <button
+                onClick={() => setIsBreakdownExpanded(!isBreakdownExpanded)}
+                className="btn-brutal px-4 py-2.5 bg-citrus-yellow text-ink-black text-xs font-heading font-black flex items-center gap-2 hover:bg-harvest-yellow"
+              >
+                <span>{isBreakdownExpanded ? 'COLLAPSE 5-STAGE DETAILS ▲' : 'EXPLORE 5-STAGE AUDIT TRAIL ▼'}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
         {/* Comparison Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Visual Flow Column (7 cols) */}
           <div className="lg:col-span-7">
@@ -66,8 +95,22 @@ export const SupplyChainComparison: React.FC = () => {
                   <Badge variant="red" size="sm">5 MIDDLEMEN</Badge>
                 </div>
 
-                {/* Step Flow */}
-                <div className="space-y-3 pt-2">
+                {/* Progressive Disclosure Toggle Strip for Mobile & Desktop */}
+                <div className="flex items-center justify-between py-1 border-b border-gray-200">
+                  <span className="font-mono text-xs font-bold text-gray-600 uppercase">
+                    STAGE-BY-STAGE PRICE & MARKUP AUDIT:
+                  </span>
+                  <button
+                    onClick={() => setIsBreakdownExpanded(!isBreakdownExpanded)}
+                    className="font-mono text-xs font-bold text-tomato-red underline lg:hidden"
+                  >
+                    {isBreakdownExpanded ? 'Hide Steps' : 'Show All 5 Steps'}
+                  </button>
+                </div>
+
+                {/* Step Flow (Always shown on desktop if expanded or toggleable) */}
+                {(isBreakdownExpanded || typeof window !== 'undefined' && window.innerWidth >= 1024) && (
+                  <div className="space-y-3 pt-2 animate-in fade-in duration-200">
                   {[
                     { title: 'FARMER', role: 'Takes price offered by village commission agent', cut: 'Farmer receives: ₹17.50/KG (Distress auction rate)', icon: Users },
                     { title: 'LOCAL TRADER / AGENT', role: 'Charges 6-10% brokerage + uncalibrated weighing deduction', cut: '+ ₹2.50 commission markup', icon: Building },
@@ -97,7 +140,8 @@ export const SupplyChainComparison: React.FC = () => {
                       )}
                     </div>
                   ))}
-                </div>
+                  </div>
+                )}
 
                 <div className="mt-6 p-4 bg-red-50 border-2 border-rust-red text-ink-black text-xs font-mono">
                   <div className="flex items-start gap-2">
@@ -124,8 +168,22 @@ export const SupplyChainComparison: React.FC = () => {
                   <Badge variant="lettuce" size="sm" dot>FARMER GETS 78%+</Badge>
                 </div>
 
-                {/* Step Flow */}
-                <div className="space-y-3 pt-2">
+                {/* Progressive Disclosure Toggle Strip for Mobile & Desktop */}
+                <div className="flex items-center justify-between py-1 border-b border-gray-200">
+                  <span className="font-mono text-xs font-bold text-gray-600 uppercase">
+                    STAGE-BY-STAGE DIRECT FULFILLMENT:
+                  </span>
+                  <button
+                    onClick={() => setIsBreakdownExpanded(!isBreakdownExpanded)}
+                    className="font-mono text-xs font-bold text-blue-crate underline lg:hidden"
+                  >
+                    {isBreakdownExpanded ? 'Hide Steps' : 'Show All 5 Steps'}
+                  </button>
+                </div>
+
+                {/* Step Flow (Shown on desktop or when expanded on mobile) */}
+                {(isBreakdownExpanded || typeof window !== 'undefined' && window.innerWidth >= 1024) && (
+                  <div className="space-y-3 pt-2 animate-in fade-in duration-200">
                   {[
                     { title: 'BUYER POSTS VERIFIED DEMAND', role: 'Specifies crop, exact tonnage, quality grade & delivery window', cut: 'Market Signal Published', icon: Store },
                     { title: 'AI SMART MATCHING ENGINE', role: 'Clusters geo-proximate farmers and verifies available yields', cut: 'Near-Zero Search Cost', icon: Building },
@@ -155,7 +213,8 @@ export const SupplyChainComparison: React.FC = () => {
                       )}
                     </div>
                   ))}
-                </div>
+                  </div>
+                )}
 
                 <div className="mt-6 p-4 bg-farm-green text-paper-white border-2 border-ink-black text-xs font-mono">
                   <div className="flex items-start gap-2">

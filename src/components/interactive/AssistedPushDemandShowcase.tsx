@@ -162,7 +162,7 @@ export const AssistedPushDemandShowcase: React.FC = () => {
   };
 
   return (
-    <div className="bg-warm-cream border-brutal-thick p-6 sm:p-10 shadow-brutal-lg max-w-5xl mx-auto space-y-8">
+    <div className="bg-warm-cream border-brutal-thick p-4 sm:p-8 md:p-10 shadow-brutal-lg max-w-5xl mx-auto space-y-6 sm:space-y-8">
       
       {/* Editorial Header */}
       <div className="space-y-3">
@@ -188,12 +188,12 @@ export const AssistedPushDemandShowcase: React.FC = () => {
       </div>
 
       {/* Regional Language Selector Bar */}
-      <div className="bg-paper-white border-brutal p-4 space-y-2">
+      <div className="bg-paper-white border-brutal p-3 sm:p-4 space-y-2">
         <div className="flex items-center gap-2 font-mono text-xs font-bold text-ink-black uppercase">
           <Languages className="w-4 h-4 text-farm-green" />
           <span>SELECT FARMER INTERFACE LANGUAGE:</span>
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 pt-1">
           {(Object.keys(REGIONAL_CONTENT) as LanguageCode[]).map((code) => {
             const isSelected = selectedLang === code;
             return (
@@ -203,7 +203,7 @@ export const AssistedPushDemandShowcase: React.FC = () => {
                   setSelectedLang(code);
                   setOrderState('PENDING');
                 }}
-                className={`px-3.5 py-1.5 font-heading text-xs font-bold border-2 transition-all ${
+                className={`px-3 sm:px-4 py-2 font-heading text-xs font-bold border-2 transition-all min-h-[40px] flex items-center justify-center ${
                   isSelected
                     ? 'bg-harvest-yellow text-ink-black border-ink-black shadow-brutal-sm -translate-y-0.5'
                     : 'bg-warm-cream text-ink-black border-ink-black/40 hover:border-ink-black'

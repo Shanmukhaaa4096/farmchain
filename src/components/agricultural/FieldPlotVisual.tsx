@@ -5,6 +5,7 @@ import { Badge } from '../ui/Badge';
 
 export const FieldPlotVisual: React.FC = () => {
   const [selectedPlot, setSelectedPlot] = useState<number>(0);
+  const [isTelemetryExpanded, setIsTelemetryExpanded] = useState<boolean>(false);
 
   const plots = [
     {
@@ -54,8 +55,8 @@ export const FieldPlotVisual: React.FC = () => {
   const active = plots[selectedPlot];
 
   return (
-    <Card variant="white" shadow="lg" className="p-6 md:p-8 border-brutal-thick space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b-2 border-ink-black">
+    <Card variant="white" shadow="lg" className="p-5 sm:p-8 border-brutal-thick space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b-2 border-ink-black">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="h-2.5 w-2.5 rounded-full bg-terminal-green animate-pulse"></span>
@@ -63,18 +64,31 @@ export const FieldPlotVisual: React.FC = () => {
               PRECISION FARMLAND SATELLITE & IOT TELEMETRY
             </span>
           </div>
-          <h3 className="font-heading font-black text-2xl uppercase tracking-tight text-ink-black">
+          <h3 className="font-heading font-black text-xl sm:text-2xl uppercase tracking-tight text-ink-black">
             VILLAGE FIELD PLOT REGISTRY
           </h3>
+          <p className="font-body text-xs text-gray-600 mt-0.5">
+            Active verified acreage, soil moisture, and calibrated harvest windows across Ranga Reddy Agri-Cluster.
+          </p>
         </div>
 
-        <Badge variant="yellow" size="sm">
-          RANGA REDDY AGRI-CLUSTER
-        </Badge>
+        <div className="flex items-center gap-3 shrink-0">
+          <Badge variant="yellow" size="sm">
+            RANGA REDDY AGRI-CLUSTER
+          </Badge>
+          <button
+            onClick={() => setIsTelemetryExpanded(!isTelemetryExpanded)}
+            className="btn-brutal px-3.5 py-2 bg-paper-white text-ink-black text-xs font-mono font-bold hover:bg-harvest-yellow lg:hidden"
+          >
+            {isTelemetryExpanded ? 'COLLAPSE ▲' : 'INSPECT PLOTS ▼'}
+          </button>
+        </div>
       </div>
 
-      {/* Interactive Farmland Plot Rectangles */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      {/* Main Content (Shown on desktop or when expanded on mobile) */}
+      <div className={`${isTelemetryExpanded ? 'block' : 'hidden lg:block'} space-y-6 animate-in fade-in duration-200`}>
+        {/* Interactive Farmland Plot Rectangles */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {plots.map((plot, idx) => {
           const isSelected = selectedPlot === idx;
           return (
@@ -150,11 +164,12 @@ export const FieldPlotVisual: React.FC = () => {
           </div>
         </div>
 
-        <div className="pt-1 flex items-center justify-between text-[11px] text-gray-700">
+        <div className="pt-1 flex flex-wrap items-center justify-between gap-2 text-[11px] text-gray-700">
           <span>FIELD RFID GEOFENCE: <strong>17.3128° N, 78.1340° E</strong></span>
           <span className="text-farm-green font-bold">✓ READY FOR SCHEDULED VEHICLE LOOP</span>
         </div>
       </div>
+    </div>
 
     </Card>
   );

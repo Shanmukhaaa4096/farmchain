@@ -92,24 +92,38 @@ export const HeroReferenceSection: React.FC<HeroReferenceSectionProps> = ({
                 Buyers post verified commercial demand. We match nearby farmer clusters via assisted onboarding and push direct contracts. Farmers simply tap Accept or Reject. 100% direct bank payout with 0% broker commission.
               </p>
 
-              {/* Visual Flow Indicator: FARMERS -> DEMAND -> MATCH -> LOGISTICS -> BUYERS */}
-              <div className="p-3 bg-farm-green-dark/90 border-2 border-paper-white/40 max-w-2xl font-mono text-[11px] text-warm-cream flex flex-wrap items-center justify-between gap-2 shadow-brutal-sm relative">
-                <span className="text-harvest-yellow font-bold">FLOW:</span>
-                <span className="font-bold text-paper-white">FARMERS</span>
-                <span className="text-harvest-yellow">→</span>
-                <span className="font-bold text-paper-white relative">
-                  DEMAND
-                  <span className="absolute -top-4 left-0 text-[10px] text-harvest-yellow font-sketch font-bold">PULLED</span>
-                </span>
-                <span className="text-harvest-yellow">→</span>
-                <span className="font-bold text-paper-white relative">
-                  PUSH MATCH
-                  <span className="absolute -top-4 left-0 text-[10px] text-terminal-green font-sketch font-bold">MATCHED</span>
-                </span>
-                <span className="text-harvest-yellow">→</span>
-                <span className="font-bold text-paper-white">LOGISTICS</span>
-                <span className="text-harvest-yellow">→</span>
-                <span className="font-bold text-harvest-yellow">DIRECT PAYOUT</span>
+              {/* Visual Flow Indicator: Clean, spacious responsive pipeline */}
+              <div className="p-3.5 bg-farm-green-dark/95 border-2 border-paper-white/30 max-w-2xl font-mono text-xs text-warm-cream shadow-brutal-sm">
+                <div className="flex items-center gap-2 mb-2 pb-1.5 border-b border-paper-white/15 text-[11px]">
+                  <span className="text-harvest-yellow font-bold uppercase">DIRECT DEMAND PIPELINE:</span>
+                  <span className="text-paper-white/70">5-Stage Frictionless Execution</span>
+                </div>
+                <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-between gap-2 text-center sm:text-left">
+                  <div className="bg-white/10 px-2 py-1 border border-paper-white/20">
+                    <span className="text-[10px] text-harvest-yellow block leading-none">01. SOURCE</span>
+                    <strong className="text-paper-white font-bold text-xs">FARMERS</strong>
+                  </div>
+                  <span className="text-harvest-yellow font-bold hidden sm:inline">→</span>
+                  <div className="bg-white/10 px-2 py-1 border border-paper-white/20">
+                    <span className="text-[10px] text-harvest-yellow block leading-none">02. SIGNAL</span>
+                    <strong className="text-paper-white font-bold text-xs">DEMAND</strong>
+                  </div>
+                  <span className="text-harvest-yellow font-bold hidden sm:inline">→</span>
+                  <div className="bg-white/10 px-2 py-1 border border-paper-white/20">
+                    <span className="text-[10px] text-terminal-green block leading-none">03. SMART</span>
+                    <strong className="text-paper-white font-bold text-xs">PUSH MATCH</strong>
+                  </div>
+                  <span className="text-harvest-yellow font-bold hidden sm:inline">→</span>
+                  <div className="bg-white/10 px-2 py-1 border border-paper-white/20">
+                    <span className="text-[10px] text-citrus-yellow block leading-none">04. TRANSIT</span>
+                    <strong className="text-paper-white font-bold text-xs">LOGISTICS</strong>
+                  </div>
+                  <span className="text-harvest-yellow font-bold hidden sm:inline">→</span>
+                  <div className="bg-harvest-yellow text-ink-black px-2 py-1 border border-ink-black font-bold col-span-2 sm:col-span-1">
+                    <span className="text-[10px] block leading-none text-ink-black/80">05. PAYOUT</span>
+                    <span className="text-xs">100% DIRECT</span>
+                  </div>
+                </div>
               </div>
 
               {/* CTA Buttons Row */}
@@ -118,7 +132,7 @@ export const HeroReferenceSection: React.FC<HeroReferenceSectionProps> = ({
                   variant="yellow"
                   size="lg"
                   onClick={() => onNavigate('marketplace')}
-                  className="flex items-center gap-2 text-sm sm:text-base font-heading font-black"
+                  className="flex items-center gap-2 text-sm sm:text-base font-heading font-black min-h-[48px] px-6"
                 >
                   <span>FIND DEMAND</span>
                   <ArrowRight className="w-5 h-5 stroke-[3]" />
@@ -128,7 +142,7 @@ export const HeroReferenceSection: React.FC<HeroReferenceSectionProps> = ({
                   variant="white"
                   size="lg"
                   onClick={onOpenPostDemand}
-                  className="flex items-center gap-2 text-sm sm:text-base font-heading font-bold"
+                  className="flex items-center gap-2 text-sm sm:text-base font-heading font-bold min-h-[48px] px-6"
                 >
                   <span>POST REQUIREMENT</span>
                   <ArrowRight className="w-5 h-5 stroke-[3]" />
@@ -138,7 +152,7 @@ export const HeroReferenceSection: React.FC<HeroReferenceSectionProps> = ({
                   onClick={onOpenVideo}
                   className="inline-flex items-center gap-2.5 font-heading text-xs sm:text-sm font-bold text-paper-white hover:text-harvest-yellow transition-colors px-3 py-2 cursor-pointer group"
                 >
-                  <span className="w-9 h-9 bg-harvest-yellow text-ink-black border-2 border-ink-black flex items-center justify-center group-hover:scale-105 transition-transform shadow-brutal-sm">
+                  <span className="w-9 h-9 bg-harvest-yellow text-ink-black border-2 border-ink-black flex items-center justify-center group-hover:scale-105 transition-transform shadow-brutal-sm shrink-0">
                     <Play className="w-4 h-4 fill-ink-black ml-0.5" />
                   </span>
                   <span>WATCH CO-OP STORY</span>
@@ -147,11 +161,11 @@ export const HeroReferenceSection: React.FC<HeroReferenceSectionProps> = ({
 
             </div>
 
-            {/* Right 4 Cols: Layered Floating UI Cards & Video Pill (Reference Style) */}
+            {/* Right 4 Cols: Clean Progressive Proof & Dispatch Telemetry */}
             <div className="lg:col-span-4 flex flex-col gap-4 relative">
               
               {/* Floating Farmer Video Card with Scrapbook Washi Tape & Rubber Stamp */}
-              <div className="bg-paper-white border-brutal-thick p-3.5 shadow-brutal-lg max-w-sm ml-auto relative transform sm:rotate-1 hover:rotate-0 transition-transform duration-300">
+              <div className="bg-paper-white border-brutal-thick p-3.5 shadow-brutal-lg max-w-sm lg:ml-auto w-full relative transform sm:rotate-1 hover:rotate-0 transition-transform duration-300">
                 <WashiTape color="yellow" className="-top-3 left-10 z-20" />
                 <RubberStamp text="CO-OP VERIFIED" variant="green" className="absolute -bottom-2 -left-2 z-20" />
                 
@@ -186,8 +200,8 @@ export const HeroReferenceSection: React.FC<HeroReferenceSectionProps> = ({
                 </div>
               </div>
 
-              {/* Floating Layered Demand Pill 1: Live Demand with Washi Tape */}
-              <div className="bg-harvest-yellow border-2 border-ink-black p-3.5 shadow-brutal max-w-xs ml-auto font-mono text-xs space-y-1 relative transform sm:-rotate-1 hover:rotate-0 transition-transform">
+              {/* Floating Layered Demand Pill 1: Live Demand (Progressive disclosure friendly) */}
+              <div className="bg-harvest-yellow border-2 border-ink-black p-3.5 shadow-brutal max-w-sm lg:ml-auto w-full font-mono text-xs space-y-1 relative transform sm:-rotate-1 hover:rotate-0 transition-transform">
                 <WashiTape color="blue" className="-top-2.5 right-6 z-20" />
                 <div className="flex items-center justify-between text-[10px] font-bold pb-1 border-b border-ink-black">
                   <span className="flex items-center gap-1 text-ink-black uppercase">
@@ -208,8 +222,8 @@ export const HeroReferenceSection: React.FC<HeroReferenceSectionProps> = ({
                 </div>
               </div>
 
-              {/* Floating Layered Demand Pill 2: Route Optimized with Washi Tape */}
-              <div className="bg-paper-white border-2 border-ink-black p-3 shadow-brutal-sm max-w-xs ml-auto font-mono text-xs flex items-center justify-between gap-3 relative">
+              {/* Floating Layered Demand Pill 2: Route Optimized */}
+              <div className="bg-paper-white border-2 border-ink-black p-3 shadow-brutal-sm max-w-sm lg:ml-auto w-full font-mono text-xs flex items-center justify-between gap-3 relative">
                 <WashiTape color="red" className="-top-2 left-6 z-20" />
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 bg-farm-green text-harvest-yellow flex items-center justify-center font-bold">
