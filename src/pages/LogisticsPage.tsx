@@ -2,16 +2,19 @@ import React from 'react';
 import { Truck, Navigation, Gauge, ShieldCheck, MapPin, Radio } from 'lucide-react';
 import { LogisticsMap } from '../components/interactive/LogisticsMap';
 import { Badge } from '../components/ui/Badge';
+import { Button } from '../components/ui/Button';
 import { UserRole } from '../types';
 
 interface LogisticsPageProps {
   requireAuth?: (role: UserRole, action: () => void, promptMessage: string) => void;
   isAuthenticated?: boolean;
+  onPostAvailability?: () => void;
 }
 
 export const LogisticsPage: React.FC<LogisticsPageProps> = ({
   requireAuth,
-  isAuthenticated = false
+  isAuthenticated = false,
+  onPostAvailability,
 }) => {
   return (
     <div className="py-12 bg-warm-cream min-h-screen">
@@ -32,9 +35,37 @@ export const LogisticsPage: React.FC<LogisticsPageProps> = ({
             </p>
           </div>
 
-          <div className="p-3 bg-paper-white border-2 border-ink-black font-mono text-xs shadow-brutal-sm">
-            <span className="text-gray-500 block text-[10px]">CURRENT FLEET STATUS</span>
-            <strong className="text-green-beans font-bold">14 VANS & REEFERS ACTIVE</strong>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <div className="p-3 bg-paper-white border-2 border-ink-black font-mono text-xs shadow-brutal-sm">
+              <span className="text-gray-500 block text-[10px]">CURRENT FLEET STATUS</span>
+              <strong className="text-green-beans font-bold">14 VANS & REEFERS ACTIVE</strong>
+            </div>
+
+            <Button
+              variant="yellow"
+              size="md"
+              onClick={() => {
+                const action = () => {
+                  if (onPostAvailability) {
+                    onPostAvailability();
+                  }
+                };
+
+                if (!isAuthenticated && requireAuth) {
+                  requireAuth(
+                    'logistics',
+                    action,
+                    'Logistics carrier authentication required to post vehicle availability and accept transit loops.'
+                  );
+                } else {
+                  action();
+                }
+              }}
+              className="flex items-center gap-1.5 font-mono text-xs font-bold"
+            >
+              <Truck className="w-4 h-4" />
+              <span>POST VEHICLE CAPACITY →</span>
+            </Button>
           </div>
         </div>
 

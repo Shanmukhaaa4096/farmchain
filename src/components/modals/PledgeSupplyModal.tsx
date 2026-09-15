@@ -18,12 +18,12 @@ export const PledgeSupplyModal: React.FC<PledgeSupplyModalProps> = ({
   demand,
   onConfirmPledge
 }) => {
-  if (!demand) return null;
-
   const [quantity, setQuantity] = useState('600');
-  const [rate, setRate] = useState(demand.targetPricePerKg.toString());
+  const [rate, setRate] = useState(demand?.targetPricePerKg?.toString() || '25');
   const [village, setVillage] = useState('Chevella Village (Ranga Reddy)');
   const [harvestDate, setHarvestDate] = useState('Ready for 24-25 Sep Pickup');
+
+  if (!demand) return null;
 
   const qtyNum = Number(quantity) || 0;
   const rateNum = Number(rate) || 0;

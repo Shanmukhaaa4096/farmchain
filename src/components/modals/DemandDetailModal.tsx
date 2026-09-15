@@ -37,8 +37,6 @@ export const DemandDetailModal: React.FC<DemandDetailModalProps> = ({
   initialTab = 'specs',
   userName
 }) => {
-  if (!demand) return null;
-
   const [activeTab, setActiveTab] = useState<'specs' | 'farmers' | 'negotiate'>(initialTab);
   const [messages, setMessages] = useState<{ sender: 'farmer' | 'buyer' | 'system'; text: string; time: string; name?: string }[]>([
     { sender: 'system', text: 'Direct secure negotiation channel opened between Buyer and Matched Farmers.', time: '09:00 AM' },
@@ -53,6 +51,8 @@ export const DemandDetailModal: React.FC<DemandDetailModalProps> = ({
       setActiveTab(initialTab);
     }
   }, [isOpen, initialTab]);
+
+  if (!demand) return null;
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();

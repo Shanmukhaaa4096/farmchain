@@ -249,7 +249,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   className="font-heading font-bold text-xs uppercase px-3 py-2 border-2 border-ink-black bg-paper-white text-blue-crate hover:bg-citrus-yellow hover:text-ink-black shadow-brutal-sm transition-all flex items-center gap-1.5"
                 >
                   <Key className="w-3.5 h-3.5" />
-                  <span>SIGN IN</span>
+                  <span>LOGIN</span>
                 </button>
 
                 <button
@@ -373,7 +373,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   }}
                   className="text-xs font-bold"
                 >
-                  <Key className="w-3.5 h-3.5 mr-1" /> SIGN IN
+                  <Key className="w-3.5 h-3.5 mr-1" /> LOGIN
                 </Button>
 
                 <Button

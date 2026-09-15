@@ -215,7 +215,18 @@ export const BuyerDashboard: React.FC<BuyerDashboardProps> = ({
                       <Button
                         variant="white"
                         size="sm"
-                        onClick={() => onSelectDemand(demand, 'negotiate')}
+                        onClick={() => {
+                          const openChat = () => onSelectDemand(demand, 'negotiate');
+                          if (!isAuthenticated && requireAuth) {
+                            requireAuth(
+                              'buyer',
+                              openChat,
+                              `Buyer authentication required to enter price negotiation and direct chat for ${demand.crop} (${demand.id}).`
+                            );
+                          } else {
+                            openChat();
+                          }
+                        }}
                         className="text-xs"
                       >
                         <MessageSquare className="w-3.5 h-3.5 mr-1" /> DIRECT CHAT

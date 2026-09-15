@@ -293,6 +293,9 @@ export const App: React.FC = () => {
           <LogisticsPage 
             requireAuth={requireAuth}
             isAuthenticated={isAuthenticated}
+            onPostAvailability={() => {
+              showToast('Fleet vehicle capacity (2.5 MT Reefer) registered for regional collection loops!');
+            }}
           />
         )}
 
