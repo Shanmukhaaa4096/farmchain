@@ -47,23 +47,23 @@ export const Modal: React.FC<ModalProps> = ({
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink-black/70 backdrop-blur-xs animate-in fade-in duration-150"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-ink-black/70 backdrop-blur-xs animate-in fade-in duration-150"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
     >
       <div 
-        className={`relative w-full ${maxWidthStyles[maxWidth]} bg-paper-white border-brutal-thick shadow-brutal-lg max-h-[92vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-150`}
+        className={`relative w-full ${maxWidthStyles[maxWidth]} bg-paper-white border-brutal-thick shadow-brutal-lg max-h-[94vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-150`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Brutalist Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4 bg-farm-green text-paper-white border-b-brutal">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 bg-farm-green text-paper-white border-b-brutal">
           <div>
-            <h3 className="font-heading font-black text-lg md:text-xl uppercase tracking-wider text-harvest-yellow">
+            <h3 className="font-heading font-black text-base sm:text-xl uppercase tracking-wider text-harvest-yellow">
               {title}
             </h3>
             {subtitle && (
-              <p className="font-mono text-xs text-warm-cream opacity-80 mt-0.5">
+              <p className="font-mono text-[11px] sm:text-xs text-warm-cream opacity-80 mt-0.5">
                 {subtitle}
               </p>
             )}
@@ -71,14 +71,14 @@ export const Modal: React.FC<ModalProps> = ({
           <button
             onClick={onClose}
             aria-label="Close dialog"
-            className="p-1 bg-harvest-yellow text-ink-black border-2 border-ink-black hover:bg-white active:translate-x-0.5 active:translate-y-0.5 transition-colors cursor-pointer"
+            className="p-1 bg-harvest-yellow text-ink-black border-2 border-ink-black hover:bg-white active:translate-x-0.5 active:translate-y-0.5 transition-colors cursor-pointer shrink-0 ml-2"
           >
-            <X className="w-5 h-5 stroke-[2.5]" />
+            <X className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
           </button>
         </div>
 
         {/* Modal Scrollable Body */}
-        <div className="p-6 overflow-y-auto max-h-[calc(92vh-80px)]">
+        <div className="p-4 sm:p-6 overflow-y-auto max-h-[calc(94vh-75px)]">
           {children}
         </div>
       </div>

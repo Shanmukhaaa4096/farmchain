@@ -55,7 +55,7 @@ export const PriceCalculator: React.FC = () => {
         </div>
 
         {/* The Core Mathematical Breakdown Grid */}
-        <div className="p-6 bg-warm-cream border-brutal grid grid-cols-1 md:grid-cols-7 gap-4 items-center text-center font-mono">
+        <div className="p-3.5 sm:p-6 bg-warm-cream border-brutal grid grid-cols-1 md:grid-cols-7 gap-3 sm:gap-4 items-center text-center font-mono">
           
           {/* Component 1: Farm Gate */}
           <div className="p-4 bg-paper-white border-2 border-ink-black shadow-brutal-sm md:col-span-2">

@@ -20,7 +20,7 @@ import { MOCK_MATCHES_FOR_TOMATO } from '../data/mockData';
 interface BuyerDashboardProps {
   demands: DemandRequirement[];
   onOpenPostDemand: () => void;
-  onSelectDemand: (demand: DemandRequirement) => void;
+  onSelectDemand: (demand: DemandRequirement, initialTab?: 'specs' | 'farmers' | 'negotiate') => void;
   onNavigate: (view: string) => void;
   requireAuth?: (role: UserRole, action: () => void, promptMessage: string) => void;
   isAuthenticated?: boolean;
@@ -207,7 +207,7 @@ export const BuyerDashboard: React.FC<BuyerDashboardProps> = ({
                       <Button
                         variant="yellow"
                         size="sm"
-                        onClick={() => onSelectDemand(demand)}
+                        onClick={() => onSelectDemand(demand, 'farmers')}
                         className="text-xs"
                       >
                         VIEW MATCHED FARMERS ({demand.matchedFarmersCount}) →
@@ -215,7 +215,7 @@ export const BuyerDashboard: React.FC<BuyerDashboardProps> = ({
                       <Button
                         variant="white"
                         size="sm"
-                        onClick={() => onSelectDemand(demand)}
+                        onClick={() => onSelectDemand(demand, 'negotiate')}
                         className="text-xs"
                       >
                         <MessageSquare className="w-3.5 h-3.5 mr-1" /> DIRECT CHAT

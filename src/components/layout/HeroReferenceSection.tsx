@@ -76,13 +76,13 @@ export const HeroReferenceSection: React.FC<HeroReferenceSectionProps> = ({
                 <div className="flex items-center gap-2">
                   <SketchAnnotation text="FIELD NOTE: DIRECT POOLING" color="yellow" className="text-sm font-bold tracking-wider -rotate-2" />
                 </div>
-                <h1 className="font-heading font-black text-4xl sm:text-6xl lg:text-7xl xl:text-8xl tracking-tight uppercase leading-[0.92] text-paper-white">
+                <h1 className="font-heading font-black text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl tracking-tight uppercase leading-[0.95] sm:leading-[0.92] text-paper-white break-words">
                   DON'T SELL <br />
                   <span className="text-warm-cream/50 line-through decoration-rust-red decoration-4">TO THE MIDDLEMAN.</span> <br />
                   <span className="text-harvest-yellow inline-block mt-1">
                     SELL TO THE DEMAND.
                   </span>
-                  <SketchAnnotation text="FARM → BUYER DIRECT" color="orange" className="text-xl sm:text-2xl ml-3 -rotate-3 inline-block font-black align-middle" />
+                  <SketchAnnotation text="FARM → BUYER DIRECT" color="orange" className="text-base sm:text-xl md:text-2xl ml-2 sm:ml-3 -rotate-3 inline-block font-black align-middle" />
                 </h1>
                 <div className="w-24 h-2 bg-harvest-yellow border border-ink-black"></div>
               </div>
@@ -127,12 +127,12 @@ export const HeroReferenceSection: React.FC<HeroReferenceSectionProps> = ({
               </div>
 
               {/* CTA Buttons Row */}
-              <div className="pt-2 flex flex-wrap items-center gap-4">
+              <div className="pt-2 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
                 <Button
                   variant="yellow"
                   size="lg"
                   onClick={() => onNavigate('marketplace')}
-                  className="flex items-center gap-2 text-sm sm:text-base font-heading font-black min-h-[48px] px-6"
+                  className="flex items-center justify-center gap-2 text-sm sm:text-base font-heading font-black min-h-[48px] px-6 w-full sm:w-auto"
                 >
                   <span>FIND DEMAND</span>
                   <ArrowRight className="w-5 h-5 stroke-[3]" />
@@ -142,7 +142,7 @@ export const HeroReferenceSection: React.FC<HeroReferenceSectionProps> = ({
                   variant="white"
                   size="lg"
                   onClick={onOpenPostDemand}
-                  className="flex items-center gap-2 text-sm sm:text-base font-heading font-bold min-h-[48px] px-6"
+                  className="flex items-center justify-center gap-2 text-sm sm:text-base font-heading font-bold min-h-[48px] px-6 w-full sm:w-auto"
                 >
                   <span>POST REQUIREMENT</span>
                   <ArrowRight className="w-5 h-5 stroke-[3]" />
@@ -150,10 +150,10 @@ export const HeroReferenceSection: React.FC<HeroReferenceSectionProps> = ({
 
                 <button
                   onClick={onOpenVideo}
-                  className="inline-flex items-center gap-2.5 font-heading text-xs sm:text-sm font-bold text-paper-white hover:text-harvest-yellow transition-colors px-3 py-2 cursor-pointer group"
+                  className="inline-flex items-center justify-center gap-2.5 font-heading text-xs sm:text-sm font-bold text-paper-white hover:text-harvest-yellow transition-colors px-3 py-2.5 cursor-pointer group w-full sm:w-auto"
                 >
-                  <span className="w-9 h-9 bg-harvest-yellow text-ink-black border-2 border-ink-black flex items-center justify-center group-hover:scale-105 transition-transform shadow-brutal-sm shrink-0">
-                    <Play className="w-4 h-4 fill-ink-black ml-0.5" />
+                  <span className="w-8 h-8 sm:w-9 sm:h-9 bg-harvest-yellow text-ink-black border-2 border-ink-black flex items-center justify-center group-hover:scale-105 transition-transform shadow-brutal-sm shrink-0">
+                    <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-ink-black ml-0.5" />
                   </span>
                   <span>WATCH CO-OP STORY</span>
                 </button>

@@ -24,6 +24,8 @@ interface DemandDetailModalProps {
   demand: DemandRequirement | null;
   onPledgeClick?: (demand: DemandRequirement) => void;
   userRole?: string;
+  initialTab?: 'specs' | 'farmers' | 'negotiate';
+  userName?: string;
 }
 
 export const DemandDetailModal: React.FC<DemandDetailModalProps> = ({
@@ -31,24 +33,38 @@ export const DemandDetailModal: React.FC<DemandDetailModalProps> = ({
   onClose,
   demand,
   onPledgeClick,
-  userRole = 'farmer'
+  userRole = 'farmer',
+  initialTab = 'specs',
+  userName
 }) => {
   if (!demand) return null;
 
-  const [activeTab, setActiveTab] = useState<'specs' | 'farmers' | 'negotiate'>('specs');
-  const [messages, setMessages] = useState<{ sender: 'farmer' | 'buyer' | 'system'; text: string; time: string }[]>([
+  const [activeTab, setActiveTab] = useState<'specs' | 'farmers' | 'negotiate'>(initialTab);
+  const [messages, setMessages] = useState<{ sender: 'farmer' | 'buyer' | 'system'; text: string; time: string; name?: string }[]>([
     { sender: 'system', text: 'Direct secure negotiation channel opened between Buyer and Matched Farmers.', time: '09:00 AM' },
-    { sender: 'buyer', text: 'Hello! We need 2,400 KG Tomatoes Grade A with firm skin for culinary slicing. Can you deliver by 25 Sep morning?', time: '09:05 AM' },
-    { sender: 'farmer', text: 'Greetings. Ramesh Reddy from Chevella here. I have 800 KG harvested yesterday evening under shade. Quality is Grade A verified.', time: '09:12 AM' },
+    { sender: 'buyer', text: 'Hello! We need 2,400 KG Tomatoes Grade A with firm skin for culinary slicing. Can you deliver by 25 Sep morning?', time: '09:05 AM', name: 'UrbanFork Kitchens' },
+    { sender: 'farmer', text: 'Greetings. Ramesh Reddy from Chevella here. I have 800 KG harvested yesterday evening under shade. Quality is Grade A verified.', time: '09:12 AM', name: 'Ramesh Reddy' },
   ]);
   const [inputText, setInputText] = useState('');
+
+  // Sync active tab whenever modal opens or initialTab changes
+  React.useEffect(() => {
+    if (isOpen) {
+      setActiveTab(initialTab);
+    }
+  }, [isOpen, initialTab]);
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputText.trim()) return;
     setMessages(prev => [
       ...prev,
-      { sender: userRole === 'buyer' ? 'buyer' : 'farmer', text: inputText.trim(), time: 'Just now' }
+      { 
+        sender: userRole === 'buyer' ? 'buyer' : 'farmer', 
+        text: inputText.trim(), 
+        time: 'Just now',
+        name: userName || (userRole === 'buyer' ? 'Buyer Desk' : 'Farmer Partner')
+      }
     ]);
     setInputText('');
   };
@@ -63,30 +79,30 @@ export const DemandDetailModal: React.FC<DemandDetailModalProps> = ({
       subtitle={`DEMAND ID: ${demand.id} • ${demand.buyerName}`}
       maxWidth="2xl"
     >
-      <div className="space-y-6">
+      <div className="space-y-5">
         
-        {/* Sub Navigation Tabs */}
-        <div className="flex border-b-2 border-ink-black font-mono text-xs">
+        {/* Sub Navigation Tabs (Horizontally scrollable on mobile) */}
+        <div className="flex border-b-2 border-ink-black font-mono text-xs overflow-x-auto whitespace-nowrap bg-warm-cream">
           <button
             onClick={() => setActiveTab('specs')}
-            className={`px-4 py-2.5 font-bold uppercase transition-colors border-r-2 border-ink-black ${
-              activeTab === 'specs' ? 'bg-harvest-yellow text-ink-black' : 'bg-warm-cream hover:bg-white'
+            className={`px-3.5 sm:px-4 py-2.5 font-bold uppercase transition-colors border-r-2 border-ink-black shrink-0 ${
+              activeTab === 'specs' ? 'bg-harvest-yellow text-ink-black' : 'bg-warm-cream hover:bg-white text-gray-700'
             }`}
           >
             SPECIFICATIONS & QUALITY
           </button>
           <button
             onClick={() => setActiveTab('farmers')}
-            className={`px-4 py-2.5 font-bold uppercase transition-colors border-r-2 border-ink-black ${
-              activeTab === 'farmers' ? 'bg-harvest-yellow text-ink-black' : 'bg-warm-cream hover:bg-white'
+            className={`px-3.5 sm:px-4 py-2.5 font-bold uppercase transition-colors border-r-2 border-ink-black shrink-0 ${
+              activeTab === 'farmers' ? 'bg-harvest-yellow text-ink-black' : 'bg-warm-cream hover:bg-white text-gray-700'
             }`}
           >
             PLEDGED FARMERS ({demand.matchedFarmersCount})
           </button>
           <button
             onClick={() => setActiveTab('negotiate')}
-            className={`px-4 py-2.5 font-bold uppercase transition-colors ${
-              activeTab === 'negotiate' ? 'bg-harvest-yellow text-ink-black' : 'bg-warm-cream hover:bg-white'
+            className={`px-3.5 sm:px-4 py-2.5 font-bold uppercase transition-colors shrink-0 ${
+              activeTab === 'negotiate' ? 'bg-harvest-yellow text-ink-black' : 'bg-warm-cream hover:bg-white text-gray-700'
             }`}
           >
             DIRECT NEGOTIATION CHAT

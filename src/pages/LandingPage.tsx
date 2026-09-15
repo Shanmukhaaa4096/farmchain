@@ -87,8 +87,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             {/* Demand Ticker Rows with Animated Counters */}
             <div className="divide-y-2 divide-ink-black/20 font-mono text-xs sm:text-sm pt-2">
               <div 
-                onClick={() => onSelectDemand(liveDemands[0])}
+                onClick={() => liveDemands[0] && onSelectDemand(liveDemands[0])}
                 className="py-3.5 flex items-center justify-between hover:bg-warm-cream/50 px-2 cursor-pointer transition-colors"
+                role="button"
+                tabIndex={0}
+                aria-label="View Tomato demand details"
               >
                 <div className="flex items-center gap-2 sm:gap-3">
                   <span className="font-heading font-black text-sm sm:text-base uppercase text-ink-black">
@@ -110,8 +113,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               </div>
 
               <div 
-                onClick={() => onSelectDemand(liveDemands[1])}
+                onClick={() => (liveDemands[1] || liveDemands[0]) && onSelectDemand(liveDemands[1] || liveDemands[0])}
                 className="py-3.5 flex items-center justify-between hover:bg-warm-cream/50 px-2 cursor-pointer transition-colors"
+                role="button"
+                tabIndex={0}
+                aria-label="View Onion demand details"
               >
                 <div className="flex items-center gap-2 sm:gap-3">
                   <span className="font-heading font-black text-sm sm:text-base uppercase text-ink-black">
@@ -133,8 +139,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               </div>
 
               <div 
-                onClick={() => onSelectDemand(liveDemands[2])}
+                onClick={() => (liveDemands[2] || liveDemands[0]) && onSelectDemand(liveDemands[2] || liveDemands[0])}
                 className="py-3.5 flex items-center justify-between hover:bg-warm-cream/50 px-2 cursor-pointer transition-colors"
+                role="button"
+                tabIndex={0}
+                aria-label="View Potato demand details"
               >
                 <div className="flex items-center gap-2 sm:gap-3">
                   <span className="font-heading font-black text-sm sm:text-base uppercase text-ink-black">

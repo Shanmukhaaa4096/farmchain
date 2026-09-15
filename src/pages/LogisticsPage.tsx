@@ -42,18 +42,24 @@ export const LogisticsPage: React.FC<LogisticsPageProps> = ({
         <LogisticsMap requireAuth={requireAuth} isAuthenticated={isAuthenticated} />
 
         {/* Regional Dispatch Manifest Table */}
+        {/* Regional Dispatch Manifest Table */}
         <div className="space-y-4 pt-6">
-          <div className="flex items-center justify-between">
-            <h3 className="font-heading font-black text-2xl uppercase tracking-tight text-ink-black">
-              TODAY'S REGIONAL DISPATCH LOOPS
-            </h3>
-            <span className="font-mono text-xs text-gray-600">
-              UPDATED LIVE VIA IOT GPS
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <h3 className="font-heading font-black text-2xl uppercase tracking-tight text-ink-black">
+                TODAY'S REGIONAL DISPATCH LOOPS
+              </h3>
+              <p className="font-mono text-xs text-gray-600">
+                UPDATED LIVE VIA IOT GPS TELEMETRY
+              </p>
+            </div>
+            <span className="font-mono text-[11px] text-gray-500 block sm:hidden">
+              ← Swipe horizontally to view all columns →
             </span>
           </div>
 
-          <div className="overflow-x-auto border-brutal bg-paper-white shadow-brutal">
-            <table className="w-full text-left font-mono text-xs border-collapse">
+          <div className="overflow-x-auto border-brutal bg-paper-white shadow-brutal scrollbar-thin">
+            <table className="w-full text-left font-mono text-xs border-collapse min-w-[640px]">
               <thead>
                 <tr className="bg-ink-black text-paper-white border-b-2 border-ink-black">
                   <th className="p-3.5 uppercase font-heading font-bold">ROUTE ID</th>
@@ -65,7 +71,7 @@ export const LogisticsPage: React.FC<LogisticsPageProps> = ({
                 </tr>
               </thead>
               <tbody className="divide-y-2 divide-ink-black">
-                <tr className="bg-yellow-50/50">
+                <tr className="bg-yellow-50/70 hover:bg-harvest-yellow/30 transition-colors cursor-pointer">
                   <td className="p-3.5 font-bold text-farm-green font-heading">
                     #TS-08-HYD
                   </td>
@@ -86,7 +92,7 @@ export const LogisticsPage: React.FC<LogisticsPageProps> = ({
                   </td>
                 </tr>
 
-                <tr>
+                <tr className="hover:bg-warm-cream transition-colors cursor-pointer">
                   <td className="p-3.5 font-bold text-farm-green font-heading">
                     #MH-15-NSK
                   </td>
@@ -107,7 +113,7 @@ export const LogisticsPage: React.FC<LogisticsPageProps> = ({
                   </td>
                 </tr>
 
-                <tr>
+                <tr className="hover:bg-warm-cream transition-colors cursor-pointer">
                   <td className="p-3.5 font-bold text-farm-green font-heading">
                     #KA-04-BLR
                   </td>

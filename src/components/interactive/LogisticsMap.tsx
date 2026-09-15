@@ -159,7 +159,7 @@ export const LogisticsMap: React.FC<LogisticsMapProps> = ({
             </div>
 
             {/* Map Canvas with SVG Farmland Topography & Road Networks */}
-            <div className="relative w-full h-[460px] bg-[#E8E2D5] bg-topo-pattern select-none overflow-hidden">
+            <div className="relative w-full h-[340px] sm:h-[460px] bg-[#E8E2D5] bg-topo-pattern select-none overflow-hidden">
               
               {/* Agricultural Farmland Patch Polygons in SVG */}
               <svg className="w-full h-full absolute inset-0" viewBox="0 0 100 100" preserveAspectRatio="none">

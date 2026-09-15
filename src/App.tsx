@@ -17,7 +17,8 @@ import { DemandDetailModal } from './components/modals/DemandDetailModal';
 import { PostDemandModal } from './components/modals/PostDemandModal';
 import { PledgeSupplyModal } from './components/modals/PledgeSupplyModal';
 import { INITIAL_DEMANDS } from './data/mockData';
-import { DemandRequirement, UserRole } from './types';
+import { DemandRequirement, UserRole, AuthUser } from './types';
+import { authService } from './services/authService';
 import { CheckCircle2, AlertTriangle, X } from 'lucide-react';
 
 export const App: React.FC = () => {
@@ -26,16 +27,32 @@ export const App: React.FC = () => {
   const [demands, setDemands] = useState<DemandRequirement[]>(INITIAL_DEMANDS);
   
   // Authentication & Role-based Access State
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [currentUser, setCurrentUser] = useState<{ name: string; role: UserRole; identifier: string } | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    return authService.getCurrentSession() !== null;
+  });
+  const [currentUser, setCurrentUser] = useState<AuthUser | null>(() => {
+    return authService.getCurrentSession();
+  });
   const [authPromptMessage, setAuthPromptMessage] = useState<string | undefined>(undefined);
   const [pendingAction, setPendingAction] = useState<(() => void) | null>(null);
+  const [authModalMode, setAuthModalMode] = useState<'signin' | 'signup'>('signin');
 
   // Modals
   const [selectedDemand, setSelectedDemand] = useState<DemandRequirement | null>(null);
+  const [demandModalInitialTab, setDemandModalInitialTab] = useState<'specs' | 'farmers' | 'negotiate'>('specs');
   const [isPostDemandOpen, setIsPostDemandOpen] = useState<boolean>(false);
   const [pledgeTargetDemand, setPledgeTargetDemand] = useState<DemandRequirement | null>(null);
   const [isAuthOpen, setIsAuthOpen] = useState<boolean>(false);
+
+  // Synchronize activeRole with current session on mount if available
+  useEffect(() => {
+    const session = authService.getCurrentSession();
+    if (session) {
+      setCurrentUser(session);
+      setIsAuthenticated(true);
+      setActiveRole(session.role);
+    }
+  }, []);
 
   // Toast Notification System (Supports Success & Error)
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
@@ -57,22 +74,17 @@ export const App: React.FC = () => {
       setActiveRole(role);
       setAuthPromptMessage(promptMessage);
       setPendingAction(() => action);
+      setAuthModalMode('signin');
       setIsAuthOpen(true);
     }
   };
 
-  const handleLoginSuccess = (role: UserRole) => {
+  const handleLoginSuccess = (user: AuthUser) => {
     setIsAuthenticated(true);
-    const userProfiles: Record<UserRole, { name: string; role: UserRole; identifier: string }> = {
-      farmer: { name: 'Ramesh Reddy', role: 'farmer', identifier: 'KISAN: TS-RR-902184' },
-      buyer: { name: 'UrbanFork Kitchens', role: 'buyer', identifier: 'GSTIN: 36AAACU9120K' },
-      logistics: { name: 'Kisan Cold Logistics', role: 'logistics', identifier: 'FLEET: TS-08-NP-2026' },
-    };
-    const loggedUser = userProfiles[role];
-    setCurrentUser(loggedUser);
-    setActiveRole(role);
+    setCurrentUser(user);
+    setActiveRole(user.role);
     setAuthPromptMessage(undefined);
-    showToast(`Access granted: Logged in as verified ${role.toUpperCase()} (${loggedUser.identifier})`);
+    showToast(`Access granted: Welcome ${user.name}! Verified as ${user.role.toUpperCase()} (${user.identifier})`);
 
     // Execute pending gated action immediately upon successful authentication
     if (pendingAction) {
@@ -84,6 +96,7 @@ export const App: React.FC = () => {
   };
 
   const handleSignOut = () => {
+    authService.logout();
     setIsAuthenticated(false);
     setCurrentUser(null);
     setPendingAction(null);
@@ -183,8 +196,9 @@ export const App: React.FC = () => {
           setActiveRole(role);
           showToast(`Switched active view profile to: ${role.toUpperCase()}`);
         }}
-        onOpenAuth={() => {
+        onOpenAuth={(mode) => {
           setAuthPromptMessage(undefined);
+          setAuthModalMode(mode || 'signin');
           setIsAuthOpen(true);
         }}
         isAuthenticated={isAuthenticated}
@@ -227,14 +241,20 @@ export const App: React.FC = () => {
             onNavigate={handleNavigate}
             onOpenPostDemand={handleOpenPostDemand}
             liveDemands={demands}
-            onSelectDemand={(demand) => setSelectedDemand(demand)}
+            onSelectDemand={(demand) => {
+              setSelectedDemand(demand);
+              setDemandModalInitialTab('specs');
+            }}
           />
         )}
 
         {currentView === 'marketplace' && (
           <MarketplacePage
             demands={demands}
-            onSelectDemand={(demand) => setSelectedDemand(demand)}
+            onSelectDemand={(demand) => {
+              setSelectedDemand(demand);
+              setDemandModalInitialTab('specs');
+            }}
             onOpenPostDemand={handleOpenPostDemand}
             onPledgeDemand={handlePledgeDemand}
             userRole={activeRole}
@@ -244,7 +264,10 @@ export const App: React.FC = () => {
         {currentView === 'farmer' && (
           <FarmerDashboard
             demands={demands}
-            onSelectDemand={(demand) => setSelectedDemand(demand)}
+            onSelectDemand={(demand) => {
+              setSelectedDemand(demand);
+              setDemandModalInitialTab('specs');
+            }}
             onPledgeDemand={handlePledgeDemand}
             onNavigate={handleNavigate}
             requireAuth={requireAuth}
@@ -256,7 +279,10 @@ export const App: React.FC = () => {
           <BuyerDashboard
             demands={demands}
             onOpenPostDemand={handleOpenPostDemand}
-            onSelectDemand={(demand) => setSelectedDemand(demand)}
+            onSelectDemand={(demand, tab = 'specs') => {
+              setSelectedDemand(demand);
+              setDemandModalInitialTab(tab);
+            }}
             onNavigate={handleNavigate}
             requireAuth={requireAuth}
             isAuthenticated={isAuthenticated}
@@ -302,6 +328,8 @@ export const App: React.FC = () => {
         demand={selectedDemand}
         onPledgeClick={(demand) => handlePledgeDemand(demand)}
         userRole={activeRole}
+        initialTab={demandModalInitialTab}
+        userName={currentUser?.name}
       />
 
       <PostDemandModal
@@ -328,6 +356,7 @@ export const App: React.FC = () => {
         onRoleChange={(role) => setActiveRole(role)}
         promptMessage={authPromptMessage}
         onLoginSuccess={handleLoginSuccess}
+        initialMode={authModalMode}
       />
 
       {/* Bold Neo-Brutalist Footer */}
