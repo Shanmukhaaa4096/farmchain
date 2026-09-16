@@ -296,7 +296,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 {authMode === 'signup' ? 'SELECT YOUR REGISTERED ROLE *' : 'SELECT ACTIVE ROLE DESK'}
               </label>
               <span className="text-[10px] text-gray-500">
-                {activeRole === 'farmer' ? '🌾 Cultivator / FPO' : activeRole === 'buyer' ? '🏢 Direct Buyer' : '🚚 Transporter'}
+                {activeRole === 'farmer' ? 'Cultivator / FPO' : activeRole === 'buyer' ? 'Direct Buyer' : 'Transporter'}
               </span>
             </div>
 
@@ -436,7 +436,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   className="p-1.5 bg-warm-cream border border-ink-black hover:bg-citrus-yellow font-bold text-left truncate"
                   title="Auto-fill 9849201842 (Farmer: Ramesh Reddy)"
                 >
-                  🌾 Farmer (+91 98492)
+                  Farmer (+91 98492)
                 </button>
                 <button
                   type="button"
@@ -444,7 +444,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   className="p-1.5 bg-warm-cream border border-ink-black hover:bg-citrus-yellow font-bold text-left truncate"
                   title="Auto-fill 9876543210 (Buyer: UrbanFork)"
                 >
-                  🏢 Buyer (+91 98765)
+                  Buyer (+91 98765)
                 </button>
                 <button
                   type="button"
@@ -452,7 +452,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   className="p-1.5 bg-warm-cream border border-ink-black hover:bg-citrus-yellow font-bold text-left truncate"
                   title="Auto-fill 9988776655 (Logistics: Kisan Cold)"
                 >
-                  🚚 Fleet (+91 99887)
+                  Fleet (+91 99887)
                 </button>
               </div>
             </div>

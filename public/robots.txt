@@ -2,6 +2,5 @@ User-agent: *
 Allow: /
 Disallow: /api/private/
 Disallow: /admin/
-Disallow: /database
 
-Sitemap: https://farmchain.in/sitemap.xml
+Sitemap: https://farmchain-gamma.vercel.app/sitemap.xml

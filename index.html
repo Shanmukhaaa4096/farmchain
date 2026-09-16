@@ -3,29 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <!-- Primary Meta Tags -->
-    <title>FarmChain : Demand-Driven Agricultural Marketplace and Logistics</title>
-    <meta name="title" content="FarmChain : Demand-Driven Agricultural Marketplace and Logistics" />
-    <meta name="description" content="Buyers post verified demand. We match nearby farmers with assisted onboarding. Farmers simply tap Accept or Reject. 100% direct bank payout with 0% broker commission." />
+    <title>FarmChain : Direct Agricultural Marketplace &amp; Farmer Logistics</title>
+    <meta name="title" content="FarmChain : Direct Agricultural Marketplace &amp; Farmer Logistics" />
+    <meta name="description" content="Direct farm-to-buyer marketplace. Connect with verified wholesale buyers, agree on harvest prices in advance, get village pickup, and receive 100% direct bank payout with 0% broker fee." />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://farmchain.in/" />
-    <meta name="theme-color" content="#293379" />
+    <link rel="canonical" href="https://farmchain-gamma.vercel.app/" />
+    <meta name="theme-color" content="#1E4D2B" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://farmchain.in/" />
-    <meta property="og:title" content="FarmChain : Demand-Driven Agricultural Marketplace" />
-    <meta property="og:description" content="Don't sell to the middleman. Sell to the demand. Assisted onboarding and 1-tap Accept/Reject for farmers." />
-    <meta property="og:image" content="https://farmchain.in/og-image.svg" />
+    <meta property="og:url" content="https://farmchain-gamma.vercel.app/" />
+    <meta property="og:title" content="FarmChain : Direct Agricultural Marketplace" />
+    <meta property="og:description" content="Sell crops directly to verified wholesale buyers. 100% direct bank payout with 0% broker commission." />
+    <meta property="og:image" content="https://farmchain-gamma.vercel.app/og-image.svg" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://farmchain.in/" />
-    <meta property="twitter:title" content="FarmChain : Demand-Driven Agricultural Marketplace" />
-    <meta property="twitter:description" content="Buyers post verified demand. Farmers tap Accept or Reject. 100% direct bank payout." />
-    <meta property="twitter:image" content="https://farmchain.in/og-image.svg" />
+    <meta property="twitter:url" content="https://farmchain-gamma.vercel.app/" />
+    <meta property="twitter:title" content="FarmChain : Direct Agricultural Marketplace" />
+    <meta property="twitter:description" content="Direct farm-to-buyer demand network. Scheduled pickups and 100% direct bank payouts." />
+    <meta property="twitter:image" content="https://farmchain-gamma.vercel.app/og-image.svg" />
 
     <!-- Typography (Grotesk, Inter, JetBrains Mono, and Field Notebook Sketch font Caveat) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,11 +40,11 @@
       "@graph": [
         {
           "@type": "Organization",
-          "@id": "https://farmchain.in/#organization",
+          "@id": "https://farmchain-gamma.vercel.app/#organization",
           "name": "FarmChain Infrastructure Labs",
-          "url": "https://farmchain.in",
-          "logo": "https://farmchain.in/favicon.svg",
-          "description": "Demand-driven agricultural coordination network connecting farmers directly with commercial buyers.",
+          "url": "https://farmchain-gamma.vercel.app",
+          "logo": "https://farmchain-gamma.vercel.app/favicon.svg",
+          "description": "Direct agricultural demand coordination network connecting Indian farmers directly with commercial wholesale buyers.",
           "contactPoint": {
             "@type": "ContactPoint",
             "telephone": "+91-800-123-4567",
@@ -54,12 +55,26 @@
         },
         {
           "@type": "WebSite",
-          "@id": "https://farmchain.in/#website",
-          "url": "https://farmchain.in",
+          "@id": "https://farmchain-gamma.vercel.app/#website",
+          "url": "https://farmchain-gamma.vercel.app",
           "name": "FarmChain",
+          "description": "Direct agricultural marketplace and coordinated rural transit.",
           "publisher": {
-            "@id": "https://farmchain.in/#organization"
+            "@id": "https://farmchain-gamma.vercel.app/#organization"
           }
+        },
+        {
+          "@type": "Service",
+          "@id": "https://farmchain-gamma.vercel.app/#service",
+          "name": "Farm-to-Buyer Direct Agricultural Sourcing",
+          "provider": {
+            "@id": "https://farmchain-gamma.vercel.app/#organization"
+          },
+          "areaServed": {
+            "@type": "Country",
+            "name": "India"
+          },
+          "serviceType": "Agricultural Marketplace & Cold-Chain Logistics"
         }
       ]
     }

@@ -361,14 +361,14 @@ export const FarmerDashboard: React.FC<FarmerDashboardProps> = ({
                 <div className="flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-farm-green" />
                   <strong className="font-heading font-black text-sm uppercase text-ink-black">
-                    AI 7-DAY DEMAND FORECAST (TELANGANA CORRIDOR)
+                    7-DAY REGIONAL DEMAND FORECAST (TELANGANA CORRIDOR)
                   </strong>
                 </div>
                 <Badge variant="yellow" size="sm">88% CONFIDENCE</Badge>
               </div>
 
               <p className="text-gray-700">
-                Tomatoes: Expected regional demand is <strong>3,100 KG</strong> (+29% surge). Wholesale prices expected to hold firm at ₹22–₹26/KG over the next 7 days.
+                Tomatoes: Expected regional demand is <strong>3,100 KG</strong> (+29% surge). Wholesale prices expected to hold firm at ₹22 - ₹26/KG over the next 7 days.
               </p>
 
               <div className="pt-2">

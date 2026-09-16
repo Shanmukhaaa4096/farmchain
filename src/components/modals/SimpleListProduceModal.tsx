@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import { 
   ArrowRight, 
   ArrowLeft, 
-  MapPin
+  MapPin,
+  Sprout,
+  Package,
+  Layers,
+  Tag,
+  ShoppingBag,
+  Wheat
 } from 'lucide-react';
 import { Modal } from '../ui/Modal';
 import { Button } from '../ui/Button';
@@ -21,12 +27,12 @@ interface SimpleListProduceModalProps {
 }
 
 const COMMON_CROPS = [
-  { name: 'Tomatoes', icon: '🍅', variety: 'US-440 Hybrid', avgMandiPrice: 22 },
-  { name: 'Onions', icon: '🧅', variety: 'Pink Medium', avgMandiPrice: 26 },
-  { name: 'Potatoes', icon: '🥔', variety: 'Chips Grade', avgMandiPrice: 18 },
-  { name: 'Green Chilli', icon: '🌶️', variety: 'G4 Slender', avgMandiPrice: 45 },
-  { name: 'Bell Peppers', icon: '🫑', variety: 'Indra Hybrid', avgMandiPrice: 55 },
-  { name: 'Basmati Rice', icon: '🌾', variety: '1121 Steam', avgMandiPrice: 80 },
+  { name: 'Tomatoes', icon: Sprout, variety: 'US-440 Hybrid', avgMandiPrice: 22 },
+  { name: 'Onions', icon: Package, variety: 'Pink Medium', avgMandiPrice: 26 },
+  { name: 'Potatoes', icon: Layers, variety: 'Chips Grade', avgMandiPrice: 18 },
+  { name: 'Green Chilli', icon: Tag, variety: 'G4 Slender', avgMandiPrice: 45 },
+  { name: 'Bell Peppers', icon: ShoppingBag, variety: 'Indra Hybrid', avgMandiPrice: 55 },
+  { name: 'Basmati Rice', icon: Wheat, variety: '1121 Steam', avgMandiPrice: 80 },
 ];
 
 export const SimpleListProduceModal: React.FC<SimpleListProduceModalProps> = ({
@@ -45,6 +51,7 @@ export const SimpleListProduceModal: React.FC<SimpleListProduceModalProps> = ({
   const [location, setLocation] = useState('Chevella, Ranga Reddy');
 
   const selectedCropInfo = COMMON_CROPS.find(c => c.name === crop) || COMMON_CROPS[0];
+  const SelectedIcon = selectedCropInfo.icon;
 
   const handleSelectCrop = (cropName: string, cropVariety: string, price: number) => {
     setCrop(cropName);
@@ -119,13 +126,14 @@ export const SimpleListProduceModal: React.FC<SimpleListProduceModalProps> = ({
                 Select Your Crop
               </label>
               <p className="font-body text-xs text-gray-600">
-                Tap the crop you are ready to sell.
+                Choose the crop you are ready to sell.
               </p>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {COMMON_CROPS.map((c) => {
                 const isSelected = crop === c.name;
+                const CropIcon = c.icon;
                 return (
                   <button
                     type="button"
@@ -138,7 +146,9 @@ export const SimpleListProduceModal: React.FC<SimpleListProduceModalProps> = ({
                     }`}
                   >
                     <div className="flex items-center justify-between w-full">
-                      <span className="text-2xl">{c.icon}</span>
+                      <div className="w-8 h-8 bg-paper-white border border-ink-black flex items-center justify-center">
+                        <CropIcon className="w-4 h-4 text-farm-green stroke-[2.5]" />
+                      </div>
                       {isSelected && (
                         <span className="w-5 h-5 bg-ink-black text-citrus-yellow flex items-center justify-center text-xs font-bold">
                           ✓
@@ -146,7 +156,7 @@ export const SimpleListProduceModal: React.FC<SimpleListProduceModalProps> = ({
                       )}
                     </div>
                     <div>
-                      <strong className="font-heading font-bold text-sm block text-ink-black mt-1">
+                      <strong className="font-heading font-bold text-sm block text-ink-black mt-2">
                         {c.name}
                       </strong>
                       <span className="font-mono text-[10px] text-gray-600 block">
@@ -179,7 +189,9 @@ export const SimpleListProduceModal: React.FC<SimpleListProduceModalProps> = ({
           <div className="space-y-5">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <span className="text-2xl">{selectedCropInfo.icon}</span>
+                <div className="w-8 h-8 bg-citrus-yellow border border-ink-black flex items-center justify-center">
+                  <SelectedIcon className="w-4 h-4 text-ink-black stroke-[2.5]" />
+                </div>
                 <h3 className="font-heading font-black text-xl uppercase text-ink-black">
                   {crop} Details
                 </h3>

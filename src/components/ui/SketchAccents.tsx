@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * 🌾 SketchArrow: Subtle hand-drawn vector doodle arrow.
+ * SketchArrow: Subtle hand-drawn vector doodle arrow.
  */
 export const SketchArrow: React.FC<{
   direction?: 'right' | 'down' | 'curve-down' | 'curve-right';
@@ -65,7 +65,7 @@ export const SketchArrow: React.FC<{
 };
 
 /**
- * 🌾 SketchCircle: Hand-drawn oval highlight loop that wraps around stats or keywords.
+ * SketchCircle: Hand-drawn oval highlight loop that wraps around stats or keywords.
  */
 export const SketchCircle: React.FC<{
   className?: string;
@@ -95,7 +95,7 @@ export const SketchCircle: React.FC<{
 };
 
 /**
- * 🌾 SketchAnnotation: Handwritten notebook annotation with tilt.
+ * SketchAnnotation: Handwritten notebook annotation with tilt.
  */
 export const SketchAnnotation: React.FC<{
   text: string;
@@ -127,7 +127,7 @@ export const SketchAnnotation: React.FC<{
 };
 
 /**
- * 🌾 WashiTape: Scrapbook translucent paper tape strip pinned over card corners or headers.
+ * WashiTape: Scrapbook translucent paper tape strip pinned over card corners or headers.
  */
 export const WashiTape: React.FC<{
   color?: 'yellow' | 'blue' | 'red' | 'green' | 'white';
@@ -150,7 +150,7 @@ export const WashiTape: React.FC<{
 };
 
 /**
- * 🌾 RubberStamp: Official agricultural dispatch / inspection stamp badge.
+ * RubberStamp: Official agricultural dispatch / inspection stamp badge.
  */
 export const RubberStamp: React.FC<{
   text: string;
@@ -180,7 +180,7 @@ export const RubberStamp: React.FC<{
 };
 
 /**
- * 🌾 HandDrawnRouteLine: Curved sketch line between coordinates.
+ * HandDrawnRouteLine: Curved sketch line between coordinates.
  */
 export const HandDrawnRouteLine: React.FC<{
   d: string;

@@ -23,8 +23,27 @@ import { DemandRequirement, UserRole, AuthUser } from './types';
 import { authService } from './services/authService';
 import { CheckCircle2, AlertTriangle, X } from 'lucide-react';
 
+const getViewFromPath = (path: string): string => {
+  const clean = path.replace(/^\/+|\/+$/g, '').toLowerCase();
+  if (!clean || clean === 'landing') return 'landing';
+  const validViews = ['marketplace', 'farmer', 'orders', 'buyer', 'logistics', 'forecast', 'prices', 'database', 'privacy', 'terms'];
+  if (validViews.includes(clean)) return clean;
+  return 'notfound';
+};
+
+const getSlugFromView = (view: string): string => {
+  if (view === 'landing') return '/';
+  if (view === 'notfound') return '/404';
+  return `/${view}`;
+};
+
 export const App: React.FC = () => {
-  const [currentView, setCurrentView] = useState<string>('landing');
+  const [currentView, setCurrentView] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      return getViewFromPath(window.location.pathname);
+    }
+    return 'landing';
+  });
   const [activeRole, setActiveRole] = useState<UserRole>('farmer');
   const [demands, setDemands] = useState<DemandRequirement[]>(INITIAL_DEMANDS);
   
@@ -55,6 +74,17 @@ export const App: React.FC = () => {
       setIsAuthenticated(true);
       setActiveRole(session.role);
     }
+  }, []);
+
+  // Synchronize view with browser back/forward history buttons
+  useEffect(() => {
+    const handlePopState = () => {
+      if (typeof window !== 'undefined') {
+        setCurrentView(getViewFromPath(window.location.pathname));
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
   // Toast Notification System (Supports Success & Error)
@@ -122,10 +152,25 @@ export const App: React.FC = () => {
       notfound: 'Page Not Found : FarmChain'
     };
     document.title = titles[currentView] || 'FarmChain : Direct Agri-Tech Platform';
+
+    // Synchronize canonical link tag with current view
+    const slug = getSlugFromView(currentView);
+    const canonical = document.querySelector("link[rel='canonical']");
+    if (canonical) {
+      canonical.setAttribute('href', `https://farmchain-gamma.vercel.app${slug === '/' ? '' : slug}`);
+    }
   }, [currentView]);
 
   const handleNavigate = (view: string) => {
     setCurrentView(view);
+    const slug = getSlugFromView(view);
+    if (typeof window !== 'undefined' && window.location.pathname !== slug) {
+      window.history.pushState({ view }, '', slug);
+    }
+    const canonical = document.querySelector("link[rel='canonical']");
+    if (canonical) {
+      canonical.setAttribute('href', `https://farmchain-gamma.vercel.app${slug === '/' ? '' : slug}`);
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 

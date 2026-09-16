@@ -106,7 +106,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               </li>
               <li>
                 <button onClick={() => onNavigate('forecast')} className="hover:text-citrus-yellow transition-colors">
-                  AI Price Forecast
+                  Mandi Price Forecast
                 </button>
               </li>
               <li>
@@ -153,7 +153,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
         {/* Bottom copyright */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 font-mono text-[11px] text-warm-cream/60">
-          <p>© 2026 FarmChain Agri-Tech. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} FarmChain Agri-Tech. All rights reserved.</p>
           <p>Built for Indian Farmers • Direct Demand Infrastructure</p>
         </div>
 
