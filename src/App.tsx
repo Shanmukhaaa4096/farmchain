@@ -5,6 +5,7 @@ import { LandingPage } from './pages/LandingPage';
 import { MarketplacePage } from './pages/MarketplacePage';
 import { FarmerDashboard } from './pages/FarmerDashboard';
 import { BuyerDashboard } from './pages/BuyerDashboard';
+import { OrdersPage } from './pages/OrdersPage';
 import { LogisticsPage } from './pages/LogisticsPage';
 import { ForecastPage } from './pages/ForecastPage';
 import { MarketPricesPage } from './pages/MarketPricesPage';
@@ -16,6 +17,7 @@ import { AuthModal } from './pages/AuthModal';
 import { DemandDetailModal } from './components/modals/DemandDetailModal';
 import { PostDemandModal } from './components/modals/PostDemandModal';
 import { PledgeSupplyModal } from './components/modals/PledgeSupplyModal';
+import { SimpleListProduceModal } from './components/modals/SimpleListProduceModal';
 import { INITIAL_DEMANDS } from './data/mockData';
 import { DemandRequirement, UserRole, AuthUser } from './types';
 import { authService } from './services/authService';
@@ -43,6 +45,7 @@ export const App: React.FC = () => {
   const [isPostDemandOpen, setIsPostDemandOpen] = useState<boolean>(false);
   const [pledgeTargetDemand, setPledgeTargetDemand] = useState<DemandRequirement | null>(null);
   const [isAuthOpen, setIsAuthOpen] = useState<boolean>(false);
+  const [isSellProduceOpen, setIsSellProduceOpen] = useState<boolean>(false);
 
   // Synchronize activeRole with current session on mount if available
   useEffect(() => {
@@ -65,7 +68,6 @@ export const App: React.FC = () => {
   /**
    * Action Gating Helper:
    * Protects any action requiring farmer, buyer, or logistics authentication.
-   * If unauthenticated, displays the AuthModal with custom prompt and stores action for execution on login.
    */
   const requireAuth = (role: UserRole, action: () => void, promptMessage: string) => {
     if (isAuthenticated && currentUser?.role === role) {
@@ -84,9 +86,8 @@ export const App: React.FC = () => {
     setCurrentUser(user);
     setActiveRole(user.role);
     setAuthPromptMessage(undefined);
-    showToast(`Access granted: Welcome ${user.name}! Verified as ${user.role.toUpperCase()} (${user.identifier})`);
+    showToast(`Welcome ${user.name}! Verified as ${user.role.toUpperCase()}`);
 
-    // Execute pending gated action immediately upon successful authentication
     if (pendingAction) {
       setTimeout(() => {
         pendingAction();
@@ -101,25 +102,26 @@ export const App: React.FC = () => {
     setCurrentUser(null);
     setPendingAction(null);
     setAuthPromptMessage(undefined);
-    showToast('Signed out of FarmChain. Public guest browsing mode active.');
+    showToast('Signed out of FarmChain.');
   };
 
   // Dynamic Page Title Strategy
   useEffect(() => {
     const titles: Record<string, string> = {
-      landing: 'FarmChain : Demand-Driven Agricultural Marketplace',
-      marketplace: 'Live Demand Board : FarmChain',
-      farmer: 'Farmer Hub & Assisted Onboarding : FarmChain',
+      landing: 'FarmChain : Direct Farm-to-Buyer Market',
+      marketplace: 'Market Demand : FarmChain',
+      farmer: 'Sell Produce & Farmer Hub : FarmChain',
+      orders: 'My Orders & Pickups : FarmChain',
       buyer: 'Commercial Buyer Desk : FarmChain',
-      logistics: 'Coordinated Rural Fleet Logistics : FarmChain',
-      forecast: 'Demand & Price Forecasting : FarmChain',
-      prices: 'APMC Mandi Price Benchmark : FarmChain',
-      database: 'Database Architecture & Scalability : FarmChain',
+      logistics: 'Delivery & Pickups : FarmChain',
+      forecast: '7-Day Price Forecast : FarmChain',
+      prices: 'Mandi Price Benchmarks : FarmChain',
+      database: 'System Architecture : FarmChain',
       privacy: 'Privacy Policy : FarmChain',
       terms: 'Terms and Conditions : FarmChain',
       notfound: 'Page Not Found : FarmChain'
     };
-    document.title = titles[currentView] || 'FarmChain : Demand-Driven Agri-Tech Platform';
+    document.title = titles[currentView] || 'FarmChain : Direct Agri-Tech Platform';
   }, [currentView]);
 
   const handleNavigate = (view: string) => {
@@ -148,7 +150,7 @@ export const App: React.FC = () => {
     };
 
     setDemands(prev => [created, ...prev]);
-    showToast(`New demand for ${created.quantityKg} KG ${created.crop} published! Algorithmic matching initiated.`);
+    showToast(`New requirement for ${created.quantityKg} KG ${created.crop} published!`);
   };
 
   const handleConfirmPledge = (demandId: string, quantityKg: number, agreedRate: number) => {
@@ -165,14 +167,14 @@ export const App: React.FC = () => {
       return d;
     }));
 
-    showToast(`Successfully pledged ${quantityKg} KG harvest at ₹${agreedRate}/KG! Added to collection loop.`);
+    showToast(`Pledged ${quantityKg} KG harvest at ₹${agreedRate}/KG! Scheduled for pickup.`);
   };
 
   const handleOpenPostDemand = () => {
     requireAuth(
       'buyer',
       () => setIsPostDemandOpen(true),
-      'Commercial buyer authentication required to create and post a purchase order. Please verify your buyer credentials to publish demand.'
+      'Commercial buyer login required to create a purchase order.'
     );
   };
 
@@ -180,21 +182,37 @@ export const App: React.FC = () => {
     requireAuth(
       'farmer',
       () => setPledgeTargetDemand(demand),
-      `Farmer authentication required to pledge harvest for ${demand.crop} (${demand.id}). Please sign in with your Kisan ID / Registered mobile.`
+      `Farmer sign-in required to pledge harvest for ${demand.crop}.`
     );
+  };
+
+  const handleOpenSellModal = () => {
+    setIsSellProduceOpen(true);
+  };
+
+  const handleProduceSubmitted = (produce: {
+    crop: string;
+    variety: string;
+    quantityKg: number;
+    expectedPricePerKg: number;
+    availableDate: string;
+    location: string;
+  }) => {
+    showToast(`Successfully listed ${produce.quantityKg.toLocaleString()} KG of ${produce.crop} at ₹${produce.expectedPricePerKg}/KG! We are matching nearby buyers.`);
+    setCurrentView('farmer');
   };
 
   return (
     <div className="min-h-screen flex flex-col bg-warm-cream font-body text-ink-black antialiased selection:bg-harvest-yellow">
       
-      {/* Neo-Brutalist Global Navbar */}
+      {/* Streamlined Farmer-First Navbar */}
       <Navbar
         currentView={currentView}
         onNavigate={handleNavigate}
         activeRole={activeRole}
         onRoleChange={(role) => {
           setActiveRole(role);
-          showToast(`Switched active view profile to: ${role.toUpperCase()}`);
+          showToast(`Switched view to: ${role.toUpperCase()}`);
         }}
         onOpenAuth={(mode) => {
           setAuthPromptMessage(undefined);
@@ -204,11 +222,12 @@ export const App: React.FC = () => {
         isAuthenticated={isAuthenticated}
         currentUser={currentUser}
         onSignOut={handleSignOut}
+        onOpenSellModal={handleOpenSellModal}
       />
 
-      {/* Floating Action Toast Notification (Success / Error) */}
+      {/* Floating Action Toast Notification */}
       {toast && (
-        <div className={`fixed bottom-6 right-6 z-50 text-paper-white border-brutal-thick p-4 shadow-brutal-lg max-w-md flex items-start justify-between gap-3 animate-in slide-in-from-bottom-4 ${
+        <div className={`fixed bottom-16 sm:bottom-6 right-4 sm:right-6 z-50 text-paper-white border-brutal-thick p-4 shadow-brutal-lg max-w-md flex items-start justify-between gap-3 animate-in slide-in-from-bottom-4 ${
           toast.type === 'error' ? 'bg-rust-red' : 'bg-farm-green'
         }`}>
           <div className="flex items-start gap-2.5 font-mono text-xs">
@@ -219,7 +238,7 @@ export const App: React.FC = () => {
             )}
             <div>
               <strong className="text-harvest-yellow block uppercase font-bold">
-                {toast.type === 'error' ? 'SYSTEM ALERT:' : 'NETWORK EVENT:'}
+                {toast.type === 'error' ? 'SYSTEM ALERT:' : 'STATUS UPDATE:'}
               </strong>
               <p className="mt-0.5 text-paper-white">{toast.message}</p>
             </div>
@@ -245,6 +264,7 @@ export const App: React.FC = () => {
               setSelectedDemand(demand);
               setDemandModalInitialTab('specs');
             }}
+            onOpenSellModal={handleOpenSellModal}
           />
         )}
 
@@ -257,6 +277,7 @@ export const App: React.FC = () => {
             }}
             onOpenPostDemand={handleOpenPostDemand}
             onPledgeDemand={handlePledgeDemand}
+            onNavigate={handleNavigate}
             userRole={activeRole}
           />
         )}
@@ -270,8 +291,16 @@ export const App: React.FC = () => {
             }}
             onPledgeDemand={handlePledgeDemand}
             onNavigate={handleNavigate}
+            onOpenSellModal={handleOpenSellModal}
             requireAuth={requireAuth}
             isAuthenticated={isAuthenticated}
+          />
+        )}
+
+        {currentView === 'orders' && (
+          <OrdersPage
+            onNavigate={handleNavigate}
+            onOpenSellModal={handleOpenSellModal}
           />
         )}
 
@@ -294,7 +323,7 @@ export const App: React.FC = () => {
             requireAuth={requireAuth}
             isAuthenticated={isAuthenticated}
             onPostAvailability={() => {
-              showToast('Fleet vehicle capacity (2.5 MT Reefer) registered for regional collection loops!');
+              showToast('Vehicle registered for regional collection loops!');
             }}
           />
         )}
@@ -319,12 +348,18 @@ export const App: React.FC = () => {
           <TermsPage onNavigate={handleNavigate} />
         )}
 
-        {!['landing', 'marketplace', 'farmer', 'buyer', 'logistics', 'forecast', 'prices', 'database', 'privacy', 'terms'].includes(currentView) && (
+        {!['landing', 'marketplace', 'farmer', 'orders', 'buyer', 'logistics', 'forecast', 'prices', 'database', 'privacy', 'terms'].includes(currentView) && (
           <NotFoundPage onNavigate={handleNavigate} />
         )}
       </main>
 
       {/* Global Modals */}
+      <SimpleListProduceModal
+        isOpen={isSellProduceOpen}
+        onClose={() => setIsSellProduceOpen(false)}
+        onSubmit={handleProduceSubmitted}
+      />
+
       <DemandDetailModal
         isOpen={selectedDemand !== null}
         onClose={() => setSelectedDemand(null)}
@@ -362,7 +397,7 @@ export const App: React.FC = () => {
         initialMode={authModalMode}
       />
 
-      {/* Bold Neo-Brutalist Footer */}
+      {/* Footer */}
       <Footer onNavigate={handleNavigate} />
 
     </div>

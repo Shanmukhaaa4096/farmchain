@@ -1,18 +1,15 @@
 import React, { useState } from 'react';
 import { 
   Plus, 
-  TrendingUp, 
-  Layers, 
-  Filter, 
-  Sparkles, 
-  Building,
-  CheckCircle,
-  AlertCircle
+  Search,
+  SlidersHorizontal,
+  ChevronDown,
+  ArrowRight,
+  TrendingUp,
+  Scale
 } from 'lucide-react';
-import { DemandFilter } from '../components/marketplace/DemandFilter';
 import { DemandCard } from '../components/marketplace/DemandCard';
 import { Button } from '../components/ui/Button';
-import { Badge } from '../components/ui/Badge';
 import { Card } from '../components/ui/Card';
 import { DemandRequirement } from '../types';
 
@@ -21,143 +18,130 @@ interface MarketplacePageProps {
   onSelectDemand: (demand: DemandRequirement) => void;
   onOpenPostDemand: () => void;
   onPledgeDemand: (demand: DemandRequirement) => void;
+  onNavigate?: (view: string) => void;
   userRole: string;
 }
+
+const CROP_PILLS = [
+  'ALL CROPS',
+  'Tomatoes',
+  'Onions',
+  'Potatoes',
+  'Green Chilli',
+  'Bell Peppers'
+];
 
 export const MarketplacePage: React.FC<MarketplacePageProps> = ({
   demands,
   onSelectDemand,
   onOpenPostDemand,
   onPledgeDemand,
+  onNavigate,
   userRole
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCrop, setSelectedCrop] = useState('ALL CROPS');
-  const [selectedLocation, setSelectedLocation] = useState('ALL REGIONS');
-  const [selectedUrgency, setSelectedUrgency] = useState('ALL DEMAND');
 
   const filteredDemands = demands.filter(d => {
     const matchesSearch = 
       d.crop.toLowerCase().includes(searchQuery.toLowerCase()) ||
       d.buyerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      d.deliveryLocation.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      d.qualityGrade.toLowerCase().includes(searchQuery.toLowerCase());
+      d.deliveryLocation.toLowerCase().includes(searchQuery.toLowerCase());
 
     const matchesCrop = selectedCrop === 'ALL CROPS' || d.crop.toLowerCase() === selectedCrop.toLowerCase();
-    const matchesLocation = selectedLocation === 'ALL REGIONS' || d.deliveryLocation.toLowerCase().includes(selectedLocation.toLowerCase());
-    const matchesUrgency = selectedUrgency === 'ALL DEMAND' || d.urgency === selectedUrgency;
 
-    return matchesSearch && matchesCrop && matchesLocation && matchesUrgency;
+    return matchesSearch && matchesCrop;
   });
 
   const totalDemandTonnage = Math.round(demands.reduce((acc, d) => acc + d.quantityKg, 0) / 1000);
 
   return (
-    <div className="py-12 bg-warm-cream min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <div className="py-6 sm:py-10 bg-warm-cream min-h-screen">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 space-y-6">
         
-        {/* Marketplace Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b-brutal">
+        {/* Simple Page Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b-2 border-ink-black">
           <div>
-            <div className="flex items-center gap-2 mb-2">
-              <Badge variant="dark" size="sm">LIVE DEMAND EXCHANGE</Badge>
-              <Badge variant="green" size="sm" dot>DIRECT SOURCING ACTIVE</Badge>
-            </div>
-            <h1 className="font-heading font-black text-4xl sm:text-5xl lg:text-6xl uppercase tracking-tight text-ink-black">
-              WHAT DOES THE MARKET NEED?
+            <h1 className="font-heading font-black text-3xl sm:text-4xl uppercase tracking-tight text-ink-black">
+              MARKET DEMAND
             </h1>
-            <p className="font-body text-base text-gray-700 mt-2 font-medium max-w-2xl">
-              This is not a retail grocery catalog. These are verified institutional and restaurant purchase orders looking for verified farmer supply.
+            <p className="font-body text-xs sm:text-sm text-gray-700 mt-1">
+              Verified wholesale purchase orders with guaranteed direct payment.
             </p>
           </div>
 
-          <div className="flex items-center gap-3 shrink-0">
-            <Button
-              variant="yellow"
-              size="md"
-              onClick={onOpenPostDemand}
-              className="flex items-center gap-2 text-xs md:text-sm"
-            >
-              <Plus className="w-4 h-4 stroke-[3]" />
-              <span>POST BUYER REQUIREMENT</span>
-            </Button>
+          <div className="flex items-center gap-2 self-start sm:self-auto">
+            {userRole === 'buyer' && (
+              <Button
+                variant="yellow"
+                size="sm"
+                onClick={onOpenPostDemand}
+                className="font-heading font-black text-xs"
+              >
+                <Plus className="w-4 h-4 stroke-[3]" />
+                <span>POST BUYER ORDER</span>
+              </Button>
+            )}
           </div>
         </div>
 
-        {/* Live Marketplace Statistics Banner */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 font-mono">
-          <Card variant="white" shadow="sm" className="p-4 border-brutal">
-            <span className="text-[10px] text-gray-600 uppercase font-bold block">
-              TOTAL VOLUME WANTED
-            </span>
-            <strong className="font-heading font-black text-2xl text-ink-black">
-              {totalDemandTonnage} <span className="text-xs font-mono font-normal">METRIC TONS</span>
-            </strong>
-            <div className="text-[10px] text-farm-green font-bold mt-1">Across 6 primary crops</div>
-          </Card>
+        {/* 1-Tap Crop Filter Pills (Thumb-Friendly on Phones) */}
+        <div className="space-y-2">
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+            {CROP_PILLS.map((crop) => {
+              const isSelected = selectedCrop === crop;
+              return (
+                <button
+                  key={crop}
+                  onClick={() => setSelectedCrop(crop)}
+                  className={`px-3.5 py-1.5 font-heading text-xs font-bold uppercase whitespace-nowrap border-2 border-ink-black transition-all ${
+                    isSelected
+                      ? 'bg-citrus-yellow text-ink-black shadow-brutal-sm -translate-y-0.5'
+                      : 'bg-paper-white text-gray-700 hover:bg-gray-100'
+                  }`}
+                >
+                  {crop}
+                </button>
+              );
+            })}
+          </div>
 
-          <Card variant="white" shadow="sm" className="p-4 border-brutal">
-            <span className="text-[10px] text-gray-600 uppercase font-bold block">
-              ACTIVE PURCHASE ORDERS
-            </span>
-            <strong className="font-heading font-black text-2xl text-ink-black">
-              {demands.length} <span className="text-xs font-mono font-normal">ORDERS</span>
-            </strong>
-            <div className="text-[10px] text-gray-600 mt-1">100% Escrow Funded</div>
-          </Card>
-
-          <Card variant="yellow" shadow="sm" className="p-4 border-brutal">
-            <span className="text-[10px] text-ink-black uppercase font-bold block">
-              AVERAGE FARMER NET GAIN
-            </span>
-            <strong className="font-heading font-black text-2xl text-ink-black">
-              +28.4%
-            </strong>
-            <div className="text-[10px] text-ink-black font-bold mt-1">Above local APMC cuts</div>
-          </Card>
-
-          <Card variant="green" shadow="sm" className="p-4 border-brutal">
-            <span className="text-[10px] text-harvest-yellow uppercase font-bold block">
-              GROUP AGGREGATION RATE
-            </span>
-            <strong className="font-heading font-black text-2xl text-paper-white">
-              88.2%
-            </strong>
-            <div className="text-[10px] text-warm-cream mt-1">Cooperative order pooling</div>
-          </Card>
+          {/* Quick Search Input */}
+          <div className="relative">
+            <Search className="w-4 h-4 text-gray-500 absolute left-3 top-3" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search crop, buyer, or city..."
+              className="w-full p-2 pl-9 bg-paper-white border-2 border-ink-black font-mono text-xs font-bold focus:outline-hidden"
+            />
+          </div>
         </div>
 
-        {/* Search & Filter Tool */}
-        <DemandFilter
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          selectedCrop={selectedCrop}
-          onCropChange={setSelectedCrop}
-          selectedLocation={selectedLocation}
-          onLocationChange={setSelectedLocation}
-          selectedUrgency={selectedUrgency}
-          onUrgencyChange={setSelectedUrgency}
-          onReset={() => {
-            setSearchQuery('');
-            setSelectedCrop('ALL CROPS');
-            setSelectedLocation('ALL REGIONS');
-            setSelectedUrgency('ALL DEMAND');
-          }}
-        />
-
-        {/* Results Counter Bar */}
-        <div className="flex items-center justify-between font-mono text-xs text-gray-700">
+        {/* Results Count & Quick Summary */}
+        <div className="flex items-center justify-between font-mono text-xs text-gray-600">
           <span>
-            SHOWING <strong className="text-ink-black">{filteredDemands.length}</strong> ACTIVE DEMAND REQUIREMENTS
+            Showing <strong>{filteredDemands.length}</strong> active buyer demands ({totalDemandTonnage} MT total)
           </span>
-          <span className="hidden sm:inline">
-            SORTED BY: <strong>URGENCY & DELIVERY DATE</strong>
-          </span>
+          {onNavigate && (
+            <button
+              onClick={() => onNavigate('prices')}
+              className="text-farm-green font-bold hover:underline flex items-center gap-1"
+            >
+              <Scale className="w-3.5 h-3.5" />
+              <span>Check APMC Mandi Rates →</span>
+            </button>
+          )}
         </div>
 
-        {/* Demand Cards Grid */}
-        {filteredDemands.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Grid of Clean Demand Cards */}
+        {filteredDemands.length === 0 ? (
+          <Card variant="white" className="p-8 text-center border-brutal font-mono text-xs text-gray-600">
+            No active buyer demands match your search. Try selecting "All Crops".
+          </Card>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {filteredDemands.map((demand) => (
               <DemandCard
                 key={demand.id}
@@ -168,28 +152,27 @@ export const MarketplacePage: React.FC<MarketplacePageProps> = ({
               />
             ))}
           </div>
-        ) : (
-          <Card variant="white" shadow="default" className="p-12 text-center space-y-4">
-            <AlertCircle className="w-10 h-10 text-gray-400 mx-auto" />
-            <h3 className="font-heading font-black text-xl uppercase">
-              NO MATCHING REQUIREMENTS FOUND
-            </h3>
-            <p className="font-mono text-xs text-gray-600 max-w-md mx-auto">
-              No active buyer orders matched your filter combination. Try resetting your filters or post a requirement if you are an enterprise buyer.
-            </p>
-            <Button
-              variant="yellow"
-              size="sm"
-              onClick={() => {
-                setSearchQuery('');
-                setSelectedCrop('ALL CROPS');
-                setSelectedLocation('ALL REGIONS');
-                setSelectedUrgency('ALL DEMAND');
-              }}
-            >
-              CLEAR ALL FILTERS
-            </Button>
-          </Card>
+        )}
+
+        {/* Progressive Disclosure: Deep Market Analytics Link */}
+        {onNavigate && (
+          <div className="pt-6 border-t-2 border-ink-black flex flex-col sm:flex-row items-center justify-between gap-3 font-mono text-xs">
+            <span className="text-gray-600">Want deeper market intelligence and price trends?</span>
+            <div className="flex gap-2">
+              <button
+                onClick={() => onNavigate('forecast')}
+                className="px-3 py-1.5 bg-paper-white border border-ink-black font-bold hover:bg-citrus-yellow"
+              >
+                7-Day Price Forecast →
+              </button>
+              <button
+                onClick={() => onNavigate('prices')}
+                className="px-3 py-1.5 bg-paper-white border border-ink-black font-bold hover:bg-citrus-yellow"
+              >
+                Mandi Benchmark Calculator →
+              </button>
+            </div>
+          </div>
         )}
 
       </div>

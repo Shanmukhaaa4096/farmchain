@@ -1,20 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
-  ArrowRight, 
   TrendingUp, 
-  ShieldCheck, 
-  Users, 
   CheckCircle2, 
   Truck, 
   Layers, 
-  Sparkles,
   MapPin,
   Building2,
   BadgeCheck,
   FileText,
   Sprout,
-  Droplets,
-  Wind
+  ChevronDown,
+  ChevronUp,
+  ArrowRight,
+  ShieldCheck,
+  Play
 } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
@@ -22,17 +21,9 @@ import { Card } from '../components/ui/Card';
 import { AnimatedCounter } from '../components/ui/AnimatedCounter';
 import { SupplyChainComparison } from '../components/interactive/SupplyChainComparison';
 import { MatchingVisual } from '../components/interactive/MatchingVisual';
-import { 
-  WindSwayWheat, 
-  TractorInFieldIllustration, 
-  CropGrowthStageIndicator, 
-  TopographicContourLines 
-} from '../components/agricultural/AgriIllustrations';
-import { FieldPlotVisual } from '../components/agricultural/FieldPlotVisual';
-import { HeroReferenceSection } from '../components/layout/HeroReferenceSection';
-import { LayeredAgriGrid } from '../components/agricultural/LayeredAgriGrid';
-import { VideoStoryModal } from '../components/modals/VideoStoryModal';
 import { AssistedPushDemandShowcase } from '../components/interactive/AssistedPushDemandShowcase';
+import { HeroReferenceSection } from '../components/layout/HeroReferenceSection';
+import { VideoStoryModal } from '../components/modals/VideoStoryModal';
 import { DemandRequirement } from '../types';
 
 interface LandingPageProps {
@@ -40,6 +31,7 @@ interface LandingPageProps {
   onOpenPostDemand: () => void;
   liveDemands: DemandRequirement[];
   onSelectDemand: (demand: DemandRequirement) => void;
+  onOpenSellModal?: () => void;
 }
 
 export const LandingPage: React.FC<LandingPageProps> = ({
@@ -47,357 +39,288 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   onOpenPostDemand,
   liveDemands,
   onSelectDemand,
+  onOpenSellModal,
 }) => {
-  const [isVideoOpen, setIsVideoOpen] = React.useState(false);
-  const [isGrowthIndicatorOpen, setIsGrowthIndicatorOpen] = React.useState(false);
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const [showDeepDiveComparison, setShowDeepDiveComparison] = useState(false);
+  const [showInteractiveMatcher, setShowInteractiveMatcher] = useState(false);
 
   return (
     <div className="space-y-0">
       
-      {/* 1. REFERENCE-INSPIRED AGRICULTURAL HERO (What FarmChain Is) */}
+      {/* 1. SIMPLIFIED HERO (What FarmChain does + Primary CTAs) */}
       <HeroReferenceSection
         onNavigate={onNavigate}
+        onOpenSellModal={onOpenSellModal}
         onOpenPostDemand={onOpenPostDemand}
-        onOpenVideo={() => setIsVideoOpen(true)}
       />
 
-      {/* DOCUMENTARY VIDEO STORY MODAL */}
+      {/* Documentary Video Story Modal */}
       <VideoStoryModal
         isOpen={isVideoOpen}
         onClose={() => setIsVideoOpen(false)}
       />
 
-      {/* 2. LIVE MARKET DEMAND TICKER (Real-Time Proof of Demand) */}
-      <section className="py-12 sm:py-16 bg-warm-cream bg-topo-pattern border-b-brutal">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 2. TODAY'S BUYER DEMAND (Essential 3 Crops, Big Numbers, 1-Tap Action) */}
+      <section className="py-8 sm:py-12 bg-warm-cream border-b-brutal">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
           
-          <Card variant="white" shadow="lg" className="p-5 sm:p-8 border-brutal-thick relative">
-            <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b-2 border-ink-black">
-              <div className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-terminal-green animate-pulse"></span>
-                <span className="font-mono text-xs font-bold uppercase tracking-wider text-farm-green">
-                  LIVE MARKET DEMAND // REAL-TIME AGGREGATION FEED
-                </span>
-              </div>
-              <div className="font-mono text-xs text-gray-500 font-bold">
-                TELANGANA / ANDHRA AGRI-CORRIDOR
-              </div>
+          <div className="flex items-center justify-between pb-3 border-b-2 border-ink-black">
+            <div className="flex items-center gap-2">
+              <span className="h-2.5 w-2.5 rounded-full bg-terminal-green animate-pulse"></span>
+              <h2 className="font-heading font-black text-lg sm:text-xl uppercase text-ink-black tracking-tight">
+                TODAY'S BUYER DEMAND
+              </h2>
             </div>
+            <button
+              onClick={() => onNavigate('marketplace')}
+              className="font-mono text-xs font-bold text-farm-green hover:underline flex items-center gap-1"
+            >
+              <span>VIEW ALL DEMAND ({liveDemands.length})</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
 
-            {/* Demand Ticker Rows with Animated Counters */}
-            <div className="divide-y-2 divide-ink-black/20 font-mono text-xs sm:text-sm pt-2">
+          {/* Simple Clean Demand Cards */}
+          <div className="divide-y-2 divide-ink-black/20 font-mono text-xs sm:text-sm pt-1">
+            {liveDemands.slice(0, 3).map((demand) => (
               <div 
-                onClick={() => liveDemands[0] && onSelectDemand(liveDemands[0])}
-                className="py-3.5 flex items-center justify-between hover:bg-warm-cream/50 px-2 cursor-pointer transition-colors"
+                key={demand.id}
+                onClick={() => onSelectDemand(demand)}
+                className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-warm-cream/50 cursor-pointer transition-colors"
                 role="button"
                 tabIndex={0}
-                aria-label="View Tomato demand details"
               >
-                <div className="flex items-center gap-2 sm:gap-3">
-                  <span className="font-heading font-black text-sm sm:text-base uppercase text-ink-black">
-                    TOMATOES (GRADE A)
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-heading font-black text-base sm:text-lg uppercase text-ink-black">
+                      {demand.crop}
+                    </span>
+                    <span className="text-xs px-2 py-0.5 bg-citrus-yellow border border-ink-black font-bold text-ink-black">
+                      {demand.qualityGrade}
+                    </span>
+                  </div>
+                  <span className="text-xs text-gray-600 block mt-0.5">
+                    Buyer: <strong>{demand.buyerName}</strong> • {demand.deliveryLocation.split(',')[0]}
                   </span>
-                  <Badge variant="green" size="sm">URBANFORK</Badge>
                 </div>
-                <div className="flex items-center gap-4 sm:gap-6">
-                  <span className="font-bold text-ink-black">
-                    <AnimatedCounter value={2400} suffix=" KG" />
-                  </span>
-                  <span className="font-bold text-farm-green flex items-center gap-1">
-                    <TrendingUp className="w-3.5 h-3.5" /> ↑ 18%
-                  </span>
-                  <span className="text-xs text-farm-green font-bold underline hidden sm:inline">
-                    VIEW →
-                  </span>
+
+                <div className="flex items-center justify-between sm:justify-end gap-4 sm:gap-6">
+                  <div className="text-left sm:text-right">
+                    <span className="font-heading font-black text-base sm:text-lg text-ink-black block">
+                      {demand.quantityKg.toLocaleString()} KG
+                    </span>
+                    <span className="text-xs text-farm-green font-bold">
+                      Target: ₹{demand.targetPricePerKg}/KG
+                    </span>
+                  </div>
+
+                  <Button
+                    variant="yellow"
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onSelectDemand(demand);
+                    }}
+                    className="text-xs font-heading font-bold"
+                  >
+                    RESPOND →
+                  </Button>
                 </div>
               </div>
+            ))}
+          </div>
 
-              <div 
-                onClick={() => (liveDemands[1] || liveDemands[0]) && onSelectDemand(liveDemands[1] || liveDemands[0])}
-                className="py-3.5 flex items-center justify-between hover:bg-warm-cream/50 px-2 cursor-pointer transition-colors"
-                role="button"
-                tabIndex={0}
-                aria-label="View Onion demand details"
-              >
-                <div className="flex items-center gap-2 sm:gap-3">
-                  <span className="font-heading font-black text-sm sm:text-base uppercase text-ink-black">
-                    ONIONS (PINK MEDIUM)
-                  </span>
-                  <Badge variant="yellow" size="sm">FRESHSPROUT</Badge>
-                </div>
-                <div className="flex items-center gap-4 sm:gap-6">
-                  <span className="font-bold text-ink-black">
-                    <AnimatedCounter value={5000} suffix=" KG" />
-                  </span>
-                  <span className="font-bold text-farm-green flex items-center gap-1">
-                    <TrendingUp className="w-3.5 h-3.5" /> ↑ 11%
-                  </span>
-                  <span className="text-xs text-farm-green font-bold underline hidden sm:inline">
-                    VIEW →
-                  </span>
-                </div>
-              </div>
+        </div>
+      </section>
 
-              <div 
-                onClick={() => (liveDemands[2] || liveDemands[0]) && onSelectDemand(liveDemands[2] || liveDemands[0])}
-                className="py-3.5 flex items-center justify-between hover:bg-warm-cream/50 px-2 cursor-pointer transition-colors"
-                role="button"
-                tabIndex={0}
-                aria-label="View Potato demand details"
-              >
-                <div className="flex items-center gap-2 sm:gap-3">
-                  <span className="font-heading font-black text-sm sm:text-base uppercase text-ink-black">
-                    POTATOES (CHIPS GRADE)
-                  </span>
-                  <Badge variant="white" size="sm">DECCAN AGRO</Badge>
-                </div>
-                <div className="flex items-center gap-4 sm:gap-6">
-                  <span className="font-bold text-ink-black">
-                    <AnimatedCounter value={8500} suffix=" KG" />
-                  </span>
-                  <span className="font-bold text-gray-700 flex items-center gap-1">
-                    → 4%
-                  </span>
-                  <span className="text-xs text-farm-green font-bold underline hidden sm:inline">
-                    VIEW →
-                  </span>
-                </div>
-              </div>
-            </div>
+      {/* 3. HOW IT WORKS (3 Simple, Plain-Language Steps) */}
+      <section className="py-12 sm:py-16 bg-warm-cream border-b-brutal">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          
+          <div className="text-center sm:text-left mb-8">
+            <h2 className="font-heading font-black text-2xl sm:text-3xl uppercase tracking-tight text-ink-black">
+              HOW FARMCHAIN WORKS
+            </h2>
+            <p className="font-body text-xs sm:text-sm text-gray-700 mt-1">
+              Three simple steps to sell your produce at fair prices.
+            </p>
+          </div>
 
-            {/* Bottom Card Strip with Progressive Crop Growth Toggle */}
-            <div className="mt-4 pt-3 border-t-2 border-ink-black flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
-              <span className="text-gray-600">ZERO MIDDLEMEN // DIRECT CONTRACT ESCROW</span>
-              <div className="flex items-center gap-4">
-                <button 
-                  onClick={() => setIsGrowthIndicatorOpen(!isGrowthIndicatorOpen)}
-                  className="font-bold text-gray-700 hover:text-ink-black underline flex items-center gap-1"
-                >
-                  {isGrowthIndicatorOpen ? 'HIDE HARVEST CYCLE ▲' : 'CROP HARVEST CYCLE ▼'}
-                </button>
-                <button 
-                  onClick={() => onNavigate('marketplace')}
-                  className="font-bold text-farm-green hover:underline flex items-center gap-1"
-                >
-                  EXPLORE 28 DEMANDS →
-                </button>
-              </div>
-            </div>
-          </Card>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            
+            {/* Step 1 */}
+            <Card variant="white" className="p-5 border-brutal space-y-2">
+              <span className="font-heading font-black text-3xl text-farm-green block">
+                01
+              </span>
+              <h3 className="font-heading font-black text-base uppercase text-ink-black">
+                BUYERS POST DEMAND
+              </h3>
+              <p className="font-body text-xs text-gray-700 leading-relaxed">
+                Restaurants and supermarkets post what crops they need, quantities, and target prices.
+              </p>
+            </Card>
 
-          {/* Progressive Crop Growth Stages Infographic */}
-          {isGrowthIndicatorOpen && (
+            {/* Step 2 */}
+            <Card variant="yellow" className="p-5 border-brutal space-y-2">
+              <span className="font-heading font-black text-3xl text-ink-black block">
+                02
+              </span>
+              <h3 className="font-heading font-black text-base uppercase text-ink-black">
+                AGREE ON PRICE
+              </h3>
+              <p className="font-body text-xs text-ink-black leading-relaxed font-medium">
+                You receive nearby demand requests. Accept with one tap and agree on price directly.
+              </p>
+            </Card>
+
+            {/* Step 3 */}
+            <Card variant="white" className="p-5 border-brutal space-y-2">
+              <span className="font-heading font-black text-3xl text-farm-green block">
+                03
+              </span>
+              <h3 className="font-heading font-black text-base uppercase text-ink-black">
+                PICKUP & DIRECT PAYOUT
+              </h3>
+              <p className="font-body text-xs text-gray-700 leading-relaxed">
+                Truck picks up from your village. 100% of money transfers directly to your bank account.
+              </p>
+            </Card>
+
+          </div>
+
+          {/* Progressive Disclosure Toggle: Detailed Middleman Comparison */}
+          <div className="mt-8 pt-4 border-t-2 border-ink-black text-center">
+            <button
+              onClick={() => setShowDeepDiveComparison(!showDeepDiveComparison)}
+              className="inline-flex items-center gap-2 font-heading font-bold text-xs uppercase px-4 py-2 bg-paper-white border-2 border-ink-black shadow-brutal-sm hover:bg-citrus-yellow transition-colors"
+            >
+              <span>{showDeepDiveComparison ? 'HIDE PRICE BREAKDOWN & COMMISSION DETAILS ▲' : 'VIEW TRADITIONAL MANDI VS FARMCHAIN PRICE BREAKDOWN ▼'}</span>
+            </button>
+          </div>
+
+          {showDeepDiveComparison && (
             <div className="mt-6 animate-in fade-in duration-200">
-              <CropGrowthStageIndicator cropName="Tomatoes (Grade A) : Current Harvest Cycle" />
+              <SupplyChainComparison />
             </div>
           )}
 
         </div>
       </section>
 
-      {/* 3. THE PROBLEM IT SOLVES // WHERE DOES THE MONEY GO? */}
-      <SupplyChainComparison />
-
-      {/* 4. HOW FARMCHAIN WORKS // 5-STEP EDITORIAL GRID */}
-      <section className="py-16 sm:py-24 bg-warm-cream bg-topo-pattern">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 4. TRUST & GUARANTEES (3 Clean Cards) */}
+      <section className="py-12 sm:py-16 bg-warm-cream border-b-brutal">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
           
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16">
-            <div>
-              <Badge variant="dark" size="sm" className="mb-3">
-                SECTION 03 // SYSTEM WORKFLOW
-              </Badge>
-              <h2 className="font-heading font-black text-3xl sm:text-5xl lg:text-6xl uppercase tracking-tighter text-ink-black leading-tight">
-                HOW FARMCHAIN WORKS
-              </h2>
-              <p className="font-body text-sm sm:text-base text-gray-700 max-w-2xl mt-2 font-medium">
-                Five structured, transparent operational steps turning fragmented village supply into enterprise-grade direct fulfillment.
-              </p>
-            </div>
-
-            {/* Tractor vector illustration in corner */}
-            <div className="w-48 hidden md:block opacity-90">
-              <TractorInFieldIllustration />
-            </div>
-          </div>
-
-          {/* 5-Step Editorial Cards Responsive Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
-            
-            {/* Step 01 */}
-            <Card variant="white" shadow="default" className="p-5 sm:p-6 border-brutal flex flex-col justify-between">
-              <div>
-                <span className="font-heading font-black text-3xl sm:text-4xl text-farm-green block mb-3">
-                  01
-                </span>
-                <h3 className="font-heading font-black text-base sm:text-lg uppercase tracking-tight text-ink-black mb-2">
-                  BUYER POSTS DEMAND
-                </h3>
-                <p className="font-body text-xs text-gray-700 leading-relaxed">
-                  Restaurants and retailers publish specific requirements: crop, quantity, quality grade, location and target delivery date.
-                </p>
-              </div>
-              <div className="mt-6 pt-3 border-t border-gray-200 font-mono text-[11px] text-farm-green font-bold">
-                ✓ VERIFIED PURCHASE ORDERS
-              </div>
-            </Card>
-
-            {/* Step 02 */}
-            <Card variant="white" shadow="default" className="p-5 sm:p-6 border-brutal flex flex-col justify-between">
-              <div>
-                <span className="font-heading font-black text-3xl sm:text-4xl text-farm-green block mb-3">
-                  02
-                </span>
-                <h3 className="font-heading font-black text-base sm:text-lg uppercase tracking-tight text-ink-black mb-2">
-                  FARMERS GET MATCHED
-                </h3>
-                <p className="font-body text-xs text-gray-700 leading-relaxed">
-                  FarmChain identifies nearby farmers & FPOs with ready crops and alerts them with clear demand parameters.
-                </p>
-              </div>
-              <div className="mt-6 pt-3 border-t border-gray-200 font-mono text-[11px] text-farm-green font-bold">
-                ✓ GEOLOCATION PROXIMITY
-              </div>
-            </Card>
-
-            {/* Step 03 */}
-            <Card variant="yellow" shadow="default" className="p-5 sm:p-6 border-brutal flex flex-col justify-between">
-              <div>
-                <span className="font-heading font-black text-3xl sm:text-4xl text-ink-black block mb-3">
-                  03
-                </span>
-                <h3 className="font-heading font-black text-base sm:text-lg uppercase tracking-tight text-ink-black mb-2">
-                  SMALL QUANTITIES COMBINE
-                </h3>
-                <p className="font-body text-xs text-ink-black leading-relaxed font-medium">
-                  Multiple smallholder farmers voluntarily form digital groups to fulfill large multi-ton commercial orders.
-                </p>
-              </div>
-              <div className="mt-6 pt-3 border-t border-ink-black font-mono text-[11px] text-ink-black font-bold">
-                ✓ DIGITAL COOPERATIVE POWER
-              </div>
-            </Card>
-
-            {/* Step 04 */}
-            <Card variant="white" shadow="default" className="p-5 sm:p-6 border-brutal flex flex-col justify-between">
-              <div>
-                <span className="font-heading font-black text-3xl sm:text-4xl text-farm-green block mb-3">
-                  04
-                </span>
-                <h3 className="font-heading font-black text-base sm:text-lg uppercase tracking-tight text-ink-black mb-2">
-                  LOGISTICS ARE OPTIMIZED
-                </h3>
-                <p className="font-body text-xs text-gray-700 leading-relaxed">
-                  The platform coordinates shared transportation, cold-chain trucks, and optimized circular pickup routes.
-                </p>
-              </div>
-              <div className="mt-6 pt-3 border-t border-gray-200 font-mono text-[11px] text-farm-green font-bold">
-                ✓ 91% FLEET UTILIZATION
-              </div>
-            </Card>
-
-            {/* Step 05 */}
-            <Card variant="green" shadow="default" className="p-5 sm:p-6 border-brutal flex flex-col justify-between sm:col-span-2 lg:col-span-1">
-              <div>
-                <span className="font-heading font-black text-3xl sm:text-4xl text-harvest-yellow block mb-3">
-                  05
-                </span>
-                <h3 className="font-heading font-black text-base sm:text-lg uppercase tracking-tight text-paper-white mb-2">
-                  FARMERS SELL DIRECTLY
-                </h3>
-                <p className="font-body text-xs text-warm-cream leading-relaxed">
-                  Buyers and farmers agree on pricing directly. 100% of payment goes straight from buyer to the farmer's account.
-                </p>
-              </div>
-              <div className="mt-6 pt-3 border-t border-farm-green-light font-mono text-[11px] text-harvest-yellow font-bold">
-                ✓ 0% BROKER COMMISSION
-              </div>
-            </Card>
-
-          </div>
-
-        </div>
-      </section>
-
-      {/* 5. ASSISTED ONBOARDING & PUSH-DEMAND SECTION */}
-      <section className="py-16 sm:py-24 bg-warm-cream bg-topo-pattern border-t-brutal">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <AssistedPushDemandShowcase />
-          <FieldPlotVisual />
-        </div>
-      </section>
-
-      {/* 6. PLATFORM CAPABILITIES & HARVEST INFRASTRUCTURE */}
-      <LayeredAgriGrid onNavigate={onNavigate} />
-
-      {/* 7. GROUP AGGREGATION & MATCHING ENGINE (Interactive Simulation) */}
-      <MatchingVisual />
-
-      {/* 8. TRUST & VERIFICATION // DIRECT DOESN'T MEAN UNVERIFIED */}
-      <section className="py-16 sm:py-24 bg-warm-cream border-t-brutal">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-            <Badge variant="dark" size="sm" className="mb-3">
-              SECTION 06 // RISK MITIGATION & TRUST
-            </Badge>
-            <h2 className="font-heading font-black text-3xl sm:text-5xl lg:text-6xl uppercase tracking-tighter text-ink-black leading-tight">
-              DIRECT DOESN'T MEAN UNVERIFIED.
+          <div className="text-center sm:text-left mb-8">
+            <h2 className="font-heading font-black text-2xl sm:text-3xl uppercase tracking-tight text-ink-black">
+              DIRECT & VERIFIED
             </h2>
-            <p className="font-body text-sm sm:text-base text-gray-700 mt-2 font-medium">
-              Every participant on FarmChain passes strict operational identity verification before transacting.
+            <p className="font-body text-xs sm:text-sm text-gray-700 mt-1">
+              Safety, transparency, and timely payments for every harvest.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             
-            <Card variant="white" shadow="default" className="p-6 border-brutal space-y-3">
-              <div className="w-12 h-12 bg-farm-green text-harvest-yellow border-2 border-ink-black flex items-center justify-center">
-                <BadgeCheck className="w-7 h-7 stroke-[2.5]" />
+            <Card variant="white" className="p-5 border-brutal space-y-2">
+              <div className="w-10 h-10 bg-farm-green text-harvest-yellow border-2 border-ink-black flex items-center justify-center">
+                <BadgeCheck className="w-6 h-6 stroke-[2.5]" />
               </div>
-              <h3 className="font-heading font-black text-xl uppercase text-ink-black">
-                VERIFIED FARMERS & FPOS
+              <h3 className="font-heading font-bold text-base uppercase text-ink-black">
+                VERIFIED BUYERS
               </h3>
-              <p className="font-body text-xs text-gray-700 leading-relaxed">
-                Govt Kisan ID (Kisan Credit Card), land record geolocation, and cooperative FPO registrations are verified by local field officers.
+              <p className="font-body text-xs text-gray-700">
+                All restaurants and businesses are GSTIN verified with escrow payment guarantees.
               </p>
-              <div className="pt-2 font-mono text-xs text-farm-green font-bold">
-                ✓ ZERO GHOST FARMERS
-              </div>
             </Card>
 
-            <Card variant="white" shadow="default" className="p-6 border-brutal space-y-3">
-              <div className="w-12 h-12 bg-harvest-yellow text-ink-black border-2 border-ink-black flex items-center justify-center">
-                <Building2 className="w-7 h-7 stroke-[2.5]" />
+            <Card variant="white" className="p-5 border-brutal space-y-2">
+              <div className="w-10 h-10 bg-harvest-yellow text-ink-black border-2 border-ink-black flex items-center justify-center">
+                <ShieldCheck className="w-6 h-6 stroke-[2.5]" />
               </div>
-              <h3 className="font-heading font-black text-xl uppercase text-ink-black">
-                VERIFIED ENTERPRISE BUYERS
+              <h3 className="font-heading font-bold text-base uppercase text-ink-black">
+                0% BROKER CUT
               </h3>
-              <p className="font-body text-xs text-gray-700 leading-relaxed">
-                Restaurants, supermarket chains, and food processors submit GSTIN, FSSAI licenses, and escrow payment guarantees before placing POs.
+              <p className="font-body text-xs text-gray-700">
+                Zero middleman commissions. You keep 100% of the agreed farm-gate price.
               </p>
-              <div className="pt-2 font-mono text-xs text-farm-green font-bold">
-                ✓ ESCROW PROTECTED TRANSACTIONS
-              </div>
             </Card>
 
-            <Card variant="white" shadow="default" className="p-6 border-brutal space-y-3">
-              <div className="w-12 h-12 bg-ink-black text-paper-white border-2 border-ink-black flex items-center justify-center">
-                <FileText className="w-7 h-7 stroke-[2.5]" />
+            <Card variant="white" className="p-5 border-brutal space-y-2">
+              <div className="w-10 h-10 bg-ink-black text-paper-white border-2 border-ink-black flex items-center justify-center">
+                <Truck className="w-6 h-6 stroke-[2.5]" />
               </div>
-              <h3 className="font-heading font-black text-xl uppercase text-ink-black">
-                DIGITAL WEIGHBRIDGE & QC
+              <h3 className="font-heading font-bold text-base uppercase text-ink-black">
+                VILLAGE PICKUP
               </h3>
-              <p className="font-body text-xs text-gray-700 leading-relaxed">
-                Calibrated digital scales, automated moisture meters, and geotagged dispatch photo receipts prevent dispute or uncalibrated deductions.
+              <p className="font-body text-xs text-gray-700">
+                Coordinated collection trucks pick up from your village with calibrated digital weighbridges.
               </p>
-              <div className="pt-2 font-mono text-xs text-farm-green font-bold">
-                ✓ TRANSPARENT LOAD SLIPS
-              </div>
             </Card>
 
           </div>
 
+          {/* Progressive Disclosure Toggle: Interactive Cluster Matcher & Assisted Onboarding */}
+          <div className="mt-8 pt-4 border-t-2 border-ink-black text-center">
+            <button
+              onClick={() => setShowInteractiveMatcher(!showInteractiveMatcher)}
+              className="inline-flex items-center gap-2 font-heading font-bold text-xs uppercase px-4 py-2 bg-paper-white border-2 border-ink-black shadow-brutal-sm hover:bg-citrus-yellow transition-colors"
+            >
+              <span>{showInteractiveMatcher ? 'HIDE ADVANCED CLUSTER MATCHING DEMO ▲' : 'EXPLORE INTERACTIVE CLUSTER MATCHING & FIELD SIMULATION ▼'}</span>
+            </button>
+          </div>
+
+          {showInteractiveMatcher && (
+            <div className="mt-6 space-y-8 animate-in fade-in duration-200">
+              <MatchingVisual />
+              <AssistedPushDemandShowcase />
+            </div>
+          )}
+
+        </div>
+      </section>
+
+      {/* 5. BOTTOM FAST ACTION BANNER */}
+      <section className="py-10 bg-blue-crate text-paper-white border-b-brutal text-center">
+        <div className="max-w-xl mx-auto px-4 space-y-4">
+          <h2 className="font-heading font-black text-2xl sm:text-3xl uppercase tracking-tight text-citrus-yellow">
+            READY TO SELL YOUR CROP?
+          </h2>
+          <p className="font-body text-xs sm:text-sm text-gray-200">
+            List your harvest in under 2 minutes. Free registration for farmers and FPOs.
+          </p>
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+            {onOpenSellModal ? (
+              <Button
+                variant="yellow"
+                size="lg"
+                onClick={onOpenSellModal}
+                className="font-heading font-black text-sm w-full sm:w-auto px-8"
+              >
+                + SELL PRODUCE NOW
+              </Button>
+            ) : (
+              <Button
+                variant="yellow"
+                size="lg"
+                onClick={() => onNavigate('farmer')}
+                className="font-heading font-black text-sm w-full sm:w-auto px-8"
+              >
+                + SELL PRODUCE NOW
+              </Button>
+            )}
+
+            <Button
+              variant="white"
+              size="lg"
+              onClick={() => onNavigate('marketplace')}
+              className="font-heading font-bold text-sm w-full sm:w-auto px-6"
+            >
+              VIEW LIVE DEMANDS
+            </Button>
+          </div>
         </div>
       </section>
 
