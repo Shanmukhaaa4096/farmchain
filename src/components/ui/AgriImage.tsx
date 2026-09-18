@@ -37,7 +37,7 @@ export const AgriImage: React.FC<AgriImageProps> = ({
 
   return (
     <div 
-      className={`relative overflow-hidden bg-warm-cream border-ink-black ${containerClassName}`}
+      className={`relative overflow-hidden bg-paper-bg ${containerClassName}`}
       style={aspectRatio ? { aspectRatio } : undefined}
     >
       {/* Agricultural Shimmer Placeholder / Skeleton */}

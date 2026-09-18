@@ -54,15 +54,15 @@ export const ForecastChart: React.FC = () => {
       
       {/* Crop Selector Tabs */}
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
+        <div className="inline-flex items-center gap-1.5 p-1.5 bg-pure-white rounded-full border border-dark-text/10 shadow-soft-sm">
           {(['Tomatoes', 'Onions', 'Potatoes', 'Chillies'] as const).map((crop) => (
             <button
               key={crop}
               onClick={() => setSelectedCrop(crop)}
-              className={`btn-brutal px-4 py-2 text-xs font-heading uppercase ${
+              className={`px-4 py-2 text-xs font-sans font-semibold rounded-full transition-all duration-200 cursor-pointer ${
                 selectedCrop === crop 
-                  ? 'bg-harvest-yellow text-ink-black' 
-                  : 'bg-paper-white text-ink-black'
+                  ? 'bg-farm-green text-pure-white shadow-soft-sm' 
+                  : 'text-dark-text/70 hover:text-dark-text hover:bg-paper-bg'
               }`}
             >
               {crop}
@@ -70,63 +70,63 @@ export const ForecastChart: React.FC = () => {
           ))}
         </div>
 
-        <div className="flex items-center gap-2 font-mono text-xs text-gray-700 bg-paper-white border-2 border-ink-black px-3 py-1.5 shadow-brutal-sm">
+        <div className="flex items-center gap-2 font-mono text-xs text-dark-text/75 bg-pure-white border border-dark-text/10 px-3.5 py-2 rounded-full shadow-soft-sm">
           <BrainCircuit className="w-4 h-4 text-farm-green" />
           <span>MODEL: AGRI-LSTM-7D // 10-YEAR MANDI TELEMETRY</span>
         </div>
       </div>
 
       {/* Main Predictive Chart Card */}
-      <Card variant="white" shadow="lg" className="p-6 md:p-8 border-brutal-thick space-y-6">
+      <div className="p-6 md:p-10 bg-pure-white rounded-3xl border border-dark-text/10 shadow-soft space-y-8">
         
         {/* Top Prediction Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-6 pb-6 border-b-2 border-ink-black">
+        <div className="flex flex-wrap items-center justify-between gap-6 pb-6 border-b border-dark-text/10">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <Sparkles className="w-5 h-5 text-harvest-yellow fill-harvest-yellow stroke-ink-black" />
+            <div className="flex items-center gap-2 mb-1.5">
+              <Sparkles className="w-4 h-4 text-harvest-yellow fill-harvest-yellow" />
               <span className="font-mono text-xs font-bold text-farm-green uppercase tracking-wider">
                 7-DAY PREDICTIVE HORIZON // {selectedCrop.toUpperCase()}
               </span>
             </div>
-            <h3 className="font-heading font-black text-3xl md:text-4xl uppercase tracking-tight text-ink-black">
+            <h3 className="font-serif font-bold text-2xl md:text-4xl tracking-tight text-dark-text">
               EXPECTED DEMAND: <AnimatedCounter value={activePoint.predictedDemandKg} suffix=" KG" />
             </h3>
-            <p className="font-mono text-xs text-gray-600 mt-1">
+            <p className="font-mono text-xs text-dark-text/60 mt-1.5">
               PROJECTION FOR {activePoint.day.toUpperCase()} ({activePoint.date}) • HYDERABAD & TELANGANA REGION
             </p>
           </div>
 
-          <div className="flex items-center gap-4 font-mono">
-            <div className="p-3 bg-warm-cream border-2 border-ink-black text-center shadow-brutal-sm">
-              <span className="text-[10px] text-gray-600 block">7-DAY TREND</span>
-              <strong className="text-lg font-black text-farm-green">{currentCropInfo.surge}</strong>
+          <div className="flex items-center gap-3 font-mono">
+            <div className="p-3.5 bg-paper-bg rounded-2xl border border-dark-text/10 text-center shadow-soft-sm min-w-[100px]">
+              <span className="text-[10px] text-dark-text/60 block font-semibold">7-DAY TREND</span>
+              <strong className="text-lg font-serif font-bold text-farm-green block mt-0.5">{currentCropInfo.surge}</strong>
             </div>
-            <div className="p-3 bg-harvest-yellow border-2 border-ink-black text-center shadow-brutal-sm">
-              <span className="text-[10px] text-ink-black block">CONFIDENCE</span>
-              <strong className="text-lg font-black text-ink-black">{currentCropInfo.conf}%</strong>
+            <div className="p-3.5 bg-harvest-yellow/20 rounded-2xl border border-accent-yellow/30 text-center shadow-soft-sm min-w-[100px]">
+              <span className="text-[10px] text-dark-text/70 block font-semibold">CONFIDENCE</span>
+              <strong className="text-lg font-serif font-bold text-dark-text block mt-0.5">{currentCropInfo.conf}%</strong>
             </div>
           </div>
         </div>
 
         {/* Interactive SVG Bar & Growing Line Curve Canvas */}
-        <div className="relative pt-6">
+        <div className="relative pt-4">
           
           {/* Chart SVG Visualization */}
           <div className="w-full h-72 relative flex items-end">
             
             {/* Horizontal Grid lines */}
-            <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-20">
-              <div className="border-b border-ink-black border-dashed w-full"></div>
-              <div className="border-b border-ink-black border-dashed w-full"></div>
-              <div className="border-b border-ink-black border-dashed w-full"></div>
-              <div className="border-b border-ink-black w-full"></div>
+            <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-15">
+              <div className="border-b border-dark-text border-dashed w-full"></div>
+              <div className="border-b border-dark-text border-dashed w-full"></div>
+              <div className="border-b border-dark-text border-dashed w-full"></div>
+              <div className="border-b border-dark-text w-full"></div>
             </div>
 
             {/* SVG Growing Predictive Trend Line */}
             <svg className="w-full h-full absolute inset-0 pointer-events-none z-20" viewBox="0 0 100 100" preserveAspectRatio="none">
               <polyline
                 fill="none"
-                stroke="#4A3525"
+                stroke="#315C3A"
                 strokeWidth="2.5"
                 points={pointsString}
                 className="animate-chart-grow"
@@ -139,9 +139,9 @@ export const ForecastChart: React.FC = () => {
                     key={i}
                     cx={cx}
                     cy={cy}
-                    r="2.2"
-                    fill="#F4C542"
-                    stroke="#111111"
+                    r="2.8"
+                    fill="#E5B94A"
+                    stroke="#17231A"
                     strokeWidth="1.2"
                   />
                 );
@@ -165,7 +165,7 @@ export const ForecastChart: React.FC = () => {
                   >
                     {/* Confidence Range Whisker */}
                     <div 
-                      className="w-1.5 bg-gray-300 absolute transition-all"
+                      className="w-1.5 bg-dark-text/10 rounded-full absolute transition-all"
                       style={{ 
                         bottom: `${lowerPercent}%`, 
                         height: `${upperPercent - lowerPercent}%` 
@@ -175,26 +175,26 @@ export const ForecastChart: React.FC = () => {
                     {/* Data Bar */}
                     <div
                       style={{ height: `${heightPercent}%` }}
-                      className={`w-full max-w-[54px] border-2 border-ink-black transition-all duration-150 relative ${
+                      className={`w-full max-w-[54px] rounded-t-xl transition-all duration-200 relative ${
                         isHovered 
-                          ? 'bg-harvest-yellow shadow-brutal -translate-y-1' 
+                          ? 'bg-harvest-yellow shadow-soft -translate-y-1' 
                           : isProjected 
-                            ? 'bg-farm-green-light/80 hover:bg-farm-green-light' 
+                            ? 'bg-soft-green hover:bg-soft-green/80' 
                             : 'bg-farm-green'
                       }`}
                     >
                       {/* Top Cap */}
-                      <div className="absolute -top-6 left-1/2 -translate-x-1/2 font-mono text-[10px] font-bold text-ink-black whitespace-nowrap">
+                      <div className="absolute -top-6 left-1/2 -translate-x-1/2 font-mono text-[10px] font-bold text-dark-text whitespace-nowrap">
                         {Math.round(point.predictedDemandKg / 100) / 10}k
                       </div>
                     </div>
 
                     {/* Day label */}
                     <div className="mt-3 text-center">
-                      <span className={`font-mono text-xs font-bold block ${isHovered ? 'text-farm-green underline' : 'text-ink-black'}`}>
+                      <span className={`font-mono text-xs font-bold block ${isHovered ? 'text-farm-green font-extrabold' : 'text-dark-text'}`}>
                         {point.day}
                       </span>
-                      <span className="font-mono text-[10px] text-gray-500 block">
+                      <span className="font-mono text-[10px] text-dark-text/50 block">
                         {point.date.split(' ')[0]}
                       </span>
                     </div>
@@ -207,23 +207,23 @@ export const ForecastChart: React.FC = () => {
           </div>
 
           {/* Legend */}
-          <div className="mt-6 pt-4 border-t border-gray-200 flex flex-wrap items-center justify-between gap-4 font-mono text-xs">
+          <div className="mt-8 pt-4 border-t border-dark-text/10 flex flex-wrap items-center justify-between gap-4 font-mono text-xs text-dark-text/75">
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-2">
-                <span className="w-3.5 h-3.5 bg-farm-green border border-ink-black"></span>
+                <span className="w-3 h-3 rounded bg-farm-green"></span>
                 <span>HISTORICAL REALISED DEMAND</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-3.5 h-3.5 bg-farm-green-light border border-ink-black"></span>
+                <span className="w-3 h-3 rounded bg-soft-green"></span>
                 <span>AI PREDICTIVE DEMAND</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-3.5 h-0.5 bg-soil-brown border border-soil-brown"></span>
+                <span className="w-3.5 h-0.5 bg-farm-green"></span>
                 <span>GROWING TREND LINE</span>
               </div>
             </div>
 
-            <div className="text-gray-600 text-[11px]">
+            <div className="text-dark-text/60 text-[11px]">
               HOVER COLUMNS TO INSPECT TARGET VOLUME
             </div>
           </div>
@@ -231,47 +231,47 @@ export const ForecastChart: React.FC = () => {
         </div>
 
         {/* Signals Driver Breakdown with Agri Weather Indicators */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t-2 border-ink-black font-mono text-xs">
-          <div className="p-4 bg-warm-cream border-2 border-ink-black space-y-1">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 border-t border-dark-text/10 font-mono text-xs">
+          <div className="p-4 bg-paper-bg rounded-2xl border border-dark-text/10 space-y-1.5 shadow-soft-sm">
             <div className="flex items-center gap-1.5 font-bold text-farm-green uppercase">
               <Sun className="w-4 h-4 text-harvest-yellow" /> SIGNAL 01: FESTIVAL SURGE
             </div>
-            <p className="text-[11px] text-gray-700">
+            <p className="text-[11px] text-dark-text/70 leading-relaxed font-sans">
               Navratri/Dussehra preparations in Telangana metropolitan markets driving +24% wholesale tomato demand for catering chains.
             </p>
           </div>
 
-          <div className="p-4 bg-warm-cream border-2 border-ink-black space-y-1">
+          <div className="p-4 bg-paper-bg rounded-2xl border border-dark-text/10 space-y-1.5 shadow-soft-sm">
             <div className="flex items-center gap-1.5 font-bold text-farm-green uppercase">
-              <CloudRain className="w-4 h-4 text-blue-600" /> SIGNAL 02: UPSTREAM RAINFALL
+              <CloudRain className="w-4 h-4 text-primary-green" /> SIGNAL 02: UPSTREAM RAINFALL
             </div>
-            <p className="text-[11px] text-gray-700">
+            <p className="text-[11px] text-dark-text/70 leading-relaxed font-sans">
               Belgaum & Kolar excessive rainfall delayed local picking, shifting buyer demand to Ranga Reddy and Medak greenhouse clusters.
             </p>
           </div>
 
-          <div className="p-4 bg-warm-cream border-2 border-ink-black space-y-1">
+          <div className="p-4 bg-paper-bg rounded-2xl border border-dark-text/10 space-y-1.5 shadow-soft-sm">
             <div className="flex items-center gap-1.5 font-bold text-farm-green uppercase">
-              <Droplets className="w-4 h-4 text-soil-brown" /> SIGNAL 03: PRICE HEADROOM
+              <Droplets className="w-4 h-4 text-terracotta" /> SIGNAL 03: PRICE HEADROOM
             </div>
-            <p className="text-[11px] text-gray-700">
+            <p className="text-[11px] text-dark-text/70 leading-relaxed font-sans">
               Forecast indicates stable wholesale realization at ₹24-₹26/kg for the next 10 days before northern winter arrivals begin.
             </p>
           </div>
         </div>
 
         {/* Mandatory Disclaimer */}
-        <div className="p-4 bg-yellow-50 border-2 border-harvest-yellow text-ink-black font-mono text-xs flex items-start gap-2.5">
-          <AlertCircle className="w-4 h-4 text-ink-black shrink-0 mt-0.5" />
+        <div className="p-4 bg-harvest-yellow/15 border border-accent-yellow/30 rounded-2xl text-dark-text font-mono text-xs flex items-start gap-2.5">
+          <AlertCircle className="w-4 h-4 text-harvest-yellow shrink-0 mt-0.5" />
           <div>
             <strong className="font-bold">OFFICIAL PLATFORM DISCLAIMER:</strong>
-            <p className="mt-0.5 text-gray-800">
+            <p className="mt-0.5 text-dark-text/80 font-sans">
               Forecasts are algorithmic market signals and recommendations, not guaranteed transaction prices or purchase commitments. Actual fulfillment prices are decided directly between buyers and farmers during trade confirmation.
             </p>
           </div>
         </div>
 
-      </Card>
+      </div>
 
     </div>
   );

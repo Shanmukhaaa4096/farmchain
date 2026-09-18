@@ -1,7 +1,7 @@
 import React from 'react';
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: 'white' | 'cream' | 'green' | 'yellow' | 'blue' | 'red' | 'lettuce' | 'orange';
+  variant?: 'white' | 'paper' | 'cream' | 'tint' | 'green' | 'yellow' | 'blue' | 'red' | 'lettuce' | 'orange';
   shadow?: 'default' | 'sm' | 'lg' | 'none' | 'blue' | 'yellow' | 'red';
   interactive?: boolean;
   children: React.ReactNode;
@@ -16,36 +16,39 @@ export const Card: React.FC<CardProps> = ({
   ...props
 }) => {
   const bgStyles = {
-    white: "bg-paper-white text-ink-black",
-    cream: "bg-paper-cream text-ink-black",
-    blue: "bg-blue-crate text-paper-white",
-    green: "bg-green-beans text-paper-white",
-    yellow: "bg-citrus-yellow text-ink-black",
-    red: "bg-tomato-red text-paper-white",
-    lettuce: "bg-lettuce-green text-ink-black",
-    orange: "bg-orange-accent text-paper-white",
+    white: "bg-pure-white text-dark-text border border-dark-text/10",
+    paper: "bg-pure-white text-dark-text border border-dark-text/10",
+    cream: "bg-paper-bg text-dark-text border border-dark-text/10",
+    tint: "bg-[#EAE5D8] text-dark-text border border-dark-text/10",
+    blue: "bg-primary-green text-pure-white border border-primary-green/30",
+    green: "bg-primary-green text-pure-white border border-primary-green/30",
+    yellow: "bg-[#FBF6EA] text-dark-text border border-accent-yellow/30",
+    red: "bg-[#F8ECE6] text-dark-text border border-terracotta/30",
+    lettuce: "bg-soft-green/20 text-dark-text border border-soft-green/40",
+    orange: "bg-terracotta text-pure-white border border-terracotta/30 shadow-soft-terracotta",
   };
 
   const shadowStyles = {
-    default: "shadow-brutal",
-    sm: "shadow-brutal-sm",
-    lg: "shadow-brutal-lg",
-    blue: "shadow-brutal-blue",
-    yellow: "shadow-brutal-yellow",
-    red: "shadow-brutal-red",
+    default: "shadow-soft",
+    sm: "shadow-soft-sm",
+    lg: "shadow-soft-lg",
+    blue: "shadow-soft",
+    yellow: "shadow-soft",
+    red: "shadow-soft-terracotta",
     none: "shadow-none",
   };
 
   const interactiveStyles = interactive 
-    ? "transition-all duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal-lg cursor-pointer" 
+    ? "card-soft-lift cursor-pointer" 
     : "";
 
   return (
     <div
-      className={`border-brutal ${bgStyles[variant]} ${shadowStyles[shadow]} ${interactiveStyles} ${className}`}
+      className={`rounded-3xl ${bgStyles[variant]} ${shadowStyles[shadow]} ${interactiveStyles} ${className}`}
       {...props}
     >
       {children}
     </div>
   );
 };
+

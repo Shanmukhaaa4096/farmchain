@@ -187,16 +187,171 @@ export const HandDrawnRouteLine: React.FC<{
   color?: string;
   dashed?: boolean;
   className?: string;
-}> = ({ d, color = '#293379', dashed = true, className = '' }) => {
+}> = ({ d, color = '#163323', dashed = true, className = '' }) => {
   return (
     <path
       d={d}
       fill="none"
       stroke={color}
-      strokeWidth="2.5"
+      strokeWidth="2"
       strokeLinecap="round"
       strokeDasharray={dashed ? '6 5' : undefined}
       className={className}
     />
   );
 };
+
+/**
+ * CrateDataTag: Authentic agricultural packaging & crate data tag
+ * Inspired by Indian APMC mandi slips, wooden crate stencils, and jute sack tags.
+ */
+export const CrateDataTag: React.FC<{
+  lotId: string;
+  crop: string;
+  grade?: string;
+  weightKg?: number | string;
+  mandiRate?: string | number;
+  className?: string;
+}> = ({
+  lotId,
+  crop,
+  grade = 'GRADE A',
+  weightKg,
+  mandiRate,
+  className = ''
+}) => {
+  return (
+    <div className={`inline-block border border-dashed border-mandi-charcoal/40 bg-mandi-paper p-2 font-mono text-xs select-none ${className}`}>
+      <div className="flex items-center justify-between gap-3 border-b border-mandi-charcoal/20 pb-1 mb-1 text-[9px] text-mandi-charcoal-muted tracking-wider">
+        <span>LOT: {lotId}</span>
+        <span className="text-harvest-orange font-bold font-sans uppercase px-1 bg-harvest-orange-light">{grade}</span>
+      </div>
+      <div className="flex items-baseline justify-between gap-4">
+        <span className="font-serif font-bold text-sm text-mandi-charcoal uppercase">{crop}</span>
+        {weightKg && <span className="font-mono text-[11px] font-semibold text-mandi-leaf">{weightKg} KG</span>}
+      </div>
+      {mandiRate && (
+        <div className="mt-1 pt-1 border-t border-dotted border-mandi-charcoal/20 flex items-center justify-between text-[10px]">
+          <span className="text-mandi-charcoal-muted">FARM-GATE:</span>
+          <span className="font-bold text-mandi-green">₹{mandiRate}/KG</span>
+        </div>
+      )}
+    </div>
+  );
+};
+
+/**
+ * WavySquiggle: Hand-drawn undulating SVG underline for retro editorial headlines.
+ */
+export const WavySquiggle: React.FC<{
+  color?: string;
+  className?: string;
+  width?: number | string;
+}> = ({ color = '#C96B45', className = 'w-24 sm:w-36 h-3 sm:h-4.5', width }) => (
+  <svg
+    viewBox="0 0 140 18"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={`inline-block overflow-visible ${className}`}
+    style={width ? { width } : undefined}
+  >
+    <path
+      d="M 4 9 Q 20 2, 36 9 T 68 9 T 100 9 T 134 9"
+      stroke={color}
+      strokeWidth="3.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+/**
+ * CircularRotatingBadge: Signature circular sticker badge with rotating textPath and slow 20s animation.
+ * Direct visual homage to the Wash House "MADE BY HAND • WITH LOVE •" sticker badge.
+ */
+export const CircularRotatingBadge: React.FC<{
+  text?: string;
+  icon?: React.ReactNode;
+  className?: string;
+  size?: number;
+  bg?: string;
+  textColor?: string;
+}> = ({
+  text = 'FROM FARM TO MARKET • DIRECT TRADE • ',
+  icon,
+  className = '',
+  size = 112,
+  bg = 'bg-accent-yellow',
+  textColor = '#17231A'
+}) => {
+  return (
+    <div
+      className={`relative flex items-center justify-center rounded-full shadow-soft select-none border border-dark-text/10 ${bg} ${className}`}
+      style={{ width: size, height: size }}
+    >
+      <svg
+        viewBox="0 0 100 100"
+        className="w-full h-full animate-spin-slow"
+        style={{ overflow: 'visible' }}
+      >
+        <path
+          id="badgeCirclePath"
+          d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
+          fill="none"
+        />
+        <text
+          fill={textColor}
+          fontSize="9.2"
+          fontWeight="bold"
+          letterSpacing="0.18em"
+          className="uppercase font-mono"
+        >
+          <textPath href="#badgeCirclePath" startOffset="0%">
+            {text}
+          </textPath>
+        </text>
+      </svg>
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none text-dark-text">
+        {icon || (
+          <svg className="w-6 h-6 stroke-[2]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M7 20h10" />
+            <path d="M10 20c0-4.5 1-8 2-12" />
+            <path d="M12 8c2.5-3 5-3 7-2-1 4-3.5 5.5-7 5.5" />
+            <path d="M12 11.5c-2.5-2.5-5-2-6.5-.5.5 3.5 3 4.5 6.5 4.5" />
+          </svg>
+        )}
+      </div>
+    </div>
+  );
+};
+
+/**
+ * WavySectionDivider: Smooth organic wavy seam between alternating full-bleed color sections.
+ */
+export const WavySectionDivider: React.FC<{
+  fillColor?: string;
+  bgColor?: string;
+  flip?: boolean;
+  className?: string;
+}> = ({
+  fillColor = 'var(--color-paper-bg, #F4F0E6)',
+  bgColor = 'transparent',
+  flip = false,
+  className = ''
+}) => (
+  <div className={`w-full overflow-hidden leading-none ${className}`} style={{ backgroundColor: bgColor }}>
+    <svg
+      viewBox="0 0 1440 60"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={`w-full block h-7 sm:h-11 md:h-14 ${flip ? 'rotate-180' : ''}`}
+      preserveAspectRatio="none"
+    >
+      <path
+        d="M0 28C240 50 480 58 720 42C960 26 1200 6 1440 28V60H0V28Z"
+        fill={fillColor}
+      />
+    </svg>
+  </div>
+);
+

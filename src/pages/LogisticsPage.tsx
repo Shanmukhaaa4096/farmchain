@@ -6,15 +6,15 @@ import {
   Clock, 
   Phone, 
   CheckCircle2, 
-  Navigation,
-  ChevronDown,
-  ChevronUp,
-  Radio
+  Navigation, 
+  ChevronDown, 
+  ChevronUp, 
+  Radio,
+  ThermometerSnowflake
 } from 'lucide-react';
 import { LogisticsMap } from '../components/interactive/LogisticsMap';
 import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
-import { Card } from '../components/ui/Card';
 import { UserRole } from '../types';
 
 interface LogisticsPageProps {
@@ -76,134 +76,154 @@ export const LogisticsPage: React.FC<LogisticsPageProps> = ({
   const [showTechnicalDetails, setShowTechnicalDetails] = useState(false);
 
   return (
-    <div className="py-6 sm:py-10 bg-warm-cream min-h-screen">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-6">
+    <div className="py-8 sm:py-12 bg-paper-bg min-h-screen text-dark-text">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 space-y-8">
         
-        {/* Simple Page Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b-2 border-ink-black">
+        {/* Editorial Logistics Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pb-6 border-b border-dark-text/10">
           <div>
-            <h1 className="font-heading font-black text-3xl sm:text-4xl uppercase tracking-tight text-ink-black">
-              DELIVERY & PICKUPS
+            <div className="flex items-center gap-2 mb-2 font-mono text-xs text-dark-text/60">
+              <span className="px-2.5 py-0.5 rounded-full bg-farm-green text-paper-bg text-[10px] uppercase tracking-wider font-semibold">
+                Reefer Fleet Network
+              </span>
+              <span className="px-2.5 py-0.5 rounded-full bg-pure-white text-dark-text border border-dark-text/15 text-[10px] uppercase font-semibold">
+                APMC Exemption Verified
+              </span>
+            </div>
+            <h1 className="font-serif font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-dark-text">
+              Logistics &amp; Farm-Gate Dispatch
             </h1>
-            <p className="font-body text-xs sm:text-sm text-gray-700 mt-1">
-              Coordinated farm-gate vehicle pickups and cold-chain transport.
+            <p className="text-xs sm:text-base text-dark-text/70 mt-1 max-w-2xl">
+              Coordinated single-loop farm-gate vehicle pickups, cluster aggregation, and temperature-controlled direct delivery straight to institutional docks.
             </p>
           </div>
 
-          <Button
-            variant="yellow"
-            size="sm"
-            onClick={() => {
-              const action = () => {
-                if (onPostAvailability) onPostAvailability();
-              };
+          <div className="shrink-0">
+            <Button
+              variant="clay"
+              size="md"
+              onClick={() => {
+                const action = () => {
+                  if (onPostAvailability) onPostAvailability();
+                };
 
-              if (!isAuthenticated && requireAuth) {
-                requireAuth(
-                  'logistics',
-                  action,
-                  'Logistics carrier authentication required to register fleet capacity.'
-                );
-              } else {
-                action();
-              }
-            }}
-            className="self-start sm:self-auto font-heading font-black text-xs"
-          >
-            <Truck className="w-4 h-4 mr-1.5" />
-            <span>POST VEHICLE CAPACITY</span>
-          </Button>
+                if (!isAuthenticated && requireAuth) {
+                  requireAuth(
+                    'logistics',
+                    action,
+                    'Logistics carrier authentication required to register fleet capacity.'
+                  );
+                } else {
+                  action();
+                }
+              }}
+              className="shadow-soft-terracotta text-xs tracking-wider uppercase font-semibold"
+            >
+              <Truck className="w-4 h-4 mr-1.5" />
+              <span>Register Reefer Fleet</span>
+            </Button>
+          </div>
         </div>
 
-        {/* Farmer-Friendly Delivery Cards (Simple, Stacked, Touch-Friendly) */}
+        {/* Live Circuits Cards */}
         <div className="space-y-4">
-          <div className="flex items-center justify-between font-mono text-xs text-gray-600">
+          <div className="flex items-center justify-between font-mono text-xs text-dark-text/60">
             <span>ACTIVE TRANSIT CIRCUITS</span>
-            <span className="text-farm-green font-bold flex items-center gap-1">
-              <Radio className="w-3.5 h-3.5 animate-pulse" /> LIVE TRACKING ACTIVE
+            <span className="text-farm-green font-semibold flex items-center gap-1.5">
+              <Radio className="w-3.5 h-3.5 animate-pulse text-terracotta" /> Fleet Telemetry Live
             </span>
           </div>
 
-          {PICKUP_CIRCUITS.map((circuit) => (
-            <Card
-              key={circuit.id}
-              variant="white"
-              className="p-5 border-brutal space-y-3"
-            >
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-gray-200">
-                <div>
-                  <span className="font-mono text-[10px] text-gray-500 font-bold block">
-                    CIRCUIT {circuit.id}
-                  </span>
-                  <strong className="font-heading font-black text-lg sm:text-xl uppercase text-ink-black">
-                    {circuit.crop} • {circuit.quantityKg.toLocaleString()} KG
-                  </strong>
+          {PICKUP_CIRCUITS.map((circuit) => {
+            const isTransit = circuit.status === 'In Transit';
+
+            return (
+              <div
+                key={circuit.id}
+                className="rounded-3xl border border-dark-text/10 bg-pure-white p-6 shadow-soft-sm hover:border-farm-green/30 hover:shadow-soft-md transition-all space-y-4"
+              >
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-dark-text/10">
+                  <div>
+                    <span className="font-mono text-[10px] text-dark-text/50 font-bold block uppercase tracking-wider">
+                      CIRCUIT {circuit.id}
+                    </span>
+                    <strong className="font-serif font-bold text-xl text-dark-text">
+                      {circuit.crop} • {circuit.quantityKg.toLocaleString()} KG
+                    </strong>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    {circuit.tempCelsius !== 'Ambient' && (
+                      <span className="px-2.5 py-1 rounded-full bg-blue-50 text-blue-800 border border-blue-200 text-xs font-mono font-semibold flex items-center gap-1">
+                        <ThermometerSnowflake className="w-3.5 h-3.5 text-blue-600" />
+                        {circuit.tempCelsius}
+                      </span>
+                    )}
+
+                    <span className={`px-3 py-1 rounded-full font-mono font-bold text-xs uppercase flex items-center gap-1.5 ${
+                      isTransit
+                        ? 'bg-terracotta/15 text-terracotta border border-terracotta/25'
+                        : 'bg-farm-green/10 text-farm-green border border-farm-green/20'
+                    }`}>
+                      <Truck className="w-3.5 h-3.5" />
+                      {circuit.status}
+                    </span>
+                  </div>
                 </div>
 
-                <div>
-                  <span className={`px-2.5 py-1 border font-mono font-bold text-xs uppercase inline-flex items-center gap-1 ${
-                    circuit.status === 'In Transit'
-                      ? 'bg-citrus-yellow text-ink-black border-ink-black'
-                      : 'bg-blue-50 text-blue-900 border-blue-900'
-                  }`}>
-                    <Truck className="w-3.5 h-3.5" />
-                    {circuit.status}
-                  </span>
+                {/* Circuit Routing Details */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs text-dark-text/80">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-farm-green shrink-0" />
+                    <span>Pickup: <strong className="text-dark-text">{circuit.pickupLocation}</strong></span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-farm-green shrink-0" />
+                    <span>Scheduled: <strong className="text-dark-text">{circuit.date}, {circuit.time}</strong></span>
+                  </div>
+                  <div className="flex items-center gap-2 sm:col-span-2">
+                    <Navigation className="w-4 h-4 text-farm-green shrink-0" />
+                    <span className="truncate">Destination: <strong className="text-dark-text">{circuit.destination}</strong></span>
+                  </div>
+                </div>
+
+                {/* Driver Contact & Action */}
+                <div className="pt-3 border-t border-dark-text/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                  <div className="text-dark-text/70 font-mono">
+                    <span>Driver: <strong className="text-dark-text">{circuit.driverName}</strong> ({circuit.vehiclePlate})</span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <a
+                      href={`tel:${circuit.driverPhone}`}
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-dark-text/15 bg-paper-bg/60 font-semibold text-xs text-dark-text hover:bg-paper-bg transition-colors"
+                    >
+                      <Phone className="w-3.5 h-3.5 text-farm-green" />
+                      <span>Call Driver</span>
+                    </a>
+                    <button
+                      onClick={() => setShowTechnicalDetails(true)}
+                      className="px-3.5 py-1.5 rounded-full border border-dark-text/15 bg-pure-white font-semibold text-xs text-farm-green hover:bg-paper-bg transition-colors shadow-soft-sm"
+                    >
+                      View GPS Route →
+                    </button>
+                  </div>
                 </div>
               </div>
-
-              {/* Essential Details */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono text-xs text-gray-800">
-                <div className="flex items-center gap-1.5">
-                  <MapPin className="w-3.5 h-3.5 text-farm-green shrink-0" />
-                  <span>Pickup: <strong>{circuit.pickupLocation}</strong></span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-farm-green shrink-0" />
-                  <span>Date/Time: <strong>{circuit.date}, {circuit.time}</strong></span>
-                </div>
-                <div className="flex items-center gap-1.5 sm:col-span-2">
-                  <Navigation className="w-3.5 h-3.5 text-blue-800 shrink-0" />
-                  <span className="truncate">Destination: <strong>{circuit.destination}</strong></span>
-                </div>
-              </div>
-
-              {/* Driver Contact & Action */}
-              <div className="pt-2 border-t border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-mono text-xs">
-                <div className="text-gray-700">
-                  <span>Driver: <strong>{circuit.driverName}</strong> ({circuit.vehiclePlate})</span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <a
-                    href={`tel:${circuit.driverPhone}`}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-warm-cream border border-ink-black font-bold text-xs hover:bg-citrus-yellow"
-                  >
-                    <Phone className="w-3.5 h-3.5" />
-                    <span>CALL DRIVER</span>
-                  </a>
-                  <button
-                    onClick={() => setShowTechnicalDetails(true)}
-                    className="px-3 py-1.5 bg-paper-white border border-ink-black font-bold text-xs hover:bg-gray-100"
-                  >
-                    VIEW GPS ROUTE →
-                  </button>
-                </div>
-              </div>
-            </Card>
-          ))}
+            );
+          })}
         </div>
 
-        {/* PROGRESSIVE DISCLOSURE: LIVE GPS ROUTE MAP & TECHNICAL TELEMETRY */}
-        <div className="pt-6 border-t-2 border-ink-black text-center">
+        {/* Live GPS Route Map & Manifest Toggle */}
+        <div className="pt-6 border-t border-dark-text/10 text-center">
           <button
             onClick={() => setShowTechnicalDetails(!showTechnicalDetails)}
-            className="inline-flex items-center gap-2 font-heading font-bold text-xs uppercase px-4 py-2.5 bg-paper-white border-2 border-ink-black shadow-brutal-sm hover:bg-citrus-yellow transition-colors"
+            className="inline-flex items-center gap-2 font-mono font-semibold text-xs uppercase px-5 py-2.5 rounded-full border border-dark-text/15 bg-pure-white shadow-soft-sm hover:bg-paper-bg transition-colors text-dark-text"
           >
             <span>
               {showTechnicalDetails
-                ? 'HIDE LIVE GPS MAP & FLEET TELEMETRY ▲'
-                : 'VIEW LIVE GPS MAP & FLEET TELEMETRY TABLE ▼'}
+                ? 'Hide Live GPS Map & Fleet Manifest ▲'
+                : 'View Live GPS Map & Fleet Manifest Table ▼'}
             </span>
           </button>
         </div>
@@ -213,30 +233,30 @@ export const LogisticsPage: React.FC<LogisticsPageProps> = ({
             {/* The Interactive Map */}
             <LogisticsMap requireAuth={requireAuth} isAuthenticated={isAuthenticated} />
 
-            {/* Technical Fleet Telemetry Table */}
-            <div className="space-y-2 font-mono text-xs">
-              <strong className="font-heading font-bold uppercase text-sm block text-ink-black">
-                FULL REGIONAL DISPATCH MANIFEST
+            {/* Fleet Manifest Table */}
+            <div className="space-y-3 font-mono text-xs">
+              <strong className="font-serif text-lg font-bold text-dark-text block">
+                Full Regional Dispatch Manifest
               </strong>
               
-              <div className="overflow-x-auto border-brutal bg-paper-white shadow-brutal scrollbar-thin">
+              <div className="overflow-x-auto rounded-2xl border border-dark-text/10 bg-pure-white shadow-soft-sm">
                 <table className="w-full text-left font-mono text-xs border-collapse min-w-[560px]">
                   <thead>
-                    <tr className="bg-ink-black text-paper-white border-b-2 border-ink-black">
-                      <th className="p-3 uppercase font-heading font-bold">ROUTE ID</th>
-                      <th className="p-3 uppercase font-heading font-bold">CORRIDOR</th>
-                      <th className="p-3 uppercase font-heading font-bold">LOAD</th>
-                      <th className="p-3 uppercase font-heading font-bold">STATUS</th>
+                    <tr className="bg-farm-green text-paper-bg border-b border-dark-text/10">
+                      <th className="p-3.5 uppercase font-semibold">ROUTE ID</th>
+                      <th className="p-3.5 uppercase font-semibold">CORRIDOR</th>
+                      <th className="p-3.5 uppercase font-semibold">LOAD</th>
+                      <th className="p-3.5 uppercase font-semibold">STATUS</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y-2 divide-ink-black">
+                  <tbody className="divide-y divide-dark-text/10">
                     {PICKUP_CIRCUITS.map((circuit) => (
-                      <tr key={circuit.id} className="hover:bg-warm-cream transition-colors">
-                        <td className="p-3 font-bold text-farm-green">{circuit.id}</td>
-                        <td className="p-3 text-gray-800">{circuit.pickupLocation.split(' ')[0]} → {circuit.destination.split(' ')[0]}</td>
-                        <td className="p-3 font-bold">{circuit.crop} ({circuit.quantityKg} KG)</td>
-                        <td className="p-3">
-                          <span className="px-2 py-0.5 bg-yellow-100 text-yellow-900 border border-yellow-800 font-bold text-[10px]">
+                      <tr key={circuit.id} className="hover:bg-paper-bg/50 transition-colors">
+                        <td className="p-3.5 font-semibold text-farm-green">{circuit.id}</td>
+                        <td className="p-3.5 text-dark-text">{circuit.pickupLocation.split(' ')[0]} → {circuit.destination.split(' ')[0]}</td>
+                        <td className="p-3.5 font-bold text-dark-text">{circuit.crop} ({circuit.quantityKg.toLocaleString()} KG)</td>
+                        <td className="p-3.5">
+                          <span className="px-2.5 py-0.5 rounded-full bg-farm-green/10 text-farm-green border border-farm-green/20 font-semibold text-[10px]">
                             {circuit.status}
                           </span>
                         </td>

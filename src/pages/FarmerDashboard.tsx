@@ -53,358 +53,336 @@ export const FarmerDashboard: React.FC<FarmerDashboardProps> = ({
   const [showMarketDetails, setShowMarketDetails] = useState(false);
 
   return (
-    <div className="py-6 sm:py-10 bg-warm-cream min-h-screen">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-6">
+    <div className="py-8 sm:py-12 bg-paper-bg min-h-screen text-dark-text">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 space-y-8">
         
-        {/* Simple Welcome & Quick Profile */}
-        <div className="bg-farm-green text-paper-white border-brutal-thick p-5 sm:p-6 shadow-brutal flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2 mb-1 font-mono text-xs text-harvest-yellow font-bold">
-              <span>KISAN ID: {currentFarmer.kisanId}</span>
-              <span>•</span>
-              <span>{currentFarmer.village}, {currentFarmer.district}</span>
+        {/* Editorial Farmer Hub Header Card */}
+        <div className="rounded-3xl border border-dark-text/15 bg-farm-green text-paper-bg p-6 sm:p-8 shadow-soft-md relative overflow-hidden">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 relative z-10">
+            <div className="space-y-2">
+              <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
+                <span className="px-2.5 py-0.5 rounded-full bg-paper-bg/15 text-paper-bg border border-paper-bg/20 font-bold uppercase tracking-wider">
+                  KISAN ID: {currentFarmer.kisanId}
+                </span>
+                <span className="text-paper-bg/60">•</span>
+                <span className="text-paper-bg/90 flex items-center gap-1">
+                  <MapPin className="w-3.5 h-3.5 text-harvest-yellow" />
+                  {currentFarmer.village}, {currentFarmer.district}
+                </span>
+              </div>
+              <h1 className="font-serif text-2xl sm:text-3xl font-bold tracking-tight text-paper-bg">
+                Namaste, {currentFarmer.name.split(' ')[0]}
+              </h1>
+              <p className="text-xs sm:text-sm text-paper-bg/80 max-w-xl">
+                Direct Farmer Ledger • Zero broker deductions • Direct bank escrow settlement within 2 hours of dock signoff.
+              </p>
             </div>
-            <h1 className="font-heading font-black text-2xl sm:text-3xl uppercase tracking-tight">
-              NAMASTE, {currentFarmer.name.split(' ')[0].toUpperCase()}
-            </h1>
-            <p className="font-body text-xs sm:text-sm text-warm-cream mt-0.5">
-              Direct Farmer Hub • Zero broker fee • 100% direct bank payout
-            </p>
-          </div>
 
-          <div className="flex items-center gap-2 self-start sm:self-auto">
-            {onOpenSellModal ? (
+            <div className="flex items-center gap-3 self-start sm:self-auto shrink-0">
               <Button
-                variant="yellow"
+                variant="clay"
                 size="md"
-                onClick={onOpenSellModal}
-                className="font-heading font-black text-xs sm:text-sm px-4 shadow-brutal-sm"
+                onClick={onOpenSellModal || (() => onNavigate('marketplace'))}
+                className="shadow-soft-terracotta text-xs tracking-wider uppercase font-semibold"
               >
-                + LIST PRODUCE
+                <Plus className="w-4 h-4 mr-1.5" />
+                List Produce
               </Button>
-            ) : (
-              <Button
-                variant="yellow"
-                size="md"
-                onClick={() => onNavigate('marketplace')}
-                className="font-heading font-black text-xs sm:text-sm px-4 shadow-brutal-sm"
-              >
-                + LIST PRODUCE
-              </Button>
-            )}
+            </div>
           </div>
         </div>
 
-        {/* 4 ESSENTIAL METRIC CARDS (Large numbers, short labels) */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono">
+        {/* 4 Essential Metric Cards */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           
           {/* Card 1: Today's Orders */}
-          <Card 
-            variant="white" 
-            interactive
+          <div 
             onClick={() => onNavigate('orders')}
-            className="p-4 border-brutal"
+            className="cursor-pointer rounded-2xl border border-dark-text/10 bg-pure-white p-5 shadow-soft-sm hover:border-farm-green/40 hover:shadow-soft-md transition-all group"
           >
-            <span className="text-[10px] sm:text-xs text-gray-600 font-bold block uppercase">
-              TODAY'S ORDERS
+            <span className="text-[11px] font-mono text-dark-text/50 uppercase tracking-wider block">
+              Today's Orders
             </span>
-            <div className="font-heading font-black text-3xl sm:text-4xl text-ink-black mt-1">
+            <div className="font-serif text-3xl font-bold text-dark-text mt-1.5 group-hover:text-farm-green transition-colors">
               03
             </div>
-            <div className="text-[10px] text-farm-green font-bold mt-1">
-              ✓ On schedule for pickup
+            <div className="text-xs text-farm-green font-medium mt-1 flex items-center gap-1">
+              <CheckCircle2 className="w-3.5 h-3.5" /> On schedule for pickup
             </div>
-          </Card>
+          </div>
 
           {/* Card 2: Pending Actions */}
-          <Card 
-            variant="yellow" 
-            interactive
+          <div 
             onClick={() => onNavigate('marketplace')}
-            className="p-4 border-brutal"
+            className="cursor-pointer rounded-2xl border border-dark-text/10 bg-pure-white p-5 shadow-soft-sm hover:border-farm-green/40 hover:shadow-soft-md transition-all group"
           >
-            <span className="text-[10px] sm:text-xs text-ink-black font-bold block uppercase">
-              PENDING ACTIONS
+            <span className="text-[11px] font-mono text-dark-text/50 uppercase tracking-wider block">
+              Matching Requests
             </span>
-            <div className="font-heading font-black text-3xl sm:text-4xl text-ink-black mt-1">
+            <div className="font-serif text-3xl font-bold text-terracotta mt-1.5">
               02
             </div>
-            <div className="text-[10px] text-ink-black font-bold mt-1">
-              Buyer requests to pledge
+            <div className="text-xs text-dark-text/60 mt-1">
+              Ready to pledge harvest
             </div>
-          </Card>
+          </div>
 
-          {/* Card 3: Earnings */}
-          <Card 
-            variant="white" 
-            className="p-4 border-brutal"
-          >
-            <span className="text-[10px] sm:text-xs text-gray-600 font-bold block uppercase">
-              TOTAL EARNINGS
+          {/* Card 3: Total Earnings */}
+          <div className="rounded-2xl border border-dark-text/10 bg-pure-white p-5 shadow-soft-sm">
+            <span className="text-[11px] font-mono text-dark-text/50 uppercase tracking-wider block">
+              Total Earnings
             </span>
-            <div className="font-heading font-black text-2xl sm:text-3xl text-farm-green mt-1">
+            <div className="font-serif text-2xl sm:text-3xl font-bold text-farm-green mt-1.5">
               ₹1,48,200
             </div>
-            <div className="text-[10px] text-gray-500 font-bold mt-1">
-              Direct to bank account
+            <div className="text-xs text-dark-text/60 mt-1">
+              Direct bank payouts
             </div>
-          </Card>
+          </div>
 
-          {/* Card 4: Current Listings */}
-          <Card 
-            variant="white" 
-            className="p-4 border-brutal"
-          >
-            <span className="text-[10px] sm:text-xs text-gray-600 font-bold block uppercase">
-              MY LISTINGS
+          {/* Card 4: Active Lots */}
+          <div className="rounded-2xl border border-dark-text/10 bg-pure-white p-5 shadow-soft-sm">
+            <span className="text-[11px] font-mono text-dark-text/50 uppercase tracking-wider block">
+              Active Lots
             </span>
-            <div className="font-heading font-black text-3xl sm:text-4xl text-ink-black mt-1">
+            <div className="font-serif text-3xl font-bold text-dark-text mt-1.5">
               03
             </div>
-            <div className="text-[10px] text-gray-600 font-bold mt-1">
+            <div className="text-xs text-dark-text/60 mt-1">
               1,950 KG available
             </div>
-          </Card>
+          </div>
 
         </div>
 
         {/* SECTION 1: TODAY'S ACTIVE PICKUPS */}
-        <div className="space-y-3">
-          <div className="flex items-center justify-between pb-2 border-b-2 border-ink-black">
+        <div className="space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-dark-text/10">
             <div className="flex items-center gap-2">
               <Truck className="w-5 h-5 text-farm-green" />
-              <h2 className="font-heading font-black text-lg sm:text-xl uppercase text-ink-black">
-                TODAY'S PICKUPS
+              <h2 className="font-serif text-xl font-bold text-dark-text">
+                Today's Scheduled Pickups
               </h2>
             </div>
             <button
               onClick={() => onNavigate('orders')}
-              className="font-mono text-xs font-bold text-farm-green hover:underline"
+              className="text-xs font-semibold text-farm-green hover:underline flex items-center gap-1"
             >
-              VIEW ALL ORDERS →
+              View All Orders →
             </button>
           </div>
 
-          <Card variant="white" className="p-4 sm:p-5 border-brutal space-y-3">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="rounded-2xl border border-dark-text/10 bg-pure-white p-5 shadow-soft-sm space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <div className="flex items-center gap-2">
-                  <span className="font-heading font-black text-lg uppercase text-ink-black">
-                    TOMATOES (GRADE A)
+                <div className="flex items-center gap-2.5">
+                  <span className="font-serif font-bold text-lg text-dark-text">
+                    Tomatoes (Grade A)
                   </span>
-                  <span className="font-mono text-xs font-bold px-2 py-0.5 bg-citrus-yellow border border-ink-black">
+                  <span className="font-mono text-xs font-semibold px-2.5 py-0.5 rounded-full bg-paper-bg text-dark-text border border-dark-text/10">
                     800 KG
                   </span>
                 </div>
-                <p className="font-mono text-xs text-gray-600 mt-0.5">
-                  Buyer: <strong>UrbanFork Kitchens</strong> • Agreed Rate: <strong>₹24/KG</strong> (₹19,200)
+                <p className="text-xs text-dark-text/70 mt-1">
+                  Buyer: <strong className="text-dark-text">UrbanFork Kitchens</strong> • Rate: <strong className="text-farm-green">₹24/KG</strong> (₹19,200)
                 </p>
-                <div className="flex items-center gap-2 font-mono text-xs text-gray-700 mt-1">
+                <div className="flex items-center gap-2 font-mono text-xs text-dark-text/60 mt-1.5">
                   <Clock className="w-3.5 h-3.5 text-farm-green" />
-                  <span>Pickup: <strong>Today, 07:15 AM</strong> at Village Hub</span>
+                  <span>Pickup: <strong className="text-dark-text">Today, 07:15 AM</strong> at Village Hub</span>
                 </div>
               </div>
 
-              <div className="flex sm:flex-col items-center sm:items-end gap-2">
-                <span className="px-2.5 py-1 bg-green-100 text-green-900 border border-green-900 font-mono font-bold text-xs uppercase flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5" /> READY FOR PICKUP
+              <div className="flex sm:flex-col items-center sm:items-end gap-2.5">
+                <span className="px-3 py-1 bg-farm-green/10 text-farm-green border border-farm-green/20 rounded-full font-mono font-semibold text-xs uppercase flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5" /> Reefer Dispatched
                 </span>
                 <button
                   onClick={() => onNavigate('logistics')}
-                  className="font-mono text-[11px] font-bold text-farm-green hover:underline"
+                  className="text-xs font-semibold text-farm-green hover:underline"
                 >
-                  TRACK VEHICLE →
+                  Track Vehicle →
                 </button>
               </div>
             </div>
-          </Card>
+          </div>
         </div>
 
-        {/* SECTION 2: NEARBY BUYER REQUESTS (ACTION NEEDED) */}
-        <div className="space-y-3">
-          <div className="flex items-center justify-between pb-2 border-b-2 border-ink-black">
+        {/* SECTION 2: MATCHED BUYER REQUESTS */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-dark-text/10">
             <div className="flex items-center gap-2">
               <TrendingUp className="w-5 h-5 text-farm-green" />
-              <h2 className="font-heading font-black text-lg sm:text-xl uppercase text-ink-black">
-                MATCHED BUYER REQUESTS
+              <h2 className="font-serif text-xl font-bold text-dark-text">
+                Matched Buyer Requests
               </h2>
             </div>
             <button
               onClick={() => onNavigate('marketplace')}
-              className="font-mono text-xs font-bold text-farm-green hover:underline"
+              className="text-xs font-semibold text-farm-green hover:underline flex items-center gap-1"
             >
-              BROWSE ALL ({demands.length}) →
+              Browse All ({demands.length}) →
             </button>
           </div>
 
           <div className="space-y-3">
             {demands.slice(0, 2).map((demand) => (
-              <Card
+              <div
                 key={demand.id}
-                variant="white"
-                className="p-4 sm:p-5 border-brutal hover:border-farm-green transition-colors"
+                className="rounded-2xl border border-dark-text/10 bg-pure-white p-5 hover:border-farm-green/30 transition-all shadow-soft-sm"
               >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="font-heading font-black text-base sm:text-lg uppercase text-ink-black">
+                      <span className="font-serif font-bold text-lg text-dark-text">
                         {demand.crop}
                       </span>
-                      <span className="font-mono text-xs font-bold text-gray-500">
+                      <span className="font-mono text-xs text-dark-text/60">
                         • {demand.quantityKg.toLocaleString()} KG NEEDED
                       </span>
-                      <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 bg-green-100 text-green-800 border border-green-800">
+                      <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-farm-green/10 text-farm-green border border-farm-green/20">
                         {demand.qualityGrade}
                       </span>
                     </div>
 
-                    <p className="font-mono text-xs text-gray-600 mt-1">
-                      Buyer: <strong>{demand.buyerName}</strong> • Offer: <strong className="text-farm-green">₹{demand.targetPricePerKg}/KG</strong> • Delivery: {demand.requiredDate}
+                    <p className="text-xs text-dark-text/70 mt-1">
+                      Buyer: <strong className="text-dark-text">{demand.buyerName}</strong> • Offer: <strong className="text-farm-green">₹{demand.targetPricePerKg}/KG</strong> • Delivery: {demand.requiredDate}
                     </p>
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0">
                     <Button
-                      variant="yellow"
+                      variant="clay"
                       size="sm"
                       onClick={() => onPledgeDemand(demand)}
-                      className="text-xs font-heading font-black px-4"
+                      className="text-xs px-4 shadow-soft-terracotta"
                     >
                       PLEDGE CROP →
                     </Button>
                     <button
                       onClick={() => onSelectDemand(demand)}
-                      className="font-mono text-xs text-gray-600 hover:underline px-2 py-1"
+                      className="text-xs text-dark-text/60 hover:text-dark-text hover:underline px-2.5 py-1"
                     >
                       Specs
                     </button>
                   </div>
                 </div>
-              </Card>
+              </div>
             ))}
           </div>
         </div>
 
-        {/* SECTION 3: MY CURRENT LISTINGS (HARVEST CALENDAR) */}
-        <div className="space-y-3">
-          <div className="flex items-center justify-between pb-2 border-b-2 border-ink-black">
+        {/* SECTION 3: MY REGISTERED CROPS */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-dark-text/10">
             <div className="flex items-center gap-2">
               <Calendar className="w-5 h-5 text-farm-green" />
-              <h2 className="font-heading font-black text-lg sm:text-xl uppercase text-ink-black">
-                MY REGISTERED CROPS
+              <h2 className="font-serif text-xl font-bold text-dark-text">
+                My Registered Crops
               </h2>
             </div>
             
-            {onOpenSellModal ? (
-              <button
-                onClick={onOpenSellModal}
-                className="font-mono text-xs font-bold text-farm-green hover:underline flex items-center gap-1"
-              >
-                <Plus className="w-3.5 h-3.5" />
-                <span>ADD CROP</span>
-              </button>
-            ) : (
-              <button
-                onClick={() => onNavigate('marketplace')}
-                className="font-mono text-xs font-bold text-farm-green hover:underline flex items-center gap-1"
-              >
-                <Plus className="w-3.5 h-3.5" />
-                <span>ADD CROP</span>
-              </button>
-            )}
+            <button
+              onClick={onOpenSellModal || (() => onNavigate('marketplace'))}
+              className="text-xs font-semibold text-farm-green hover:underline flex items-center gap-1"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              <span>ADD CROP</span>
+            </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {cropsInventory.map((item, idx) => (
-              <Card key={idx} variant="white" className="p-4 border-brutal space-y-1.5 font-mono text-xs">
+              <div key={idx} className="rounded-2xl border border-dark-text/10 bg-pure-white p-4 shadow-soft-sm space-y-2">
                 <div className="flex items-center justify-between">
-                  <strong className="font-heading font-black text-base uppercase text-ink-black">
+                  <strong className="font-serif font-bold text-base text-dark-text">
                     {item.crop}
                   </strong>
                   <span className="font-bold text-farm-green">₹{item.expectedPrice}/KG</span>
                 </div>
-                <p className="text-[11px] text-gray-600">
+                <p className="text-xs text-dark-text/60">
                   {item.variety} • {item.acreage} Acres
                 </p>
-                <div className="flex items-center justify-between pt-1 border-t border-gray-200">
-                  <span className="text-gray-500">Available:</span>
-                  <strong className="text-ink-black">{item.estimatedKg} KG</strong>
+                <div className="flex items-center justify-between pt-2 border-t border-dark-text/10 text-xs font-mono">
+                  <span className="text-dark-text/60">Available:</span>
+                  <strong className="text-dark-text">{item.estimatedKg} KG</strong>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-500">Pledged:</span>
+                <div className="flex items-center justify-between text-xs font-mono">
+                  <span className="text-dark-text/60">Pledged:</span>
                   <strong className="text-farm-green">{item.pledgedKg} KG</strong>
                 </div>
-                <div className="text-[10px] text-gray-500 pt-1">
-                  Ready: <strong>{item.readyDate}</strong>
+                <div className="text-[11px] text-dark-text/50 pt-1 font-mono">
+                  Harvest Ready: <strong className="text-dark-text">{item.readyDate}</strong>
                 </div>
-              </Card>
+              </div>
             ))}
           </div>
         </div>
 
         {/* PROGRESSIVE DISCLOSURE: AI DEMAND FORECAST & FPO POOLING DETAILS */}
-        <div className="pt-4 border-t-2 border-ink-black text-center">
+        <div className="pt-4 border-t border-dark-text/10 text-center">
           <button
             onClick={() => setShowMarketDetails(!showMarketDetails)}
-            className="inline-flex items-center gap-2 font-heading font-bold text-xs uppercase px-4 py-2.5 bg-paper-white border-2 border-ink-black shadow-brutal-sm hover:bg-citrus-yellow transition-colors"
+            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider px-5 py-2.5 rounded-full border border-dark-text/15 bg-pure-white hover:bg-paper-bg shadow-soft-sm text-dark-text transition-colors"
           >
-            <span>{showMarketDetails ? 'HIDE 7-DAY FORECAST & FPO DETAILS ▲' : 'VIEW 7-DAY AI DEMAND FORECAST & FPO POOLING DETAILS ▼'}</span>
+            <span>{showMarketDetails ? 'Hide 7-Day Forecast & FPO Details ▲' : 'View 7-Day Forward Demand Forecast & FPO Details ▼'}</span>
           </button>
         </div>
 
         {showMarketDetails && (
-          <div className="space-y-6 pt-2 animate-in fade-in duration-200">
+          <div className="space-y-4 pt-2 animate-in fade-in duration-200">
             
-            {/* AI 7-Day Forecast */}
-            <Card variant="white" shadow="default" className="p-5 border-brutal space-y-3 font-mono text-xs">
-              <div className="flex items-center justify-between pb-2 border-b border-gray-200">
+            {/* Forward Demand Forecast */}
+            <div className="rounded-2xl border border-dark-text/10 bg-pure-white p-5 shadow-soft-sm space-y-3">
+              <div className="flex items-center justify-between pb-2 border-b border-dark-text/10">
                 <div className="flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-farm-green" />
-                  <strong className="font-heading font-black text-sm uppercase text-ink-black">
-                    7-DAY REGIONAL DEMAND FORECAST (TELANGANA CORRIDOR)
+                  <strong className="font-serif text-sm font-bold text-dark-text">
+                    7-Day Regional Forward Demand (Telangana Corridor)
                   </strong>
                 </div>
-                <Badge variant="yellow" size="sm">88% CONFIDENCE</Badge>
+                <span className="px-2.5 py-0.5 rounded-full bg-harvest-yellow/20 text-dark-text font-mono text-[10px] font-bold">
+                  88% CONFIDENCE
+                </span>
               </div>
 
-              <p className="text-gray-700">
-                Tomatoes: Expected regional demand is <strong>3,100 KG</strong> (+29% surge). Wholesale prices expected to hold firm at ₹22 - ₹26/KG over the next 7 days.
+              <p className="text-xs text-dark-text/70 leading-relaxed">
+                Tomatoes: Expected regional demand is <strong className="text-dark-text">3,100 KG</strong> (+29% surge). Wholesale prices expected to hold firm at ₹22 - ₹26/KG over the next 7 days.
               </p>
 
-              <div className="pt-2">
+              <div className="pt-1">
                 <Button
-                  variant="white"
+                  variant="outline"
                   size="sm"
                   onClick={() => onNavigate('forecast')}
-                  className="font-mono text-xs font-bold"
+                  className="text-xs font-semibold"
                 >
-                  OPEN DETAILED INTERACTIVE PREDICTION ENGINE →
+                  Open Detailed Forecast Engine →
                 </Button>
               </div>
-            </Card>
+            </div>
 
             {/* FPO Group Aggregation Details */}
-            <Card variant="cream" shadow="default" className="p-5 border-brutal space-y-2 font-mono text-xs">
+            <div className="rounded-2xl border border-dark-text/10 bg-pure-white p-5 shadow-soft-sm space-y-3">
               <div className="flex items-center gap-2">
                 <Layers className="w-4 h-4 text-farm-green" />
-                <strong className="font-heading font-black text-sm uppercase text-ink-black">
-                  CHEVELLA FPO GROUP POOLING STATUS
+                <strong className="font-serif text-sm font-bold text-dark-text">
+                  Chevella FPO Group Pooling Status
                 </strong>
               </div>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-xs text-dark-text/70 leading-relaxed">
                 You and 2 other farmers in Shankarpally and Moinabad are pooling 2,400 KG tomatoes for UrbanFork Kitchens. Coordinated Reefer Truck pickup confirmed for 25 Sep, 07:15 AM.
               </p>
               <div className="pt-1">
                 <Button 
-                  variant="white" 
+                  variant="outline" 
                   size="sm" 
                   onClick={() => onNavigate('logistics')}
-                  className="text-xs"
+                  className="text-xs font-semibold"
                 >
-                  <Truck className="w-3.5 h-3.5 mr-1" /> TRACK COLLECTION VEHICLE ROUTE
+                  <Truck className="w-3.5 h-3.5 mr-1" /> Track Collection Route
                 </Button>
               </div>
-            </Card>
+            </div>
 
           </div>
         )}

@@ -7,7 +7,7 @@ import {
   Truck, 
   Layers, 
   FileText, 
-  MessageSquare,
+  MessageSquare, 
   ArrowRight,
   ShieldCheck
 } from 'lucide-react';
@@ -37,121 +37,125 @@ export const BuyerDashboard: React.FC<BuyerDashboardProps> = ({
   const buyerDemands = demands.filter(d => d.buyerId.startsWith('BUY'));
 
   return (
-    <div className="py-12 bg-warm-cream min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <div className="py-10 sm:py-14 bg-paper-bg min-h-screen text-dark-text">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
-        {/* Buyer Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b-brutal">
+        {/* Editorial Buyer Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-dark-text/10">
           <div>
-            <div className="flex items-center gap-2 mb-2 font-mono text-xs text-gray-700 font-bold">
-              <Badge variant="dark" size="sm">ENTERPRISE BUYER DESK</Badge>
-              <Badge variant="green" size="sm">GSTIN & FSSAI VERIFIED</Badge>
+            <div className="flex items-center gap-2 mb-2 font-mono text-xs text-dark-text/60">
+              <span className="px-2.5 py-0.5 rounded-full bg-farm-green text-paper-bg text-[10px] font-mono uppercase tracking-wider font-semibold">
+                Enterprise Procurement Desk
+              </span>
+              <span className="px-2.5 py-0.5 rounded-full bg-pure-white text-dark-text border border-dark-text/15 text-[10px] font-mono uppercase font-semibold">
+                GSTIN &amp; FSSAI Verified
+              </span>
             </div>
-            <h1 className="font-heading font-black text-4xl sm:text-6xl uppercase tracking-tight text-ink-black">
-              SOURCE DIRECT.
+            <h1 className="font-serif font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-dark-text">
+              Source Direct from Farmer Clusters
             </h1>
-            <p className="font-body text-base text-gray-700 mt-2 font-medium max-w-2xl">
-              Contract directly with smallholder farmer clusters. We coordinate group aggregation and single-bill cold-chain logistics right to your receiving dock.
+            <p className="text-xs sm:text-base text-dark-text/75 mt-2 max-w-2xl leading-relaxed">
+              Contract directly with smallholder producer clusters before harvest. We coordinate transparent group aggregation, cold-chain logistics, and single-invoice delivery right to your dock.
             </p>
           </div>
 
           <div className="shrink-0">
             <Button
-              variant="yellow"
+              variant="clay"
               size="lg"
               onClick={onOpenPostDemand}
-              className="flex items-center gap-2"
+              className="shadow-soft-terracotta text-xs tracking-wider uppercase font-semibold"
             >
-              <Plus className="w-5 h-5 stroke-[3]" />
-              <span>POST NEW REQUIREMENT →</span>
+              <Plus className="w-4 h-4 mr-1.5" />
+              <span>Post Sourcing Demand</span>
             </Button>
           </div>
         </div>
 
-        {/* Section 15 Matched Supply Breakdown Highlight */}
-        <Card variant="white" shadow="lg" className="p-6 md:p-8 border-brutal-thick space-y-6">
-          <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b-2 border-ink-black">
+        {/* Matched Supply Breakdown Highlight */}
+        <div className="rounded-3xl border border-dark-text/15 bg-pure-white p-6 md:p-8 shadow-soft-sm space-y-6">
+          <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-dark-text/10">
             <div>
-              <span className="font-mono text-xs font-bold text-farm-green uppercase tracking-wider block">
+              <span className="font-mono text-xs font-semibold text-farm-green uppercase tracking-wider block">
                 PO: DEM-2026-081 // FULFILLMENT BREAKDOWN
               </span>
-              <h2 className="font-heading font-black text-2xl uppercase tracking-tight text-ink-black">
-                MATCHED CLUSTER SUPPLY: 2,400 KG TOMATOES
+              <h2 className="font-serif font-bold text-2xl text-dark-text mt-1">
+                Matched Cluster Supply: 2,400 KG Tomatoes
               </h2>
             </div>
-            <Badge variant="green" size="md" dot>
-              ✓ REQUIREMENT 100% FULFILLED
-            </Badge>
+            <span className="px-3 py-1 rounded-full bg-farm-green/10 text-farm-green border border-farm-green/20 font-mono text-xs font-bold flex items-center gap-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5" /> Requirement 100% Fulfilled
+            </span>
           </div>
 
-          {/* Prompt requirement: Farm A, Farm B, Farm C Breakdown */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
-            <div className="p-4 bg-warm-cream border-2 border-ink-black space-y-1">
+          {/* Cluster Farm Breakdown */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
+            <div className="p-4 rounded-2xl bg-paper-bg/60 border border-dark-text/10 space-y-1">
               <div className="flex justify-between font-bold">
-                <span>FARM A (CHEVALLA)</span>
-                <span className="text-farm-green">800 KG</span>
+                <span className="text-dark-text">FARM A (CHEVALLA)</span>
+                <span className="text-farm-green font-bold">800 KG</span>
               </div>
-              <p className="text-[11px] text-gray-600">Ramesh Reddy • US-440 Hybrid • Grade A</p>
-              <div className="text-[10px] text-gray-500 pt-1">Pickup ETA: 07:15 AM (Loaded ✓)</div>
+              <p className="text-[11px] text-dark-text/60 font-sans">Ramesh Reddy • US-440 Hybrid • Grade A</p>
+              <div className="text-[10px] text-dark-text/50 pt-1">Pickup ETA: 07:15 AM (Loaded ✓)</div>
             </div>
 
-            <div className="p-4 bg-warm-cream border-2 border-ink-black space-y-1">
+            <div className="p-4 rounded-2xl bg-paper-bg/60 border border-dark-text/10 space-y-1">
               <div className="flex justify-between font-bold">
-                <span>FARM B (SHANKARPALLY)</span>
-                <span className="text-farm-green">600 KG</span>
+                <span className="text-dark-text">FARM B (SHANKARPALLY)</span>
+                <span className="text-farm-green font-bold">600 KG</span>
               </div>
-              <p className="text-[11px] text-gray-600">Kavitha Patel • Greenhouse Round • Grade A</p>
-              <div className="text-[10px] text-gray-500 pt-1">Pickup ETA: 07:55 AM (Loaded ✓)</div>
+              <p className="text-[11px] text-dark-text/60 font-sans">Kavitha Patel • Greenhouse Round • Grade A</p>
+              <div className="text-[10px] text-dark-text/50 pt-1">Pickup ETA: 07:55 AM (Loaded ✓)</div>
             </div>
 
-            <div className="p-4 bg-warm-cream border-2 border-ink-black space-y-1">
+            <div className="p-4 rounded-2xl bg-paper-bg/60 border border-dark-text/10 space-y-1">
               <div className="flex justify-between font-bold">
-                <span>FARM C (MOINABAD)</span>
-                <span className="text-farm-green">1,000 KG</span>
+                <span className="text-dark-text">FARM C (MOINABAD)</span>
+                <span className="text-farm-green font-bold">1,000 KG</span>
               </div>
-              <p className="text-[11px] text-gray-600">Babu Rao Mandava • Polyhouse Grade A</p>
-              <div className="text-[10px] text-gray-500 pt-1">Pickup ETA: 08:30 AM (Loaded ✓)</div>
+              <p className="text-[11px] text-dark-text/60 font-sans">Babu Rao Mandava • Polyhouse Grade A</p>
+              <div className="text-[10px] text-dark-text/50 pt-1">Pickup ETA: 08:30 AM (Loaded ✓)</div>
             </div>
           </div>
 
           {/* Total Sum Bar */}
-          <div className="p-4 bg-farm-green text-paper-white border-brutal flex flex-wrap items-center justify-between gap-4 font-mono text-xs">
+          <div className="p-5 rounded-2xl bg-farm-green text-paper-bg flex flex-wrap items-center justify-between gap-4 font-mono text-xs shadow-soft-sm">
             <div className="flex items-center gap-6">
               <div>
-                <span className="text-gray-300 block text-[10px]">TOTAL CONSOLIDATED</span>
-                <strong className="font-heading font-black text-xl text-harvest-yellow">2,400 KG</strong>
+                <span className="text-paper-bg/60 block text-[10px] uppercase">Total Consolidated</span>
+                <strong className="font-serif text-xl font-bold text-paper-bg">2,400 KG</strong>
               </div>
               <div>
-                <span className="text-gray-300 block text-[10px]">DIRECT PO VALUE</span>
-                <strong className="font-heading font-black text-xl text-paper-white">₹57,600</strong>
+                <span className="text-paper-bg/60 block text-[10px] uppercase">Direct PO Value</span>
+                <strong className="font-serif text-xl font-bold text-paper-bg">₹57,600</strong>
               </div>
               <div>
-                <span className="text-gray-300 block text-[10px]">CO-OP LOGISTICS</span>
-                <strong className="font-heading font-black text-xl text-paper-white">₹3.00 / KG</strong>
+                <span className="text-paper-bg/60 block text-[10px] uppercase">Co-op Logistics</span>
+                <strong className="font-serif text-xl font-bold text-paper-bg">₹3.00 / KG</strong>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
               <Button 
-                variant="yellow" 
+                variant="clay" 
                 size="sm" 
                 onClick={() => onNavigate('logistics')}
-                className="text-xs"
+                className="text-xs tracking-wider uppercase font-semibold shadow-soft-terracotta"
               >
-                <Truck className="w-3.5 h-3.5 mr-1" /> TRACK TRUCK TELEMETRY →
+                <Truck className="w-3.5 h-3.5 mr-1.5" /> Track Reefer Telemetry →
               </Button>
             </div>
           </div>
-        </Card>
+        </div>
 
         {/* Active Requirements List */}
         <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="font-heading font-black text-2xl uppercase tracking-tight text-ink-black">
-              YOUR ACTIVE SOURCING REQUIREMENTS
+          <div className="flex items-center justify-between pb-3 border-b border-dark-text/10">
+            <h3 className="font-serif font-bold text-xl tracking-tight text-dark-text">
+              Active Sourcing Requirements
             </h3>
-            <span className="font-mono text-xs text-gray-600">
-              {buyerDemands.length} ACTIVE DIRECT ORDERS
+            <span className="font-mono text-xs text-dark-text/50 uppercase">
+              {buyerDemands.length} Active Direct Orders
             </span>
           </div>
 
@@ -161,42 +165,42 @@ export const BuyerDashboard: React.FC<BuyerDashboardProps> = ({
               const isFulfilled = percent >= 100;
 
               return (
-                <Card 
+                <div 
                   key={demand.id} 
-                  variant="white" 
-                  shadow="sm" 
-                  className="p-6 border-brutal hover:border-farm-green transition-colors"
+                  className="rounded-2xl border border-dark-text/10 bg-pure-white p-6 hover:border-farm-green/30 transition-all shadow-soft-sm"
                 >
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div className="space-y-2 flex-1">
-                      <div className="flex items-center gap-3 font-mono text-xs">
-                        <span className="font-bold text-gray-500">{demand.id}</span>
+                      <div className="flex items-center gap-2 font-mono text-xs">
+                        <span className="font-bold text-dark-text/60">{demand.id}</span>
                         <span>•</span>
-                        <Badge variant={isFulfilled ? "green" : "yellow"} size="sm">
-                          {isFulfilled ? "FULFILLED" : `${percent}% MATCHED`}
-                        </Badge>
+                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${
+                          isFulfilled ? 'bg-farm-green/10 text-farm-green border border-farm-green/20' : 'bg-harvest-yellow/20 text-dark-text'
+                        }`}>
+                          {isFulfilled ? 'FULFILLED' : `${percent}% MATCHED`}
+                        </span>
                         <span>•</span>
-                        <span className="font-bold text-farm-green">{demand.qualityGrade}</span>
+                        <span className="font-semibold text-farm-green">{demand.qualityGrade}</span>
                       </div>
 
-                      <h4 className="font-heading font-black text-2xl uppercase text-ink-black">
+                      <h4 className="font-serif font-bold text-2xl text-dark-text">
                         {demand.crop} : {demand.quantityKg.toLocaleString()} KG
                       </h4>
-                      <p className="font-mono text-xs text-gray-600">
-                        Delivery Dock: <strong>{demand.deliveryLocation}</strong> • By: <strong>{demand.requiredDate}</strong>
+                      <p className="text-xs text-dark-text/70">
+                        Delivery Dock: <strong className="text-dark-text">{demand.deliveryLocation}</strong> • By: <strong className="text-dark-text">{demand.requiredDate}</strong>
                       </p>
 
-                      {/* Progress */}
+                      {/* Progress Bar */}
                       <div className="pt-2 max-w-md font-mono text-xs">
                         <div className="flex justify-between text-[11px] mb-1">
-                          <span className="text-gray-600">FARMER POOLING:</span>
-                          <span className="font-bold text-ink-black">
+                          <span className="text-dark-text/50">FARMER POOLING:</span>
+                          <span className="font-bold text-dark-text">
                             {demand.matchedQuantityKg.toLocaleString()} / {demand.quantityKg.toLocaleString()} KG
                           </span>
                         </div>
-                        <div className="h-3 bg-gray-200 border border-ink-black overflow-hidden">
+                        <div className="h-2 rounded-full bg-dark-text/10 overflow-hidden">
                           <div 
-                            className={`h-full transition-all ${isFulfilled ? 'bg-farm-green' : 'bg-harvest-yellow'}`}
+                            className={`h-full transition-all ${isFulfilled ? 'bg-farm-green' : 'bg-terracotta'}`}
                             style={{ width: `${percent}%` }}
                           ></div>
                         </div>
@@ -205,15 +209,15 @@ export const BuyerDashboard: React.FC<BuyerDashboardProps> = ({
 
                     <div className="flex flex-col sm:flex-row md:flex-col items-stretch md:items-end gap-2 shrink-0">
                       <Button
-                        variant="yellow"
+                        variant="clay"
                         size="sm"
                         onClick={() => onSelectDemand(demand, 'farmers')}
-                        className="text-xs"
+                        className="text-xs px-4 shadow-soft-terracotta"
                       >
-                        VIEW MATCHED FARMERS ({demand.matchedFarmersCount}) →
+                        View Matched Farmers ({demand.matchedFarmersCount}) →
                       </Button>
                       <Button
-                        variant="white"
+                        variant="outline"
                         size="sm"
                         onClick={() => {
                           const openChat = () => onSelectDemand(demand, 'negotiate');
@@ -229,11 +233,11 @@ export const BuyerDashboard: React.FC<BuyerDashboardProps> = ({
                         }}
                         className="text-xs"
                       >
-                        <MessageSquare className="w-3.5 h-3.5 mr-1" /> DIRECT CHAT
+                        <MessageSquare className="w-3.5 h-3.5 mr-1" /> Direct Chat
                       </Button>
                     </div>
                   </div>
-                </Card>
+                </div>
               );
             })}
           </div>

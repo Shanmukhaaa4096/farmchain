@@ -1,7 +1,7 @@
 import React from 'react';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'yellow' | 'white' | 'dark' | 'outline' | 'danger' | 'blue' | 'red' | 'green' | 'lettuce' | 'orange';
+  variant?: 'primary' | 'yellow' | 'white' | 'dark' | 'outline' | 'danger' | 'blue' | 'red' | 'green' | 'lettuce' | 'orange' | 'clay';
   size?: 'sm' | 'md' | 'lg';
   fullWidth?: boolean;
   children: React.ReactNode;
@@ -15,26 +15,27 @@ export const Button: React.FC<ButtonProps> = ({
   children,
   ...props
 }) => {
-  const baseStyles = "relative inline-flex items-center justify-center font-heading font-bold uppercase tracking-wider select-none border-brutal transition-all duration-100 ease-out cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed";
+  const baseStyles = "group relative inline-flex items-center justify-center font-sans font-semibold uppercase tracking-[0.12em] select-none rounded-full transition-all duration-250 ease-out cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:transition-transform [&_svg]:duration-200 group-hover:[&_svg]:translate-x-0.5";
   
   const sizeStyles = {
-    sm: "px-3.5 py-1.5 text-xs shadow-brutal-sm active:translate-x-[2px] active:translate-y-[2px] active:shadow-none",
-    md: "px-5 py-2.5 text-sm shadow-brutal hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-brutal-sm active:translate-x-[4px] active:translate-y-[4px] active:shadow-none",
-    lg: "px-7 py-3.5 text-base shadow-brutal hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-brutal-sm active:translate-x-[4px] active:translate-y-[4px] active:shadow-none",
+    sm: "px-4 py-1.5 text-[11px] shadow-soft-sm hover:-translate-y-0.5 hover:shadow-soft",
+    md: "px-6 py-2.5 text-xs shadow-soft hover:-translate-y-0.5 hover:shadow-soft-md",
+    lg: "px-8 py-3.5 text-xs sm:text-sm shadow-soft hover:-translate-y-0.5 hover:shadow-soft-lg",
   };
 
   const variantStyles = {
-    primary: "bg-blue-crate text-paper-white hover:bg-farm-green-dark shadow-brutal",
-    blue: "bg-blue-crate text-paper-white hover:bg-farm-green-dark shadow-brutal",
-    yellow: "bg-citrus-yellow text-ink-black hover:bg-harvest-yellow-hover shadow-brutal",
-    white: "bg-paper-white text-ink-black hover:bg-paper-cream shadow-brutal",
-    dark: "bg-ink-black text-paper-white hover:bg-gray-900 shadow-brutal",
-    outline: "bg-transparent text-ink-black hover:bg-paper-cream shadow-brutal-sm",
-    danger: "bg-tomato-red text-paper-white hover:bg-red-800 shadow-brutal",
-    red: "bg-tomato-red text-paper-white hover:bg-red-800 shadow-brutal",
-    green: "bg-green-beans text-paper-white hover:bg-green-900 shadow-brutal",
-    lettuce: "bg-lettuce-green text-ink-black hover:bg-lime-700 shadow-brutal",
-    orange: "bg-orange-accent text-paper-white hover:bg-orange-700 shadow-brutal",
+    primary: "bg-primary-green text-pure-white border border-primary-green/30 hover:bg-dark-text",
+    blue: "bg-primary-green text-pure-white border border-primary-green/30 hover:bg-dark-text",
+    yellow: "bg-accent-yellow text-dark-text border border-dark-text/15 hover:bg-[#D4A738]",
+    orange: "bg-terracotta text-pure-white border border-terracotta/30 hover:bg-[#B55A35] shadow-soft-terracotta",
+    clay: "bg-terracotta text-pure-white border border-terracotta/30 hover:bg-[#B55A35] shadow-soft-terracotta",
+    white: "bg-pure-white text-dark-text border border-dark-text/15 hover:bg-paper-bg hover:border-dark-text/30",
+    dark: "bg-dark-text text-pure-white border border-dark-text hover:bg-primary-green",
+    outline: "bg-transparent text-dark-text border border-dark-text/25 hover:bg-pure-white hover:border-dark-text",
+    danger: "bg-terracotta text-pure-white border border-terracotta hover:bg-red-800",
+    red: "bg-terracotta text-pure-white border border-terracotta hover:bg-red-800",
+    green: "bg-primary-green text-pure-white border border-primary-green hover:bg-dark-text",
+    lettuce: "bg-soft-green/30 text-primary-green border border-soft-green/50 hover:bg-soft-green/50",
   };
 
   const widthStyle = fullWidth ? "w-full" : "";
@@ -48,3 +49,4 @@ export const Button: React.FC<ButtonProps> = ({
     </button>
   );
 };
+

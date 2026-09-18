@@ -7,52 +7,97 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Agricultural Produce Palette (Requested by User)
-        'blue-crate': '#293379',
-        'tomato-red': '#B81817',
-        'citrus-yellow': '#E6A300',
-        'lettuce-green': '#A6AF32',
-        'green-beans': '#607829',
-        'orange-accent': '#EE7302',
-        'paper-cream': '#FAF7F0',
-        'paper-white': '#FFFFFF',
-        'ink-black': '#111111',
+        // Soft Retro Organic Editorial Palette (bound to CSS Variables)
+        'paper-bg': 'var(--color-paper-bg, #F4F0E6)',
+        'dark-text': 'var(--color-dark-text, #17231A)',
+        'primary-green': 'var(--color-primary-green, #315C3A)',
+        'soft-green': 'var(--color-soft-green, #A9C29A)',
+        'accent-yellow': 'var(--color-accent-yellow, #E5B94A)',
+        'terracotta': 'var(--color-terracotta, #C96B45)',
+        'pure-white': 'var(--color-pure-white, #FFFDF7)',
+        
+        // Semantic & System Mappings
+        'grain-cream': 'var(--color-paper-bg, #F4F0E6)',
+        'mandi-cream': 'var(--color-paper-bg, #F4F0E6)',
+        'mandi-paper': 'var(--color-pure-white, #FFFDF7)',
+        'mandi-tint': 'var(--color-mandi-tint, #EAE5D8)',
+        'mandi-green': 'var(--color-primary-green, #315C3A)',
+        'mandi-green-dark': 'var(--color-dark-text, #17231A)',
+        'mandi-green-pale': 'var(--color-soft-green-tint, #E2EBDD)',
+        'mandi-leaf': 'var(--color-primary-green, #315C3A)',
+        'mandi-leaf-light': 'var(--color-soft-green, #A9C29A)',
+        'mandi-charcoal': 'var(--color-dark-text, #17231A)',
+        'mandi-charcoal-muted': 'var(--color-charcoal-muted, #4F6153)',
+        'harvest-orange': 'var(--color-terracotta, #C96B45)',
+        'harvest-orange-hover': '#B55A35',
+        'harvest-orange-light': 'var(--color-terracotta-light, #F8ECE6)',
+        'clay-orange': 'var(--color-terracotta, #C96B45)',
+        'moss': 'var(--color-primary-green, #315C3A)',
+        'pale-sage': 'var(--color-soft-green, #A9C29A)',
+        'charcoal': 'var(--color-dark-text, #17231A)',
+        'ink-green': 'var(--color-primary-green, #315C3A)',
+        'mandi-border': 'var(--color-border-hairline, rgba(23, 35, 26, 0.12))',
+        'mandi-border-dark': 'var(--color-dark-text, #17231A)',
 
-        // Theme Mapping Aliases (Preserves existing component contracts while adopting the new palette)
-        'farm-green': '#293379',        // Primary Blue Crate
-        'farm-green-dark': '#1F2444',   // Deep Blue Crate Tone
-        'farm-green-light': '#607829',  // Green Beans
-        'farm-green-pale': '#F2F5E8',   // Light Lettuce Tint
-        'earth-green': '#607829',       // Green Beans
-        'warm-cream': '#FAF7F0',        // Field Notebook Paper
-        'warm-cream-dark': '#EFE9DA',   // Kraft Paper Accent
-        'harvest-yellow': '#E6A300',    // Citrus Yellow
-        'harvest-yellow-hover': '#CE9200',
-        'soil-brown': '#607829',        // Green Beans Tone
-        'soil-brown-light': '#A6AF32',  // Lettuce Green Tone
-        'grain-gold': '#EE7302',        // Energetic Orange Accent
-        'rust-red': '#B81817',          // Tomato Red
-        'terminal-green': '#A6AF32',    // Lettuce Green Accent
+        // Compatibility Aliases
+        'farm-green': 'var(--color-primary-green, #315C3A)',
+        'farm-green-dark': 'var(--color-dark-text, #17231A)',
+        'farm-green-light': 'var(--color-soft-green, #A9C29A)',
+        'farm-green-pale': 'var(--color-soft-green-tint, #E2EBDD)',
+        'earth-green': 'var(--color-primary-green, #315C3A)',
+        'warm-cream': 'var(--color-paper-bg, #F4F0E6)',
+        'warm-cream-dark': 'var(--color-mandi-tint, #EAE5D8)',
+        'paper-cream': 'var(--color-paper-bg, #F4F0E6)',
+        'paper-white': 'var(--color-pure-white, #FFFDF7)',
+        'ink-black': 'var(--color-dark-text, #17231A)',
+        'blue-crate': 'var(--color-primary-green, #315C3A)',
+        'citrus-yellow': 'var(--color-accent-yellow, #E5B94A)',
+        'harvest-yellow': 'var(--color-accent-yellow, #E5B94A)',
+        'tomato-red': 'var(--color-terracotta, #C96B45)',
+        'green-beans': 'var(--color-primary-green, #315C3A)',
+        'lettuce-green': 'var(--color-soft-green, #A9C29A)',
+        'orange-accent': 'var(--color-terracotta, #C96B45)',
+        'soil-brown': 'var(--color-primary-green, #315C3A)',
+        'grain-gold': 'var(--color-accent-yellow, #E5B94A)',
       },
       fontFamily: {
-        heading: ['"Space Grotesk"', 'sans-serif'],
-        body: ['Inter', 'sans-serif'],
+        serif: ['Fraunces', 'Newsreader', 'Georgia', 'serif'],
+        editorial: ['Fraunces', 'Newsreader', 'Georgia', 'serif'],
+        heading: ['Fraunces', 'Newsreader', 'Georgia', 'serif'],
+        retro: ['Fraunces', 'serif'],
+        body: ['"Plus Jakarta Sans"', 'Inter', '-apple-system', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'Inter', '-apple-system', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
         sketch: ['Caveat', 'cursive'],
+        grotesk: ['"Space Grotesk"', 'sans-serif'],
+      },
+      borderRadius: {
+        '2.5xl': '20px',
+        '3xl': '28px',
+        '4xl': '36px',
+        'pill': '9999px',
       },
       boxShadow: {
-        'brutal': '5px 5px 0px #111111',
-        'brutal-sm': '3px 3px 0px #111111',
-        'brutal-lg': '8px 8px 0px #111111',
-        'brutal-blue': '5px 5px 0px #293379',
-        'brutal-yellow': '5px 5px 0px #E6A300',
-        'brutal-red': '5px 5px 0px #B81817',
-        'brutal-green': '5px 5px 0px #607829',
-        'brutal-orange': '5px 5px 0px #EE7302',
-        'brutal-active': '0px 0px 0px #111111',
+        'soft-sm': '0 4px 12px -2px rgba(23, 35, 26, 0.05)',
+        'soft': '0 12px 28px -6px rgba(23, 35, 26, 0.07)',
+        'soft-md': '0 16px 36px -8px rgba(23, 35, 26, 0.08)',
+        'soft-lg': '0 24px 48px -12px rgba(23, 35, 26, 0.09)',
+        'soft-terracotta': '0 16px 32px -8px rgba(201, 107, 69, 0.22)',
+        'editorial': '0 4px 16px -2px rgba(23, 35, 26, 0.06)',
+        'editorial-md': '0 12px 28px -6px rgba(23, 35, 26, 0.08)',
+        'tactile': '0 8px 20px -4px rgba(23, 35, 26, 0.08)',
+        'tactile-sm': '0 4px 12px -2px rgba(23, 35, 26, 0.06)',
+        'tactile-lg': '0 16px 32px -8px rgba(23, 35, 26, 0.10)',
+        'tactile-clay': '0 8px 20px -4px rgba(201, 107, 69, 0.20)',
+        'brutal': '0 8px 20px -4px rgba(23, 35, 26, 0.08)',
+        'brutal-sm': '0 4px 12px -2px rgba(23, 35, 26, 0.06)',
+        'brutal-lg': '0 16px 32px -8px rgba(23, 35, 26, 0.10)',
       },
       borderWidth: {
-        '3': '3px',
+        'hairline': '1px',
+        '1.5': '1.5px',
+        '2.5': '2px',
+        '3': '2px',
       }
     },
   },

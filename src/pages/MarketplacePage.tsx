@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import { DemandCard } from '../components/marketplace/DemandCard';
 import { Button } from '../components/ui/Button';
-import { Card } from '../components/ui/Card';
+import { EmptyState } from '../components/ui/EmptyState';
 import { DemandRequirement } from '../types';
 
 interface MarketplacePageProps {
@@ -56,37 +56,43 @@ export const MarketplacePage: React.FC<MarketplacePageProps> = ({
   const totalDemandTonnage = Math.round(demands.reduce((acc, d) => acc + d.quantityKg, 0) / 1000);
 
   return (
-    <div className="py-6 sm:py-10 bg-warm-cream min-h-screen">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 space-y-6">
+    <div className="py-8 sm:py-12 bg-paper-bg min-h-screen text-dark-text">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-8">
         
-        {/* Simple Page Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b-2 border-ink-black">
+        {/* Editorial Page Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pb-6 border-b border-dark-text/10">
           <div>
-            <h1 className="font-heading font-black text-3xl sm:text-4xl uppercase tracking-tight text-ink-black">
-              MARKET DEMAND
+            <div className="flex items-center gap-2 mb-2">
+              <span className="h-2 w-2 rounded-full bg-terracotta animate-pulse" />
+              <span className="font-mono text-xs text-farm-green font-bold uppercase tracking-wider">
+                LIVE MARKET DEMAND BOARD // {totalDemandTonnage} MT AGGREGATED
+              </span>
+            </div>
+            <h1 className="font-serif font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-dark-text">
+              Wholesale Purchase Orders
             </h1>
-            <p className="font-body text-xs sm:text-sm text-gray-700 mt-1">
-              Verified wholesale purchase orders with guaranteed direct payment.
+            <p className="text-xs sm:text-base text-dark-text/70 mt-1 max-w-2xl">
+              Verified institutional buyers, locked farm-gate rates, and guaranteed village-gate collection loops.
             </p>
           </div>
 
-          <div className="flex items-center gap-2 self-start sm:self-auto">
+          <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
             {userRole === 'buyer' && (
               <Button
-                variant="yellow"
-                size="sm"
+                variant="clay"
+                size="md"
                 onClick={onOpenPostDemand}
-                className="font-heading font-black text-xs"
+                className="shadow-soft-terracotta text-xs tracking-wider uppercase font-semibold"
               >
-                <Plus className="w-4 h-4 stroke-[3]" />
-                <span>POST BUYER ORDER</span>
+                <Plus className="w-4 h-4 mr-1.5" />
+                <span>Post Sourcing Demand</span>
               </Button>
             )}
           </div>
         </div>
 
-        {/* 1-Tap Crop Filter Pills (Thumb-Friendly on Phones) */}
-        <div className="space-y-2">
+        {/* 1-Tap Crop Filter Pills */}
+        <div className="space-y-4">
           <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
             {CROP_PILLS.map((crop) => {
               const isSelected = selectedCrop === crop;
@@ -94,10 +100,10 @@ export const MarketplacePage: React.FC<MarketplacePageProps> = ({
                 <button
                   key={crop}
                   onClick={() => setSelectedCrop(crop)}
-                  className={`px-3.5 py-1.5 font-heading text-xs font-bold uppercase whitespace-nowrap border-2 border-ink-black transition-all ${
+                  className={`px-4 py-2 rounded-full font-mono text-xs font-semibold uppercase whitespace-nowrap border transition-all ${
                     isSelected
-                      ? 'bg-citrus-yellow text-ink-black shadow-brutal-sm -translate-y-0.5'
-                      : 'bg-paper-white text-gray-700 hover:bg-gray-100'
+                      ? 'bg-farm-green text-paper-bg border-farm-green shadow-soft-sm'
+                      : 'bg-pure-white text-dark-text border-dark-text/15 hover:border-farm-green/40 hover:bg-paper-bg'
                   }`}
                 >
                   {crop}
@@ -108,21 +114,21 @@ export const MarketplacePage: React.FC<MarketplacePageProps> = ({
 
           {/* Quick Search Input */}
           <div className="relative">
-            <Search className="w-4 h-4 text-gray-500 absolute left-3 top-3" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-dark-text/40" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search crop, buyer, or city..."
-              className="w-full p-2 pl-9 bg-paper-white border-2 border-ink-black font-mono text-xs font-bold focus:outline-hidden"
+              placeholder="Search by crop name (e.g. Tomatoes), buyer name, or delivery district..."
+              className="w-full pl-11 pr-4 py-3 rounded-2xl bg-pure-white border border-dark-text/15 text-dark-text text-sm focus:outline-none focus:border-farm-green focus:ring-2 focus:ring-farm-green/10 shadow-soft-sm placeholder:text-dark-text/40 transition-all"
             />
           </div>
         </div>
 
         {/* Results Count & Quick Summary */}
-        <div className="flex items-center justify-between font-mono text-xs text-gray-600">
+        <div className="flex items-center justify-between font-mono text-xs text-dark-text/60">
           <span>
-            Showing <strong>{filteredDemands.length}</strong> active buyer demands ({totalDemandTonnage} MT total)
+            Showing <strong className="text-dark-text">{filteredDemands.length}</strong> active buyer demands ({totalDemandTonnage} MT total)
           </span>
           {onNavigate && (
             <button
@@ -137,11 +143,18 @@ export const MarketplacePage: React.FC<MarketplacePageProps> = ({
 
         {/* Grid of Clean Demand Cards */}
         {filteredDemands.length === 0 ? (
-          <Card variant="white" className="p-8 text-center border-brutal font-mono text-xs text-gray-600">
-            No active buyer demands match your search. Try selecting "All Crops".
-          </Card>
+          <EmptyState
+            type="demand"
+            title="NO MATCHING REQUIREMENTS"
+            description="No active buyer purchase orders match your current crop or search filter. Try resetting your filter to view all crops."
+            actionLabel="Reset to All Crops"
+            onAction={() => {
+              setSelectedCrop('ALL CROPS');
+              setSearchQuery('');
+            }}
+          />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {filteredDemands.map((demand) => (
               <DemandCard
                 key={demand.id}
@@ -154,22 +167,22 @@ export const MarketplacePage: React.FC<MarketplacePageProps> = ({
           </div>
         )}
 
-        {/* Progressive Disclosure: Deep Market Analytics Link */}
+        {/* Market Analytics Callout */}
         {onNavigate && (
-          <div className="pt-6 border-t-2 border-ink-black flex flex-col sm:flex-row items-center justify-between gap-3 font-mono text-xs">
-            <span className="text-gray-600">Want deeper market intelligence and price trends?</span>
-            <div className="flex gap-2">
+          <div className="pt-6 border-t border-dark-text/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-mono text-xs">
+            <span className="text-dark-text/60">Need deep agricultural forecasting and mandi rate comparisons?</span>
+            <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => onNavigate('forecast')}
-                className="px-3 py-1.5 bg-paper-white border border-ink-black font-bold hover:bg-citrus-yellow"
+                className="px-4 py-2 rounded-full bg-pure-white border border-dark-text/15 font-semibold text-dark-text hover:bg-paper-bg shadow-soft-sm transition-colors"
               >
                 7-Day Price Forecast →
               </button>
               <button
                 onClick={() => onNavigate('prices')}
-                className="px-3 py-1.5 bg-paper-white border border-ink-black font-bold hover:bg-citrus-yellow"
+                className="px-4 py-2 rounded-full bg-pure-white border border-dark-text/15 font-semibold text-dark-text hover:bg-paper-bg shadow-soft-sm transition-colors"
               >
-                Mandi Benchmark Calculator →
+                Mandi Benchmark Ledger →
               </button>
             </div>
           </div>

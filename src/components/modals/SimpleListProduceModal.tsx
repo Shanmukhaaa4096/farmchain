@@ -8,7 +8,8 @@ import {
   Layers,
   Tag,
   ShoppingBag,
-  Wheat
+  Wheat,
+  CheckCircle2
 } from 'lucide-react';
 import { Modal } from '../ui/Modal';
 import { Button } from '../ui/Button';
@@ -56,7 +57,7 @@ export const SimpleListProduceModal: React.FC<SimpleListProduceModalProps> = ({
   const handleSelectCrop = (cropName: string, cropVariety: string, price: number) => {
     setCrop(cropName);
     setVariety(cropVariety);
-    setExpectedPrice(String(price + 2)); // Default to slightly above mandi
+    setExpectedPrice(String(price + 2)); // Default to fair floor price
   };
 
   const handleNext = () => {
@@ -72,7 +73,6 @@ export const SimpleListProduceModal: React.FC<SimpleListProduceModalProps> = ({
         availableDate,
         location,
       });
-      // Reset state for next time
       setStep(1);
       onClose();
     }
@@ -91,30 +91,31 @@ export const SimpleListProduceModal: React.FC<SimpleListProduceModalProps> = ({
         setStep(1);
         onClose();
       }}
-      title="SELL PRODUCE"
-      subtitle={`STEP ${step} OF 3 // ${step === 1 ? 'CHOOSE CROP' : step === 2 ? 'QUANTITY & PRICE' : 'HARVEST DATE & LOCATION'}`}
+      title="List Produce Availability"
+      subtitle={`Phase ${step} of 3 • ${step === 1 ? 'Select Harvest Crop' : step === 2 ? 'Yield & Price Standard' : 'Dispatch Date & Farm Location'}`}
       maxWidth="lg"
     >
       <div className="space-y-6">
         
-        {/* Step Progress Pills */}
-        <div className="flex items-center justify-between gap-2 pb-3 border-b-2 border-ink-black font-mono text-xs">
-          <div className={`flex-1 text-center py-1.5 border-2 border-ink-black font-bold transition-all ${
-            step >= 1 ? 'bg-citrus-yellow text-ink-black shadow-brutal-sm' : 'bg-warm-cream text-gray-400'
+        {/* Step Progression Bar (ReUI Style) */}
+        <div className="flex items-center gap-2 font-mono text-xs">
+          <div className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl border text-center transition-all ${
+            step >= 1 ? 'border-farm-green/30 bg-farm-green/10 text-farm-green font-bold' : 'border-dark-text/10 bg-paper-bg text-dark-text/40'
           }`}>
-            1. CROP
+            <span>01</span>
+            <span className="hidden sm:inline">CROP</span>
           </div>
-          <span className="text-gray-400 font-bold">→</span>
-          <div className={`flex-1 text-center py-1.5 border-2 border-ink-black font-bold transition-all ${
-            step >= 2 ? 'bg-citrus-yellow text-ink-black shadow-brutal-sm' : 'bg-warm-cream text-gray-400'
+          <div className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl border text-center transition-all ${
+            step >= 2 ? 'border-farm-green/30 bg-farm-green/10 text-farm-green font-bold' : 'border-dark-text/10 bg-paper-bg text-dark-text/40'
           }`}>
-            2. QUANTITY & PRICE
+            <span>02</span>
+            <span className="hidden sm:inline">QUANTITY & PRICE</span>
           </div>
-          <span className="text-gray-400 font-bold">→</span>
-          <div className={`flex-1 text-center py-1.5 border-2 border-ink-black font-bold transition-all ${
-            step === 3 ? 'bg-citrus-yellow text-ink-black shadow-brutal-sm' : 'bg-warm-cream text-gray-400'
+          <div className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl border text-center transition-all ${
+            step === 3 ? 'border-farm-green/30 bg-farm-green/10 text-farm-green font-bold' : 'border-dark-text/10 bg-paper-bg text-dark-text/40'
           }`}>
-            3. LOCATION & DATE
+            <span>03</span>
+            <span className="hidden sm:inline">LOCATION</span>
           </div>
         </div>
 
@@ -122,11 +123,11 @@ export const SimpleListProduceModal: React.FC<SimpleListProduceModalProps> = ({
         {step === 1 && (
           <div className="space-y-4">
             <div>
-              <label className="block font-heading font-black text-sm uppercase text-ink-black mb-1">
+              <label className="block font-serif text-base font-bold text-dark-text mb-1">
                 Select Your Crop
               </label>
-              <p className="font-body text-xs text-gray-600">
-                Choose the crop you are ready to sell.
+              <p className="text-xs text-dark-text/60">
+                Choose the produce you have in current cultivation or ready for harvesting.
               </p>
             </div>
 
@@ -139,27 +140,27 @@ export const SimpleListProduceModal: React.FC<SimpleListProduceModalProps> = ({
                     type="button"
                     key={c.name}
                     onClick={() => handleSelectCrop(c.name, c.variety, c.avgMandiPrice)}
-                    className={`p-3.5 border-2 border-ink-black text-left flex flex-col justify-between transition-all rounded-none min-h-[95px] ${
+                    className={`p-4 rounded-2xl border text-left flex flex-col justify-between transition-all min-h-[105px] ${
                       isSelected
-                        ? 'bg-citrus-yellow shadow-brutal-sm -translate-y-0.5'
-                        : 'bg-paper-white hover:bg-warm-cream'
+                        ? 'border-farm-green bg-pure-white shadow-soft-sm ring-2 ring-farm-green/15 -translate-y-0.5'
+                        : 'border-dark-text/10 bg-paper-bg/50 hover:bg-pure-white hover:border-dark-text/20'
                     }`}
                   >
                     <div className="flex items-center justify-between w-full">
-                      <div className="w-8 h-8 bg-paper-white border border-ink-black flex items-center justify-center">
-                        <CropIcon className="w-4 h-4 text-farm-green stroke-[2.5]" />
+                      <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
+                        isSelected ? 'bg-farm-green text-paper-bg' : 'bg-dark-text/5 text-dark-text/70'
+                      }`}>
+                        <CropIcon className="w-4 h-4" />
                       </div>
                       {isSelected && (
-                        <span className="w-5 h-5 bg-ink-black text-citrus-yellow flex items-center justify-center text-xs font-bold">
-                          ✓
-                        </span>
+                        <CheckCircle2 className="w-4 h-4 text-farm-green" />
                       )}
                     </div>
-                    <div>
-                      <strong className="font-heading font-bold text-sm block text-ink-black mt-2">
+                    <div className="mt-3">
+                      <strong className="font-serif font-bold text-sm block text-dark-text">
                         {c.name}
                       </strong>
-                      <span className="font-mono text-[10px] text-gray-600 block">
+                      <span className="font-mono text-[10px] text-dark-text/50 block">
                         Mandi: ₹{c.avgMandiPrice}/KG
                       </span>
                     </div>
@@ -170,15 +171,15 @@ export const SimpleListProduceModal: React.FC<SimpleListProduceModalProps> = ({
 
             {/* Custom Crop Input */}
             <div className="pt-2">
-              <label className="block font-mono text-[11px] font-bold text-gray-600 uppercase mb-1">
-                Or enter custom crop name:
+              <label className="block text-xs font-mono text-dark-text/60 uppercase mb-1">
+                Or enter custom crop / specialty:
               </label>
               <input
                 type="text"
                 value={crop}
                 onChange={(e) => setCrop(e.target.value)}
-                placeholder="e.g. Cauliflower, Ginger..."
-                className="w-full p-2.5 bg-warm-cream border-2 border-ink-black font-heading font-bold text-sm"
+                placeholder="e.g. Cauliflower, Ginger, Papaya..."
+                className="w-full px-3.5 py-2.5 rounded-xl border border-dark-text/15 bg-paper-bg/40 focus:bg-pure-white focus:border-farm-green focus:ring-2 focus:ring-farm-green/10 text-sm font-medium transition-all"
               />
             </div>
           </div>
@@ -187,24 +188,24 @@ export const SimpleListProduceModal: React.FC<SimpleListProduceModalProps> = ({
         {/* STEP 2: QUANTITY & PRICE */}
         {step === 2 && (
           <div className="space-y-5">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <div className="w-8 h-8 bg-citrus-yellow border border-ink-black flex items-center justify-center">
-                  <SelectedIcon className="w-4 h-4 text-ink-black stroke-[2.5]" />
-                </div>
-                <h3 className="font-heading font-black text-xl uppercase text-ink-black">
-                  {crop} Details
-                </h3>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-farm-green/10 text-farm-green flex items-center justify-center">
+                <SelectedIcon className="w-5 h-5" />
               </div>
-              <p className="font-body text-xs text-gray-600">
-                Enter how much you have and your expected price.
-              </p>
+              <div>
+                <h3 className="font-serif font-bold text-lg text-dark-text">
+                  {crop} Specifications
+                </h3>
+                <p className="text-xs text-dark-text/60">
+                  Specify available weight and your target rate per kilogram.
+                </p>
+              </div>
             </div>
 
             {/* Quantity Input with Quick Presets */}
-            <div className="p-4 bg-paper-white border-2 border-ink-black space-y-2">
-              <label className="block font-heading font-bold text-xs uppercase text-ink-black">
-                Available Quantity (in Kilograms)
+            <div className="p-5 rounded-2xl border border-dark-text/10 bg-pure-white space-y-3 shadow-soft-sm">
+              <label className="block text-xs font-mono uppercase tracking-wider text-dark-text/60 font-semibold">
+                Available Harvest (in Kilograms)
               </label>
               <div className="relative">
                 <input
@@ -213,10 +214,10 @@ export const SimpleListProduceModal: React.FC<SimpleListProduceModalProps> = ({
                   onChange={(e) => setQuantity(e.target.value)}
                   min="50"
                   step="50"
-                  className="w-full p-3 bg-warm-cream border-2 border-ink-black font-heading font-black text-2xl text-ink-black pr-16"
+                  className="w-full px-4 py-3 rounded-xl border border-dark-text/15 bg-paper-bg/40 focus:bg-pure-white focus:border-farm-green focus:ring-2 focus:ring-farm-green/10 font-serif font-bold text-2xl text-dark-text pr-16"
                   placeholder="1000"
                 />
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 font-mono font-bold text-gray-500 text-sm">
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 font-mono font-bold text-dark-text/40 text-sm">
                   KG
                 </span>
               </div>
@@ -228,8 +229,10 @@ export const SimpleListProduceModal: React.FC<SimpleListProduceModalProps> = ({
                     key={preset}
                     type="button"
                     onClick={() => setQuantity(preset)}
-                    className={`px-2.5 py-1 border border-ink-black font-bold ${
-                      quantity === preset ? 'bg-ink-black text-paper-white' : 'bg-warm-cream hover:bg-gray-200'
+                    className={`px-3 py-1 rounded-full border transition-all ${
+                      quantity === preset
+                        ? 'border-farm-green bg-farm-green text-paper-bg font-bold'
+                        : 'border-dark-text/15 bg-paper-bg hover:bg-dark-text/5 text-dark-text'
                     }`}
                   >
                     {preset} KG
@@ -239,13 +242,13 @@ export const SimpleListProduceModal: React.FC<SimpleListProduceModalProps> = ({
             </div>
 
             {/* Price per KG Input */}
-            <div className="p-4 bg-paper-white border-2 border-ink-black space-y-2">
+            <div className="p-5 rounded-2xl border border-dark-text/10 bg-pure-white space-y-3 shadow-soft-sm">
               <div className="flex items-center justify-between">
-                <label className="font-heading font-bold text-xs uppercase text-ink-black">
-                  Expected Price Per KG
+                <label className="text-xs font-mono uppercase tracking-wider text-dark-text/60 font-semibold">
+                  Expected Rate Per KG
                 </label>
-                <span className="font-mono text-[11px] text-farm-green font-bold">
-                  Mandi Benchmark: ₹{selectedCropInfo.avgMandiPrice}/KG
+                <span className="font-mono text-xs text-farm-green font-semibold">
+                  Benchmark: ₹{selectedCropInfo.avgMandiPrice}/KG
                 </span>
               </div>
               <div className="relative">
@@ -255,16 +258,16 @@ export const SimpleListProduceModal: React.FC<SimpleListProduceModalProps> = ({
                   onChange={(e) => setExpectedPrice(e.target.value)}
                   min="5"
                   step="1"
-                  className="w-full p-3 bg-warm-cream border-2 border-ink-black font-heading font-black text-2xl text-ink-black pr-20"
+                  className="w-full px-4 py-3 rounded-xl border border-dark-text/15 bg-paper-bg/40 focus:bg-pure-white focus:border-farm-green focus:ring-2 focus:ring-farm-green/10 font-serif font-bold text-2xl text-dark-text pr-20"
                   placeholder="24"
                 />
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 font-mono font-bold text-gray-500 text-sm">
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 font-mono font-bold text-dark-text/40 text-sm">
                   ₹ / KG
                 </span>
               </div>
               
-              <div className="flex items-center justify-between text-[11px] font-mono text-gray-600">
-                <span>Estimated Total Payout:</span>
+              <div className="flex items-center justify-between text-xs font-mono text-dark-text/60 pt-1">
+                <span>Estimated Contract Payout:</span>
                 <strong className="text-farm-green font-bold text-sm">
                   ₹{((Number(quantity) || 0) * (Number(expectedPrice) || 0)).toLocaleString()}
                 </strong>
@@ -277,20 +280,20 @@ export const SimpleListProduceModal: React.FC<SimpleListProduceModalProps> = ({
         {step === 3 && (
           <div className="space-y-5">
             <div>
-              <h3 className="font-heading font-black text-xl uppercase text-ink-black">
-                Pickup Date & Farm Location
+              <h3 className="font-serif font-bold text-lg text-dark-text">
+                Dispatch Schedule & Village Gate
               </h3>
-              <p className="font-body text-xs text-gray-600">
-                Where and when should the collection vehicle arrive?
+              <p className="text-xs text-dark-text/60">
+                Specify when harvest will be crated and your village pickup point.
               </p>
             </div>
 
             {/* Ready Date Chips */}
-            <div className="p-4 bg-paper-white border-2 border-ink-black space-y-2">
-              <label className="block font-heading font-bold text-xs uppercase text-ink-black">
-                When is it ready for pickup?
+            <div className="p-5 rounded-2xl border border-dark-text/10 bg-pure-white space-y-3 shadow-soft-sm">
+              <label className="block text-xs font-mono uppercase tracking-wider text-dark-text/60 font-semibold">
+                Estimated Readiness
               </label>
-              <div className="grid grid-cols-2 gap-2 font-mono text-xs">
+              <div className="grid grid-cols-2 gap-2 text-xs">
                 {[
                   'Ready Today',
                   'Ready in 3 Days',
@@ -301,8 +304,10 @@ export const SimpleListProduceModal: React.FC<SimpleListProduceModalProps> = ({
                     key={d}
                     type="button"
                     onClick={() => setAvailableDate(d)}
-                    className={`p-2.5 border-2 border-ink-black text-left font-bold transition-all ${
-                      availableDate === d ? 'bg-citrus-yellow shadow-brutal-sm' : 'bg-warm-cream hover:bg-white'
+                    className={`p-3 rounded-xl border text-left font-medium transition-all ${
+                      availableDate === d
+                        ? 'border-farm-green bg-farm-green/10 text-farm-green font-bold'
+                        : 'border-dark-text/10 bg-paper-bg/60 hover:bg-paper-bg text-dark-text'
                     }`}
                   >
                     {d}
@@ -312,73 +317,73 @@ export const SimpleListProduceModal: React.FC<SimpleListProduceModalProps> = ({
             </div>
 
             {/* Farm Location */}
-            <div className="p-4 bg-paper-white border-2 border-ink-black space-y-2">
-              <label className="block font-heading font-bold text-xs uppercase text-ink-black">
-                Farm / Village Pickup Location
+            <div className="p-5 rounded-2xl border border-dark-text/10 bg-pure-white space-y-3 shadow-soft-sm">
+              <label className="block text-xs font-mono uppercase tracking-wider text-dark-text/60 font-semibold">
+                Farm Gate / Village Collection Point
               </label>
               <div className="relative">
-                <MapPin className="w-4 h-4 text-farm-green absolute left-3 top-3.5" />
+                <MapPin className="w-4 h-4 text-farm-green absolute left-3.5 top-3.5" />
                 <input
                   type="text"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  className="w-full p-2.5 pl-9 bg-warm-cream border-2 border-ink-black font-mono text-xs font-bold"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-dark-text/15 bg-paper-bg/40 focus:bg-pure-white focus:border-farm-green focus:ring-2 focus:ring-farm-green/10 text-xs font-medium"
                   placeholder="Village, Taluk / District"
                 />
               </div>
-              <p className="text-[10px] font-mono text-gray-500">
-                Coordinated collection trucks pick up produce directly from your village hub.
+              <p className="text-[11px] text-dark-text/50">
+                Scheduled reefer collection loops pick up crated produce directly from village hubs.
               </p>
             </div>
 
             {/* Summary Box */}
-            <div className="p-3.5 bg-yellow-50 border-2 border-ink-black font-mono text-xs space-y-1">
-              <div className="font-bold uppercase text-ink-black flex items-center justify-between">
+            <div className="p-4 rounded-2xl border border-dark-text/10 bg-paper-bg/70 text-xs space-y-1.5 font-mono">
+              <div className="font-bold text-dark-text flex items-center justify-between font-serif text-sm">
                 <span>{crop} • {quantity} KG</span>
-                <span className="text-farm-green font-black">₹{expectedPrice}/KG</span>
+                <span className="text-farm-green font-bold">₹{expectedPrice}/KG</span>
               </div>
-              <div className="text-[11px] text-gray-600">
+              <div className="text-dark-text/60">
                 Pickup: {availableDate} • {location}
               </div>
-              <div className="text-[10px] text-farm-green font-bold pt-1">
-                ✓ 0% Broker Fee • 100% Direct Bank Transfer
+              <div className="text-farm-green font-semibold pt-1 flex items-center gap-1">
+                <CheckCircle2 className="w-3.5 h-3.5" /> 0% Broker Fees • 100% Escrow Direct Bank Payout
               </div>
             </div>
           </div>
         )}
 
-        {/* Modal Controls (Back & Next/Submit) */}
-        <div className="flex items-center justify-between gap-3 pt-3 border-t-2 border-ink-black">
+        {/* Modal Controls */}
+        <div className="flex items-center justify-between gap-3 pt-4 border-t border-dark-text/10">
           {step > 1 ? (
             <Button
               variant="white"
               size="md"
               type="button"
               onClick={handleBack}
-              className="flex items-center gap-1.5 text-xs font-bold"
+              className="text-xs"
             >
-              <ArrowLeft className="w-4 h-4" />
-              <span>BACK</span>
+              <ArrowLeft className="w-4 h-4 mr-1" />
+              <span>Back</span>
             </Button>
           ) : (
             <button
               type="button"
               onClick={onClose}
-              className="font-mono text-xs font-bold text-gray-600 hover:text-ink-black underline px-2 py-1"
+              className="text-xs text-dark-text/60 hover:text-dark-text underline px-2 py-1"
             >
               Cancel
             </button>
           )}
 
           <Button
-            variant="yellow"
+            variant="clay"
             size="md"
             type="button"
             onClick={handleNext}
-            className="flex items-center gap-2 text-xs font-heading font-black px-6 ml-auto"
+            className="shadow-soft-terracotta text-xs px-6 ml-auto"
           >
-            <span>{step === 3 ? 'LIST PRODUCE NOW' : 'NEXT STEP'}</span>
-            <ArrowRight className="w-4 h-4 stroke-[3]" />
+            <span>{step === 3 ? 'Publish Produce Lot' : 'Next Step'}</span>
+            <ArrowRight className="w-4 h-4 ml-1.5" />
           </Button>
         </div>
 

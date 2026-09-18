@@ -86,7 +86,7 @@ export const OtpInput: React.FC<OtpInputProps> = ({
   };
 
   return (
-    <div className="flex items-center justify-between gap-1.5 sm:gap-2.5 max-w-sm mx-auto">
+    <div className="flex items-center justify-between gap-2 sm:gap-3 max-w-sm mx-auto">
       {digits.map((digit, idx) => (
         <input
           key={idx}
@@ -104,11 +104,14 @@ export const OtpInput: React.FC<OtpInputProps> = ({
           onKeyDown={(e) => handleKeyDown(idx, e)}
           onPaste={handlePaste}
           onFocus={(e) => e.target.select()}
-          className={`w-11 h-13 sm:w-12 sm:h-14 text-center font-mono font-black text-xl sm:text-2xl border-2 transition-all outline-hidden ${
-            disabled ? 'bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed' :
-            hasError ? 'bg-red-50 text-tomato-red border-tomato-red focus:bg-white focus:shadow-brutal-sm' :
-            digit ? 'bg-paper-white text-ink-black border-ink-black shadow-brutal-sm' :
-            'bg-warm-cream/60 text-ink-black border-ink-black/60 focus:border-ink-black focus:bg-paper-white focus:shadow-brutal-sm'
+          className={`w-11 h-14 sm:w-12 sm:h-14 text-center font-serif font-bold text-2xl rounded-2xl border transition-all outline-none ${
+            disabled
+              ? 'bg-dark-text/5 text-dark-text/30 border-dark-text/10 cursor-not-allowed'
+              : hasError
+                ? 'bg-terracotta/10 text-terracotta border-terracotta focus:ring-2 focus:ring-terracotta/20'
+                : digit
+                  ? 'bg-pure-white text-dark-text border-farm-green shadow-soft-sm ring-1 ring-farm-green/20'
+                  : 'bg-paper-bg/60 text-dark-text border-dark-text/20 focus:border-farm-green focus:bg-pure-white focus:ring-2 focus:ring-farm-green/15'
           }`}
           aria-label={`Digit ${idx + 1} of 6`}
         />

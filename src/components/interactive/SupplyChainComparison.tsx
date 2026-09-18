@@ -2,62 +2,65 @@ import React, { useState } from 'react';
 import { ArrowDown, AlertTriangle, CheckCircle2, TrendingDown, TrendingUp, Users, Building, Truck, Store } from 'lucide-react';
 import { Card } from '../ui/Card';
 import { Badge } from '../ui/Badge';
-import { WashiTape, RubberStamp, SketchAnnotation } from '../ui/SketchAccents';
 
 export const SupplyChainComparison: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'traditional' | 'farmchain'>('farmchain');
   const [isBreakdownExpanded, setIsBreakdownExpanded] = useState<boolean>(false);
 
   return (
-    <section className="py-16 md:py-24 bg-warm-cream border-y-brutal">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-12 sm:py-20 bg-paper-bg border-y border-dark-text/10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         
         {/* Section Header */}
-        <div className="mb-10 md:mb-14">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="font-mono text-xs font-bold px-2.5 py-1 bg-ink-black text-paper-white">
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-xs font-semibold px-3 py-1 bg-farm-green text-pure-white rounded-full uppercase">
               SECTION 02 // STRUCTURAL INEFFICIENCY
             </span>
           </div>
-          <h2 className="font-heading font-black text-3xl sm:text-5xl lg:text-6xl uppercase tracking-tighter text-ink-black leading-tight">
-            WHERE DOES THE MONEY GO?
+          <h2 className="font-serif font-medium text-3xl sm:text-5xl tracking-tight text-dark-text leading-[1.1]">
+            Where Does the Value Go?
           </h2>
-          <p className="font-body text-base md:text-lg text-gray-800 max-w-3xl mt-3 font-medium leading-relaxed">
+          <p className="font-sans text-sm sm:text-base text-dark-text/70 max-w-3xl leading-relaxed">
             In the traditional system, produce passes through five distinct brokers before reaching commercial kitchens or store shelves. Each middleman takes a margin while adding zero shelf-life.
           </p>
         </div>
 
         {/* View Switcher Controls */}
-        <div className="flex flex-wrap items-center gap-3 mb-6">
+        <div className="flex flex-wrap items-center gap-3">
           <button
             onClick={() => setActiveTab('traditional')}
-            className={`btn-brutal px-4 sm:px-6 py-3 text-xs md:text-sm font-heading transition-all ${
-              activeTab === 'traditional' ? 'bg-tomato-red text-paper-white shadow-brutal' : 'bg-paper-white text-ink-black hover:bg-gray-100'
+            className={`px-5 py-2.5 rounded-full text-xs font-sans font-semibold transition-all duration-200 cursor-pointer ${
+              activeTab === 'traditional' 
+                ? 'bg-terracotta text-pure-white shadow-soft-terracotta' 
+                : 'bg-pure-white text-dark-text/70 border border-dark-text/10 hover:border-dark-text/30'
             }`}
           >
             TRADITIONAL BROKER CHAIN (5 LAYERS)
           </button>
           <button
             onClick={() => setActiveTab('farmchain')}
-            className={`btn-brutal px-4 sm:px-6 py-3 text-xs md:text-sm font-heading transition-all ${
-              activeTab === 'farmchain' ? 'bg-blue-crate text-paper-white shadow-brutal' : 'bg-paper-white text-ink-black hover:bg-gray-100'
+            className={`px-5 py-2.5 rounded-full text-xs font-sans font-semibold transition-all duration-200 cursor-pointer ${
+              activeTab === 'farmchain' 
+                ? 'bg-farm-green text-pure-white shadow-soft-sm' 
+                : 'bg-pure-white text-dark-text/70 border border-dark-text/10 hover:border-dark-text/30'
             }`}
           >
             FARMCHAIN DEMAND-MATCHED FLOW (DIRECT)
           </button>
         </div>
 
-        {/* High-Level Executive Summary Card (Instant scanning before diving into 5 steps) */}
-        <div className="mb-8 p-4 sm:p-6 bg-paper-white border-brutal-thick shadow-brutal">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="space-y-1">
-              <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-gray-600 block">
+        {/* High-Level Executive Summary Card */}
+        <div className="p-6 sm:p-8 bg-pure-white rounded-3xl border border-dark-text/10 shadow-soft">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="space-y-1.5">
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-dark-text/60 block">
                 {activeTab === 'traditional' ? 'TRADITIONAL SYSTEM SNAPSHOT' : 'FARMCHAIN DIRECT MODEL SNAPSHOT'}
               </span>
-              <h3 className="font-heading font-black text-xl sm:text-2xl uppercase text-ink-black">
-                {activeTab === 'traditional' ? '5 MIDDLEMEN LAYERS • 38% PRODUCE DECAY' : '0 MIDDLEMEN • 12-HOUR HARVEST-TO-KITCHEN'}
+              <h3 className="font-serif font-bold text-xl sm:text-2xl text-dark-text">
+                {activeTab === 'traditional' ? '5 Middlemen Layers • 38% Produce Decay' : '0 Middlemen • 12-Hour Harvest-to-Kitchen'}
               </h3>
-              <p className="font-body text-xs sm:text-sm text-gray-700 max-w-2xl">
+              <p className="font-sans text-xs sm:text-sm text-dark-text/70 max-w-2xl leading-relaxed">
                 {activeTab === 'traditional' 
                   ? 'Produce spends 36 to 48 hours bouncing between village agents, wholesale mandis, and city distributors before delivery.'
                   : 'Commercial buyers post exact demand parameters. Nearby farmer clusters combine volume and dispatch directly along an optimized route.'}
@@ -67,9 +70,9 @@ export const SupplyChainComparison: React.FC = () => {
             <div className="flex flex-wrap items-center gap-3 shrink-0">
               <button
                 onClick={() => setIsBreakdownExpanded(!isBreakdownExpanded)}
-                className="btn-brutal px-4 py-2.5 bg-citrus-yellow text-ink-black text-xs font-heading font-black flex items-center gap-2 hover:bg-harvest-yellow"
+                className="px-5 py-2.5 rounded-full bg-paper-bg border border-dark-text/15 text-dark-text text-xs font-sans font-semibold hover:bg-pure-white transition-colors cursor-pointer"
               >
-                <span>{isBreakdownExpanded ? 'COLLAPSE 5-STAGE DETAILS ▲' : 'EXPLORE 5-STAGE AUDIT TRAIL ▼'}</span>
+                <span>{isBreakdownExpanded ? 'Collapse 5-Stage Details ▲' : 'Explore 5-Stage Audit Trail ▼'}</span>
               </button>
             </div>
           </div>
@@ -81,61 +84,45 @@ export const SupplyChainComparison: React.FC = () => {
           {/* Visual Flow Column (7 cols) */}
           <div className="lg:col-span-7">
             {activeTab === 'traditional' ? (
-              <Card variant="white" shadow="lg" className="p-6 md:p-8 space-y-4 border-tomato-red/50 relative">
-                <WashiTape color="red" className="-top-3 left-10 z-10" />
-                <RubberStamp text="38% CROP LOSS" variant="red" className="absolute top-4 right-4 z-10" />
-
-                <div className="flex items-center justify-between pb-4 border-b-2 border-ink-black">
+              <div className="bg-pure-white rounded-3xl border border-dark-text/10 shadow-soft p-6 sm:p-8 space-y-6">
+                <div className="flex items-center justify-between pb-4 border-b border-dark-text/10">
                   <div>
-                    <h3 className="font-heading font-black text-xl text-tomato-red uppercase">
-                      TRADITIONAL BROKER CHAIN
+                    <h3 className="font-serif font-bold text-xl text-terracotta">
+                      Traditional Broker Chain
                     </h3>
-                    <p className="font-mono text-xs text-gray-600">FRUIT & VEGETABLE LOSS: ~38%</p>
+                    <p className="font-mono text-xs text-dark-text/60">FRUIT & VEGETABLE LOSS: ~38%</p>
                   </div>
                   <Badge variant="red" size="sm">5 MIDDLEMEN</Badge>
                 </div>
 
-                {/* Progressive Disclosure Toggle Strip for Mobile & Desktop */}
-                <div className="flex items-center justify-between py-1 border-b border-gray-200">
-                  <span className="font-mono text-xs font-bold text-gray-600 uppercase">
-                    STAGE-BY-STAGE PRICE & MARKUP AUDIT:
-                  </span>
-                  <button
-                    onClick={() => setIsBreakdownExpanded(!isBreakdownExpanded)}
-                    className="font-mono text-xs font-bold text-tomato-red underline lg:hidden"
-                  >
-                    {isBreakdownExpanded ? 'Hide Steps' : 'Show All 5 Steps'}
-                  </button>
-                </div>
-
-                {/* Step Flow (Always shown on desktop if expanded or toggleable) */}
-                {(isBreakdownExpanded || typeof window !== 'undefined' && window.innerWidth >= 1024) && (
-                  <div className="space-y-3 pt-2 animate-in fade-in duration-200">
+                {/* Step Flow */}
+                {(isBreakdownExpanded || typeof window !== 'undefined') && (
+                  <div className="space-y-3 pt-2">
                   {[
-                    { title: 'FARMER', role: 'Takes price offered by village commission agent', cut: 'Farmer receives: ₹17.50/KG (Distress auction rate)', icon: Users },
-                    { title: 'LOCAL TRADER / AGENT', role: 'Charges 6-10% brokerage + uncalibrated weighing deduction', cut: '+ ₹2.50 commission markup', icon: Building },
-                    { title: 'MANDI WHOLESALER', role: 'Unregulated APMC auction markup + loading cuts', cut: '+ ₹3.50 speculative margin', icon: Store },
-                    { title: 'CITY DISTRIBUTOR', role: 'Secondary cold-storage transit loss & re-packing markups', cut: '+ ₹4.50 distribution overhead', icon: Truck },
-                    { title: 'COMMERCIAL BUYER', role: 'Pays inflated rate for 3-day-old degraded produce', cut: 'Buyer pays: ₹28.00/KG', icon: Store },
+                    { title: 'Farmer', role: 'Takes price offered by village commission agent', cut: 'Farmer receives: ₹17.50/KG (Distress auction rate)', icon: Users },
+                    { title: 'Local Trader / Agent', role: 'Charges 6-10% brokerage + uncalibrated weighing deduction', cut: '+ ₹2.50 commission markup', icon: Building },
+                    { title: 'Mandi Wholesaler', role: 'Unregulated APMC auction markup + loading cuts', cut: '+ ₹3.50 speculative margin', icon: Store },
+                    { title: 'City Distributor', role: 'Secondary cold-storage transit loss & re-packing markups', cut: '+ ₹4.50 distribution overhead', icon: Truck },
+                    { title: 'Commercial Buyer', role: 'Pays inflated rate for 3-day-old degraded produce', cut: 'Buyer pays: ₹28.00/KG', icon: Store },
                   ].map((step, idx, arr) => (
                     <div key={step.title} className="relative">
-                      <div className="flex items-center justify-between p-3.5 bg-warm-cream/60 border-2 border-ink-black">
+                      <div className="flex items-center justify-between p-4 bg-paper-bg rounded-2xl border border-dark-text/10">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-ink-black text-paper-white flex items-center justify-center font-mono font-bold text-xs">
+                          <div className="w-8 h-8 rounded-xl bg-terracotta/15 text-terracotta flex items-center justify-center font-mono font-bold text-xs">
                             0{idx + 1}
                           </div>
                           <div>
-                            <span className="font-heading font-black text-sm uppercase">{step.title}</span>
-                            <p className="font-body text-xs text-gray-700">{step.role}</p>
+                            <span className="font-serif font-bold text-sm text-dark-text">{step.title}</span>
+                            <p className="font-sans text-xs text-dark-text/70">{step.role}</p>
                           </div>
                         </div>
-                        <span className="font-mono font-bold text-xs text-rust-red shrink-0 ml-2">
+                        <span className="font-mono font-semibold text-xs text-terracotta shrink-0 ml-2">
                           {step.cut}
                         </span>
                       </div>
                       {idx < arr.length - 1 && (
-                        <div className="flex justify-center py-1 text-ink-black">
-                          <ArrowDown className="w-4 h-4 stroke-[3]" />
+                        <div className="flex justify-center py-1 text-dark-text/30">
+                          <ArrowDown className="w-4 h-4" />
                         </div>
                       )}
                     </div>
@@ -143,72 +130,56 @@ export const SupplyChainComparison: React.FC = () => {
                   </div>
                 )}
 
-                <div className="mt-6 p-4 bg-red-50 border-2 border-rust-red text-ink-black text-xs font-mono">
-                  <div className="flex items-start gap-2">
-                    <AlertTriangle className="w-4 h-4 text-rust-red shrink-0 mt-0.5" />
+                <div className="mt-6 p-4 bg-terracotta/10 border border-terracotta/25 rounded-2xl text-dark-text text-xs font-mono">
+                  <div className="flex items-start gap-2.5">
+                    <AlertTriangle className="w-4 h-4 text-terracotta shrink-0 mt-0.5" />
                     <div>
-                      <strong className="font-bold">SYSTEMIC FAILURE:</strong>
-                      <p className="mt-1">More layers → less transparency → lower farmer bargaining power → higher buyer prices + 36-48 hour freshness decay.</p>
+                      <strong className="font-bold text-terracotta">SYSTEMIC FAILURE:</strong>
+                      <p className="mt-1 font-sans text-dark-text/80">More layers → less transparency → lower farmer bargaining power → higher buyer prices + 36-48 hour freshness decay.</p>
                     </div>
                   </div>
                 </div>
-              </Card>
+              </div>
             ) : (
-              <Card variant="white" shadow="lg" className="p-6 md:p-8 space-y-4 border-blue-crate relative">
-                <WashiTape color="blue" className="-top-3 left-10 z-10" />
-                <RubberStamp text="78% FARMER PAYOUT" variant="green" className="absolute top-4 right-4 z-10" />
-
-                <div className="flex items-center justify-between pb-4 border-b-2 border-ink-black">
+              <div className="bg-pure-white rounded-3xl border border-dark-text/10 shadow-soft p-6 sm:p-8 space-y-6">
+                <div className="flex items-center justify-between pb-4 border-b border-dark-text/10">
                   <div>
-                    <h3 className="font-heading font-black text-xl text-blue-crate uppercase">
-                      FARMCHAIN DEMAND-FIRST FLOW
+                    <h3 className="font-serif font-bold text-xl text-farm-green">
+                      FarmChain Demand-First Flow
                     </h3>
-                    <p className="font-mono text-xs text-gray-600">ZERO BROKERS // MACHINE OPTIMIZED</p>
+                    <p className="font-mono text-xs text-dark-text/60">ZERO BROKERS // MACHINE OPTIMIZED</p>
                   </div>
-                  <Badge variant="lettuce" size="sm" dot>FARMER GETS 78%+</Badge>
+                  <Badge variant="green" size="sm" dot>FARMER GETS 78%+</Badge>
                 </div>
 
-                {/* Progressive Disclosure Toggle Strip for Mobile & Desktop */}
-                <div className="flex items-center justify-between py-1 border-b border-gray-200">
-                  <span className="font-mono text-xs font-bold text-gray-600 uppercase">
-                    STAGE-BY-STAGE DIRECT FULFILLMENT:
-                  </span>
-                  <button
-                    onClick={() => setIsBreakdownExpanded(!isBreakdownExpanded)}
-                    className="font-mono text-xs font-bold text-blue-crate underline lg:hidden"
-                  >
-                    {isBreakdownExpanded ? 'Hide Steps' : 'Show All 5 Steps'}
-                  </button>
-                </div>
-
-                {/* Step Flow (Shown on desktop or when expanded on mobile) */}
-                {(isBreakdownExpanded || typeof window !== 'undefined' && window.innerWidth >= 1024) && (
-                  <div className="space-y-3 pt-2 animate-in fade-in duration-200">
+                {/* Step Flow */}
+                {(isBreakdownExpanded || typeof window !== 'undefined') && (
+                  <div className="space-y-3 pt-2">
                   {[
-                    { title: 'BUYER POSTS VERIFIED DEMAND', role: 'Specifies crop, exact tonnage, quality grade & delivery window', cut: 'Market Signal Published', icon: Store },
-                    { title: 'AI SMART MATCHING ENGINE', role: 'Clusters geo-proximate farmers and verifies available yields', cut: 'Near-Zero Search Cost', icon: Building },
-                    { title: 'FARMERS GROUP AGGREGATION', role: 'Smallholders combine 600kg-1000kg batches to fulfill multi-ton PO', cut: 'Farmer receives: ₹23.00/KG (+31% direct)', icon: Users },
-                    { title: 'OPTIMIZED LOGISTICS ROUTE', role: 'Single consolidated truck collects along algorithmic pickup loop', cut: 'Transport cost: ₹2.50/KG', icon: Truck },
-                    { title: 'DIRECT BUYER FULFILLMENT', role: 'Buyer receives farm-fresh harvest within 12 hours of harvest', cut: 'Buyer pays: ₹25.50/KG (-9% savings)', icon: CheckCircle2 },
+                    { title: 'Buyer Posts Verified Demand', role: 'Specifies crop, exact tonnage, quality grade & delivery window', cut: 'Market Signal Published', icon: Store },
+                    { title: 'AI Smart Matching Engine', role: 'Clusters geo-proximate farmers and verifies available yields', cut: 'Near-Zero Search Cost', icon: Building },
+                    { title: 'Farmers Group Aggregation', role: 'Smallholders combine 600kg-1000kg batches to fulfill multi-ton PO', cut: 'Farmer receives: ₹23.00/KG (+31% direct)', icon: Users },
+                    { title: 'Optimized Logistics Route', role: 'Single consolidated truck collects along algorithmic pickup loop', cut: 'Transport cost: ₹2.50/KG', icon: Truck },
+                    { title: 'Direct Buyer Fulfillment', role: 'Buyer receives farm-fresh harvest within 12 hours of harvest', cut: 'Buyer pays: ₹25.50/KG (-9% savings)', icon: CheckCircle2 },
                   ].map((step, idx, arr) => (
                     <div key={step.title} className="relative">
-                      <div className="flex items-center justify-between p-3.5 bg-farm-green-pale/70 border-2 border-ink-black">
+                      <div className="flex items-center justify-between p-4 bg-farm-green/5 rounded-2xl border border-farm-green/15">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-farm-green text-harvest-yellow border border-ink-black flex items-center justify-center font-mono font-bold text-xs">
+                          <div className="w-8 h-8 rounded-xl bg-farm-green text-pure-white flex items-center justify-center font-mono font-bold text-xs shadow-soft-sm">
                             0{idx + 1}
                           </div>
                           <div>
-                            <span className="font-heading font-black text-sm uppercase text-farm-green">{step.title}</span>
-                            <p className="font-body text-xs text-gray-800">{step.role}</p>
+                            <span className="font-serif font-bold text-sm text-farm-green">{step.title}</span>
+                            <p className="font-sans text-xs text-dark-text/70">{step.role}</p>
                           </div>
                         </div>
-                        <span className="font-mono font-bold text-xs text-farm-green shrink-0 ml-2">
+                        <span className="font-mono font-semibold text-xs text-farm-green shrink-0 ml-2">
                           {step.cut}
                         </span>
                       </div>
                       {idx < arr.length - 1 && (
-                        <div className="flex justify-center py-1 text-farm-green">
-                          <ArrowDown className="w-4 h-4 stroke-[3]" />
+                        <div className="flex justify-center py-1 text-farm-green/40">
+                          <ArrowDown className="w-4 h-4" />
                         </div>
                       )}
                     </div>
@@ -216,38 +187,38 @@ export const SupplyChainComparison: React.FC = () => {
                   </div>
                 )}
 
-                <div className="mt-6 p-4 bg-farm-green text-paper-white border-2 border-ink-black text-xs font-mono">
-                  <div className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-harvest-yellow shrink-0 mt-0.5" />
+                <div className="mt-6 p-4 bg-farm-green/10 border border-farm-green/25 rounded-2xl text-dark-text text-xs font-mono">
+                  <div className="flex items-start gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-farm-green shrink-0 mt-0.5" />
                     <div>
-                      <strong className="text-harvest-yellow font-bold">FARMCHAIN PRINCIPLE:</strong>
-                      <p className="mt-1">Direct negotiation. Direct bank settlement. Farmers see where value is created instead of being blind to end-market prices.</p>
+                      <strong className="text-farm-green font-bold">FARMCHAIN PRINCIPLE:</strong>
+                      <p className="mt-1 font-sans text-dark-text/80">Direct negotiation. Direct bank settlement. Farmers see where value is created instead of being blind to end-market prices.</p>
                     </div>
                   </div>
                 </div>
-              </Card>
+              </div>
             )}
           </div>
 
           {/* Metric Comparison Card (5 cols) */}
           <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
-            <Card variant="yellow" shadow="lg" className="p-6 md:p-8 space-y-6">
-              <div className="flex items-center justify-between pb-3 border-b-2 border-ink-black">
-                <span className="font-mono text-xs font-bold uppercase">VALUE CAPTURE SHIFT</span>
+            <div className="p-6 md:p-8 bg-pure-white rounded-3xl border border-dark-text/10 shadow-soft space-y-6">
+              <div className="flex items-center justify-between pb-3 border-b border-dark-text/10">
+                <span className="font-mono text-xs font-semibold uppercase text-dark-text/70">VALUE CAPTURE SHIFT</span>
                 <Badge variant="dark" size="sm">DATA BENCHMARK</Badge>
               </div>
 
               {/* Farmer Realization Comparison */}
               <div className="space-y-2">
-                <div className="flex justify-between font-heading font-bold text-sm">
-                  <span>FARMER PRICE REALIZATION</span>
-                  <span className="font-mono">48% vs 78%</span>
+                <div className="flex justify-between font-serif font-bold text-sm text-dark-text">
+                  <span>Farmer Price Realization</span>
+                  <span className="font-mono text-xs">48% vs 78%</span>
                 </div>
-                <div className="h-6 w-full bg-paper-white border-2 border-ink-black flex overflow-hidden">
-                  <div className="bg-rust-red h-full flex items-center justify-center text-[10px] font-mono text-white font-bold" style={{ width: '48%' }}>
+                <div className="h-7 w-full bg-paper-bg rounded-full border border-dark-text/10 flex overflow-hidden p-0.5">
+                  <div className="bg-terracotta h-full rounded-full flex items-center justify-center text-[10px] font-mono text-pure-white font-bold" style={{ width: '48%' }}>
                     Old: 48%
                   </div>
-                  <div className="bg-farm-green h-full flex items-center justify-center text-[10px] font-mono text-harvest-yellow font-bold flex-1">
+                  <div className="bg-farm-green h-full rounded-full flex items-center justify-center text-[10px] font-mono text-pure-white font-bold flex-1 ml-1">
                     FarmChain: +30% Retained
                   </div>
                 </div>
@@ -255,49 +226,49 @@ export const SupplyChainComparison: React.FC = () => {
 
               {/* Transit Latency Comparison */}
               <div className="space-y-2">
-                <div className="flex justify-between font-heading font-bold text-sm">
-                  <span>HARVEST TO KITCHEN LATENCY</span>
-                  <span className="font-mono">48h vs 12h</span>
+                <div className="flex justify-between font-serif font-bold text-sm text-dark-text">
+                  <span>Harvest to Kitchen Latency</span>
+                  <span className="font-mono text-xs">48h vs 12h</span>
                 </div>
-                <div className="h-6 w-full bg-paper-white border-2 border-ink-black flex overflow-hidden">
-                  <div className="bg-farm-green h-full flex items-center justify-center text-[10px] font-mono text-harvest-yellow font-bold" style={{ width: '25%' }}>
+                <div className="h-7 w-full bg-paper-bg rounded-full border border-dark-text/10 flex overflow-hidden p-0.5">
+                  <div className="bg-farm-green h-full rounded-full flex items-center justify-center text-[10px] font-mono text-pure-white font-bold" style={{ width: '28%' }}>
                     12h Fresh
                   </div>
-                  <div className="bg-warm-cream-dark h-full flex items-center justify-center text-[10px] font-mono text-ink-black font-bold flex-1">
+                  <div className="bg-dark-text/20 h-full rounded-full flex items-center justify-center text-[10px] font-mono text-dark-text font-semibold flex-1 ml-1">
                     Traditional Decay: 48h+
                   </div>
                 </div>
               </div>
 
               {/* Key Highlights Bullet points */}
-              <div className="p-4 bg-paper-white border-2 border-ink-black space-y-3 font-mono text-xs">
+              <div className="p-4 bg-paper-bg rounded-2xl border border-dark-text/10 space-y-2.5 font-sans text-xs">
                 <div className="flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-farm-green shrink-0" />
-                  <span><strong>+31% Higher Realization</strong> for smallholder farmers</span>
+                  <span><strong className="text-dark-text">+31% Higher Realization</strong> for smallholder farmers</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <TrendingDown className="w-4 h-4 text-rust-red shrink-0" />
-                  <span><strong>-9% Net Procurement Cost</strong> for restaurant buyers</span>
+                  <TrendingDown className="w-4 h-4 text-terracotta shrink-0" />
+                  <span><strong className="text-dark-text">-9% Net Procurement Cost</strong> for restaurant buyers</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-farm-green shrink-0" />
-                  <span><strong>Zero Intermediary</strong> holding warehouses</span>
+                  <span><strong className="text-dark-text">Zero Intermediary</strong> holding warehouses</span>
                 </div>
               </div>
 
-              <div className="border-t-2 border-ink-black pt-4">
-                <p className="font-heading font-black text-lg tracking-tight uppercase text-ink-black">
-                  "DON'T SELL TO THE MIDDLEMAN. SELL TO THE DEMAND."
+              <div className="border-t border-dark-text/10 pt-4">
+                <p className="font-serif font-bold text-lg tracking-tight text-dark-text">
+                  "Don't sell to the middleman. Sell to the demand."
                 </p>
               </div>
-            </Card>
+            </div>
 
             {/* Quick Quote box */}
-            <div className="p-5 bg-ink-black text-paper-white border-brutal shadow-brutal">
-              <p className="font-mono text-xs text-harvest-yellow font-bold mb-1">
+            <div className="p-6 bg-dark-text text-pure-white rounded-3xl border border-dark-text/20 shadow-soft space-y-2">
+              <p className="font-mono text-xs text-harvest-yellow font-bold uppercase tracking-wider">
                 // COMMISSION AGENT INDEPENDENCE
               </p>
-              <p className="font-body text-xs text-gray-300 leading-relaxed">
+              <p className="font-sans text-xs text-pure-white/80 leading-relaxed">
                 When farmers sell to local commission agents, they accept whatever rate is announced at noon. With FarmChain, harvest begins only when the buyer requirement and pricing are already locked.
               </p>
             </div>

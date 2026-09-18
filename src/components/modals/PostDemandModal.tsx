@@ -60,22 +60,24 @@ export const PostDemandModal: React.FC<PostDemandModalProps> = ({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="POST NEW REQUIREMENT"
-      subtitle="BUYER SOURCING DESK // ALGORITHMIC MATCHING ACTIVATED"
+      title="Publish Sourcing Requirement"
+      subtitle="Commercial buyer procurement • Algorithmic smallholder matching activated"
       maxWidth="xl"
     >
-      <form onSubmit={handleSubmit} className="space-y-5 font-mono text-xs">
+      <form onSubmit={handleSubmit} className="space-y-5 text-xs text-dark-text">
         
         {/* Real-time Match Forecast Banner */}
-        <div className="p-4 bg-blue-crate text-paper-white border-brutal space-y-1">
+        <div className="p-4 rounded-2xl bg-farm-green/10 border border-farm-green/20 space-y-1">
           <div className="flex items-center justify-between">
-            <span className="flex items-center gap-1.5 text-citrus-yellow font-bold uppercase">
-              <Sparkles className="w-4 h-4" /> LIVE SUPPLY ENGINE MATCHING
+            <span className="flex items-center gap-1.5 text-farm-green font-bold uppercase font-mono text-[10px]">
+              <Sparkles className="w-4 h-4" /> Live Supply Engine Matching
             </span>
-            <Badge variant="yellow" size="sm">94% MATCH CERTAINTY</Badge>
+            <span className="px-2.5 py-0.5 rounded-full bg-farm-green text-paper-bg font-mono font-bold text-[10px]">
+              94% MATCH CERTAINTY
+            </span>
           </div>
-          <p className="text-[11px] text-gray-200">
-            Identified <strong className="text-citrus-yellow">{estimatedFarmersCount} verified farmers / FPOs</strong> within 35km with approx <strong className="text-citrus-yellow">{nearbyAvailableKg.toLocaleString()} KG</strong> ready harvest.
+          <p className="text-xs text-dark-text/80 leading-relaxed">
+            Identified <strong className="text-farm-green">{estimatedFarmersCount} verified farmers / FPOs</strong> within 35km with approx <strong className="text-farm-green">{nearbyAvailableKg.toLocaleString()} KG</strong> harvest ready.
           </p>
         </div>
 
@@ -83,14 +85,14 @@ export const PostDemandModal: React.FC<PostDemandModalProps> = ({
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           
           {/* Crop Commodity */}
-          <div>
-            <label className="block text-[10px] font-bold text-gray-600 uppercase mb-1">
-              COMMODITY CROP *
+          <div className="space-y-1.5">
+            <label className="block text-[10px] font-mono font-semibold uppercase text-dark-text/60">
+              Commodity Crop *
             </label>
             <select
               value={crop}
               onChange={(e) => setCrop(e.target.value)}
-              className="w-full p-2.5 bg-warm-cream border-2 border-ink-black font-bold focus:outline-hidden"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-dark-text/15 bg-paper-bg/40 focus:bg-pure-white focus:border-farm-green focus:ring-2 focus:ring-farm-green/10 text-xs font-medium"
               required
             >
               <option value="Tomatoes">Tomatoes</option>
@@ -103,9 +105,9 @@ export const PostDemandModal: React.FC<PostDemandModalProps> = ({
           </div>
 
           {/* Quantity */}
-          <div>
-            <label className="block text-[10px] font-bold text-gray-600 uppercase mb-1">
-              TOTAL REQUIRED QUANTITY (KG) *
+          <div className="space-y-1.5">
+            <label className="block text-[10px] font-mono font-semibold uppercase text-dark-text/60">
+              Required Volume (KG) *
             </label>
             <input
               type="number"
@@ -114,95 +116,95 @@ export const PostDemandModal: React.FC<PostDemandModalProps> = ({
               min="100"
               step="50"
               placeholder="e.g. 2400"
-              className="w-full p-2 bg-warm-cream border-2 border-ink-black font-bold focus:outline-hidden text-sm"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-dark-text/15 bg-paper-bg/40 focus:bg-pure-white focus:border-farm-green focus:ring-2 focus:ring-farm-green/10 text-xs font-medium"
               required
             />
           </div>
 
           {/* Quality Grade */}
-          <div>
-            <label className="block text-[10px] font-bold text-gray-600 uppercase mb-1">
-              QUALITY GRADE MANDATE *
+          <div className="space-y-1.5">
+            <label className="block text-[10px] font-mono font-semibold uppercase text-dark-text/60">
+              Quality Grade Mandate *
             </label>
             <select
               value={qualityGrade}
               onChange={(e) => setQualityGrade(e.target.value as any)}
-              className="w-full p-2.5 bg-warm-cream border-2 border-ink-black font-bold focus:outline-hidden"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-dark-text/15 bg-paper-bg/40 focus:bg-pure-white focus:border-farm-green focus:ring-2 focus:ring-farm-green/10 text-xs font-medium"
             >
               <option value="Grade A">Grade A (Table / Culinary Premium)</option>
-              <option value="Grade B">Grade B (Standard Market)</option>
-              <option value="Export Quality">Export Quality (Strict Global Gap)</option>
+              <option value="Grade B">Grade B (Standard Commercial)</option>
+              <option value="Export Quality">Export Quality (Strict GlobalGAP)</option>
               <option value="Processing Grade">Processing Grade (Industrial/Chips)</option>
             </select>
           </div>
 
           {/* Target Price */}
-          <div>
-            <label className="block text-[10px] font-bold text-gray-600 uppercase mb-1">
-              TARGET PURCHASE RATE (₹ / KG)
+          <div className="space-y-1.5">
+            <label className="block text-[10px] font-mono font-semibold uppercase text-dark-text/60">
+              Target Purchase Rate (₹ / KG)
             </label>
             <input
               type="number"
               value={targetPrice}
               onChange={(e) => setTargetPrice(e.target.value)}
               placeholder="e.g. 24"
-              className="w-full p-2 bg-warm-cream border-2 border-ink-black font-bold focus:outline-hidden text-sm"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-dark-text/15 bg-paper-bg/40 focus:bg-pure-white focus:border-farm-green focus:ring-2 focus:ring-farm-green/10 text-xs font-medium"
             />
           </div>
 
           {/* Delivery Location */}
-          <div className="sm:col-span-2">
-            <label className="block text-[10px] font-bold text-gray-600 uppercase mb-1">
-              DELIVERY DESTINATION / RECEIVING DOCK *
+          <div className="sm:col-span-2 space-y-1.5">
+            <label className="block text-[10px] font-mono font-semibold uppercase text-dark-text/60">
+              Delivery Destination / Receiving Dock *
             </label>
             <input
               type="text"
               value={deliveryLocation}
               onChange={(e) => setDeliveryLocation(e.target.value)}
               placeholder="e.g. Gachibowli Logistics Hub, Hyderabad"
-              className="w-full p-2.5 bg-warm-cream border-2 border-ink-black font-bold focus:outline-hidden"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-dark-text/15 bg-paper-bg/40 focus:bg-pure-white focus:border-farm-green focus:ring-2 focus:ring-farm-green/10 text-xs font-medium"
               required
             />
           </div>
 
           {/* Required Delivery Date */}
-          <div>
-            <label className="block text-[10px] font-bold text-gray-600 uppercase mb-1">
-              REQUIRED DELIVERY DATE *
+          <div className="space-y-1.5">
+            <label className="block text-[10px] font-mono font-semibold uppercase text-dark-text/60">
+              Required Dock Arrival Date *
             </label>
             <input
               type="text"
               value={requiredDate}
               onChange={(e) => setRequiredDate(e.target.value)}
               placeholder="e.g. 28 Sep 2026"
-              className="w-full p-2 bg-warm-cream border-2 border-ink-black font-bold focus:outline-hidden"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-dark-text/15 bg-paper-bg/40 focus:bg-pure-white focus:border-farm-green focus:ring-2 focus:ring-farm-green/10 text-xs font-medium"
               required
             />
           </div>
 
           {/* Notes */}
-          <div className="sm:col-span-2">
-            <label className="block text-[10px] font-bold text-gray-600 uppercase mb-1">
-              QUALITY SPECIFICATIONS & PACKAGING NOTES
+          <div className="sm:col-span-2 space-y-1.5">
+            <label className="block text-[10px] font-mono font-semibold uppercase text-dark-text/60">
+              Quality Specs &amp; Crating Guidelines
             </label>
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               rows={2}
               placeholder="e.g. Firm skin required for slicing, no soft rot, packaged in 25kg ventilated plastic crates."
-              className="w-full p-2.5 bg-warm-cream border-2 border-ink-black focus:outline-hidden"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-dark-text/15 bg-paper-bg/40 focus:bg-pure-white focus:border-farm-green focus:ring-2 focus:ring-farm-green/10 text-xs font-medium"
             />
           </div>
 
         </div>
 
         {/* Modal Actions */}
-        <div className="pt-4 border-t-2 border-ink-black flex items-center justify-end gap-3">
+        <div className="pt-4 border-t border-dark-text/10 flex items-center justify-end gap-3">
           <Button variant="white" size="sm" type="button" onClick={onClose}>
-            CANCEL
+            Cancel
           </Button>
-          <Button variant="yellow" size="md" type="submit">
-            FIND FARMERS & BROADCAST →
+          <Button variant="clay" size="md" type="submit" className="shadow-soft-terracotta">
+            Broadcast Sourcing Order →
           </Button>
         </div>
 

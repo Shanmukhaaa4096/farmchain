@@ -68,7 +68,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       setSuccessUser(null);
       setIsLoading(false);
 
-      // Seed initial demo mobile according to role
       if (activeRole === 'farmer') {
         setMobileNumber('9849201842');
       } else if (activeRole === 'buyer') {
@@ -89,7 +88,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     return () => clearInterval(interval);
   }, [cooldown]);
 
-  // Handle Quick Demo Auto-fill
+  // Quick Demo Auto-fill
   const handleQuickDemoFill = (role: UserRole) => {
     onRoleChange(role);
     setErrorMessage(null);
@@ -221,23 +220,23 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       onClose={onClose}
       title={
         step === 'otp'
-          ? 'VERIFY YOUR NUMBER'
+          ? 'Verify Phone Number'
           : authMode === 'signin'
-          ? 'FARMCHAIN SECURE SIGN IN'
-          : 'NEW PARTICIPANT REGISTRATION'
+          ? 'Secure Account Sign In'
+          : 'Create FarmChain Account'
       }
-      subtitle={step === 'otp' ? 'SMS OTP VERIFICATION' : 'MOBILE-NUMBER AUTHENTICATION // RBAC'}
+      subtitle={step === 'otp' ? 'Enter 6-digit SMS verification code' : 'Instant OTP verification • Role-based access control'}
       maxWidth="md"
     >
-      <div className="space-y-4 font-mono text-xs">
+      <div className="space-y-5 text-dark-text">
         
         {/* Protected Action Context Alert */}
         {promptMessage && (
-          <div className="p-3.5 bg-yellow-50 border-2 border-citrus-yellow text-ink-black space-y-1">
-            <span className="font-bold text-tomato-red uppercase flex items-center gap-1 text-[11px]">
-              <ShieldCheck className="w-4 h-4 shrink-0" /> Please log in to continue:
+          <div className="p-4 rounded-2xl bg-paper-bg border border-dark-text/10 text-dark-text space-y-1">
+            <span className="font-semibold text-terracotta uppercase flex items-center gap-1.5 text-xs">
+              <ShieldCheck className="w-4 h-4 shrink-0" /> Authentication Required:
             </span>
-            <p className="text-[11px] text-gray-800 font-sans font-medium">
+            <p className="text-xs text-dark-text/80 font-sans">
               {promptMessage}
             </p>
           </div>
@@ -245,21 +244,21 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
         {/* Tab Switcher: LOGIN vs SIGN UP (only on phone step) */}
         {step === 'phone' && (
-          <div className="grid grid-cols-2 border-2 border-ink-black bg-warm-cream p-1 gap-1">
+          <div className="grid grid-cols-2 rounded-2xl bg-paper-bg/80 p-1 border border-dark-text/10">
             <button
               type="button"
               onClick={() => {
                 setAuthMode('signin');
                 setErrorMessage(null);
               }}
-              className={`py-2 px-3 text-center font-heading font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
+              className={`py-2 px-3 text-center text-xs font-semibold uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-1.5 ${
                 authMode === 'signin'
-                  ? 'bg-blue-crate text-paper-white shadow-brutal-sm'
-                  : 'text-ink-black hover:bg-paper-white/60'
+                  ? 'bg-pure-white text-dark-text shadow-soft-sm'
+                  : 'text-dark-text/60 hover:text-dark-text'
               }`}
             >
               <KeyRound className="w-3.5 h-3.5" />
-              <span>LOGIN</span>
+              <span>Sign In</span>
             </button>
 
             <button
@@ -268,21 +267,21 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 setAuthMode('signup');
                 setErrorMessage(null);
               }}
-              className={`py-2 px-3 text-center font-heading font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
+              className={`py-2 px-3 text-center text-xs font-semibold uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-1.5 ${
                 authMode === 'signup'
-                  ? 'bg-citrus-yellow text-ink-black shadow-brutal-sm'
-                  : 'text-ink-black hover:bg-paper-white/60'
+                  ? 'bg-pure-white text-dark-text shadow-soft-sm'
+                  : 'text-dark-text/60 hover:text-dark-text'
               }`}
             >
               <UserPlus className="w-3.5 h-3.5" />
-              <span>SIGN UP</span>
+              <span>Register</span>
             </button>
           </div>
         )}
 
         {/* Error Alert Display */}
         {errorMessage && (
-          <div className="p-3 bg-red-50 border-2 border-tomato-red text-tomato-red font-mono text-[11px] flex items-start gap-2 animate-in fade-in duration-150">
+          <div className="p-3.5 rounded-2xl bg-terracotta/10 border border-terracotta/20 text-terracotta text-xs flex items-start gap-2 animate-in fade-in duration-150">
             <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
             <span>{errorMessage}</span>
           </div>
@@ -290,13 +289,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
         {/* Role Selector (shown in phone step) */}
         {step === 'phone' && (
-          <div>
-            <div className="flex items-center justify-between mb-1.5">
-              <label className="block text-[10px] font-bold text-gray-700 uppercase">
-                {authMode === 'signup' ? 'SELECT YOUR REGISTERED ROLE *' : 'SELECT ACTIVE ROLE DESK'}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-xs">
+              <label className="font-mono uppercase font-semibold text-dark-text/60 text-[10px]">
+                {authMode === 'signup' ? 'Select Participant Role *' : 'Select Active Desk'}
               </label>
-              <span className="text-[10px] text-gray-500">
-                {activeRole === 'farmer' ? 'Cultivator / FPO' : activeRole === 'buyer' ? 'Direct Buyer' : 'Transporter'}
+              <span className="text-dark-text/40 text-[10px]">
+                {activeRole === 'farmer' ? 'Smallholder / FPO' : activeRole === 'buyer' ? 'Commercial Buyer' : 'Reefer Transporter'}
               </span>
             </div>
 
@@ -304,55 +303,55 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <button
                 type="button"
                 onClick={() => onRoleChange('farmer')}
-                className={`p-2.5 border-2 border-ink-black text-center font-heading font-black transition-all ${
+                className={`p-3 rounded-2xl border text-center transition-all ${
                   activeRole === 'farmer' 
-                    ? 'bg-green-beans text-paper-white shadow-brutal-sm -translate-y-0.5' 
-                    : 'bg-paper-cream text-ink-black hover:bg-white'
+                    ? 'border-farm-green bg-pure-white text-dark-text shadow-soft-sm ring-2 ring-farm-green/15' 
+                    : 'border-dark-text/10 bg-paper-bg/60 text-dark-text/70 hover:bg-pure-white'
                 }`}
               >
-                <Sprout className="w-4 h-4 mx-auto mb-1 text-citrus-yellow" />
-                <span className="text-[11px] uppercase block tracking-tight">FARMER / FPO</span>
+                <Sprout className="w-4 h-4 mx-auto mb-1 text-farm-green" />
+                <span className="text-xs font-semibold block">Farmer</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => onRoleChange('buyer')}
-                className={`p-2.5 border-2 border-ink-black text-center font-heading font-black transition-all ${
+                className={`p-3 rounded-2xl border text-center transition-all ${
                   activeRole === 'buyer' 
-                    ? 'bg-citrus-yellow text-ink-black shadow-brutal-sm -translate-y-0.5' 
-                    : 'bg-paper-cream text-ink-black hover:bg-white'
+                    ? 'border-farm-green bg-pure-white text-dark-text shadow-soft-sm ring-2 ring-farm-green/15' 
+                    : 'border-dark-text/10 bg-paper-bg/60 text-dark-text/70 hover:bg-pure-white'
                 }`}
               >
-                <Building2 className="w-4 h-4 mx-auto mb-1 text-blue-crate" />
-                <span className="text-[11px] uppercase block tracking-tight">BUYER</span>
+                <Building2 className="w-4 h-4 mx-auto mb-1 text-farm-green" />
+                <span className="text-xs font-semibold block">Buyer</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => onRoleChange('logistics')}
-                className={`p-2.5 border-2 border-ink-black text-center font-heading font-black transition-all ${
+                className={`p-3 rounded-2xl border text-center transition-all ${
                   activeRole === 'logistics' 
-                    ? 'bg-blue-crate text-paper-white shadow-brutal-sm -translate-y-0.5' 
-                    : 'bg-paper-cream text-ink-black hover:bg-white'
+                    ? 'border-farm-green bg-pure-white text-dark-text shadow-soft-sm ring-2 ring-farm-green/15' 
+                    : 'border-dark-text/10 bg-paper-bg/60 text-dark-text/70 hover:bg-pure-white'
                 }`}
               >
-                <Truck className="w-4 h-4 mx-auto mb-1 text-citrus-yellow" />
-                <span className="text-[11px] uppercase block tracking-tight">LOGISTICS</span>
+                <Truck className="w-4 h-4 mx-auto mb-1 text-farm-green" />
+                <span className="text-xs font-semibold block">Logistics</span>
               </button>
             </div>
           </div>
         )}
 
-        {/* ==================== STEP 1: ENTER MOBILE NUMBER ==================== */}
+        {/* STEP 1: ENTER MOBILE NUMBER */}
         {step === 'phone' && (
-          <form onSubmit={handleSendOtp} className="space-y-3.5">
-            <div>
-              <label className="block text-[10px] font-bold text-gray-700 uppercase mb-1">
-                MOBILE NUMBER (INDIAN +91) *
+          <form onSubmit={handleSendOtp} className="space-y-4">
+            <div className="space-y-1.5">
+              <label className="block text-[10px] font-mono font-semibold uppercase text-dark-text/60">
+                Mobile Number (Indian +91) *
               </label>
-              <div className="flex">
-                <span className="p-2.5 bg-gray-200 border-2 border-r-0 border-ink-black font-bold text-xs flex items-center gap-1.5 select-none text-ink-black">
-                  <Phone className="w-3.5 h-3.5" />
+              <div className="flex rounded-2xl border border-dark-text/15 bg-pure-white overflow-hidden shadow-soft-sm focus-within:border-farm-green focus-within:ring-2 focus-within:ring-farm-green/10 transition-all">
+                <span className="px-3.5 py-3 bg-paper-bg/60 text-dark-text/60 font-mono text-xs flex items-center gap-1.5 select-none border-r border-dark-text/10">
+                  <Phone className="w-3.5 h-3.5 text-farm-green" />
                   <span>+91</span>
                 </span>
                 <input
@@ -361,21 +360,21 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   onChange={(e) => setMobileNumber(e.target.value)}
                   placeholder="Enter 10-digit mobile number"
                   maxLength={13}
-                  className="flex-1 p-2.5 bg-warm-cream border-2 border-ink-black font-bold text-ink-black focus:outline-hidden focus:bg-white text-xs font-mono"
+                  className="flex-1 px-4 py-3 bg-transparent text-dark-text font-serif font-bold text-base focus:outline-none placeholder:text-dark-text/30"
                   required
                   autoFocus
                 />
               </div>
-              <span className="text-[10px] text-gray-500 mt-1 block">
-                Standard 10-digit number (e.g. 98492 01842). We will send a 6-digit SMS OTP.
+              <span className="text-[11px] text-dark-text/50 block">
+                Standard 10-digit Indian mobile. A 6-digit SMS OTP will be generated.
               </span>
             </div>
 
             {/* Optional Name / Business for Sign-up */}
             {authMode === 'signup' && (
-              <div>
-                <label className="block text-[10px] font-bold text-gray-700 uppercase mb-1">
-                  FULL NAME / ENTERPRISE ENTITY (OPTIONAL)
+              <div className="space-y-1.5">
+                <label className="block text-[10px] font-mono font-semibold uppercase text-dark-text/60">
+                  Full Name / Legal Entity (Optional)
                 </label>
                 <input
                   type="text"
@@ -385,90 +384,77 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     activeRole === 'farmer' 
                       ? 'e.g. Ramesh Reddy / Chevella FPO' 
                       : activeRole === 'buyer' 
-                      ? 'e.g. UrbanFork Kitchens / Retail Desk' 
-                      : 'e.g. Kisan Cold Reefer Fleet'
+                      ? 'e.g. UrbanFork Kitchens' 
+                      : 'e.g. Kisan Cold Fleet'
                   }
-                  className="w-full p-2.5 bg-warm-cream border-2 border-ink-black font-bold text-ink-black focus:outline-hidden focus:bg-white text-xs"
+                  className="w-full px-4 py-3 rounded-2xl border border-dark-text/15 bg-pure-white text-dark-text text-sm focus:outline-none focus:border-farm-green focus:ring-2 focus:ring-farm-green/10 shadow-soft-sm"
                 />
               </div>
             )}
 
-            {/* Auto ID Provisioning Banner */}
-            <div className="p-2.5 bg-blue-crate/10 border border-blue-crate text-ink-black text-[11px] space-y-0.5">
-              <span className="font-bold uppercase text-blue-crate flex items-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5" /> SECURE OTP AUTHENTICATION:
-              </span>
-              <p className="text-gray-700 text-[10px]">
-                Authentication uses standard SMS delivery. Validates your mobile identity directly with verified {activeRole.toUpperCase()} credentials.
-              </p>
-            </div>
-
             <Button 
-              variant={authMode === 'signup' ? 'yellow' : 'primary'}
+              variant="clay"
               fullWidth 
-              size="md" 
+              size="lg" 
               type="submit"
               disabled={isLoading}
-              className="mt-2 flex items-center justify-center gap-2"
+              className="mt-3 shadow-soft-terracotta text-xs tracking-wider uppercase font-semibold"
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>SENDING SECURE OTP...</span>
+                  <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                  <span>Sending Verification Code...</span>
                 </>
               ) : (
                 <>
-                  <span>SEND OTP →</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <span>Send Verification Code</span>
+                  <ArrowRight className="w-4 h-4 ml-1.5" />
                 </>
               )}
             </Button>
 
             {/* Quick 1-Click Demo Accounts Bar */}
-            <div className="pt-2 border-t border-ink-black/20">
-              <span className="block text-[10px] font-bold text-gray-500 uppercase mb-1.5">
-                ONE-CLICK PRESET TEST PHONES:
+            <div className="pt-3 border-t border-dark-text/10">
+              <span className="block text-[10px] font-mono font-semibold uppercase text-dark-text/50 mb-2">
+                One-Click Demo Test Numbers:
               </span>
-              <div className="grid grid-cols-3 gap-1.5 font-mono text-[10px]">
+              <div className="grid grid-cols-3 gap-2 font-mono text-[11px]">
                 <button
                   type="button"
                   onClick={() => handleQuickDemoFill('farmer')}
-                  className="p-1.5 bg-warm-cream border border-ink-black hover:bg-citrus-yellow font-bold text-left truncate"
-                  title="Auto-fill 9849201842 (Farmer: Ramesh Reddy)"
+                  className="p-2 rounded-xl bg-paper-bg border border-dark-text/10 hover:bg-pure-white text-left truncate transition-colors"
                 >
-                  Farmer (+91 98492)
+                  Farmer (98492)
                 </button>
                 <button
                   type="button"
                   onClick={() => handleQuickDemoFill('buyer')}
-                  className="p-1.5 bg-warm-cream border border-ink-black hover:bg-citrus-yellow font-bold text-left truncate"
-                  title="Auto-fill 9876543210 (Buyer: UrbanFork)"
+                  className="p-2 rounded-xl bg-paper-bg border border-dark-text/10 hover:bg-pure-white text-left truncate transition-colors"
                 >
-                  Buyer (+91 98765)
+                  Buyer (98765)
                 </button>
                 <button
                   type="button"
                   onClick={() => handleQuickDemoFill('logistics')}
-                  className="p-1.5 bg-warm-cream border border-ink-black hover:bg-citrus-yellow font-bold text-left truncate"
-                  title="Auto-fill 9988776655 (Logistics: Kisan Cold)"
+                  className="p-2 rounded-xl bg-paper-bg border border-dark-text/10 hover:bg-pure-white text-left truncate transition-colors"
                 >
-                  Fleet (+91 99887)
+                  Logistics (99887)
                 </button>
               </div>
             </div>
           </form>
         )}
 
-        {/* ==================== STEP 2: VERIFY YOUR NUMBER (6-DIGIT OTP) ==================== */}
+        {/* STEP 2: VERIFY OTP */}
         {step === 'otp' && (
-          <div className="space-y-4 animate-in fade-in duration-200">
+          <div className="space-y-5 animate-in fade-in duration-200">
             {/* Phone Display with Edit Button */}
-            <div className="p-3 bg-warm-cream border-2 border-ink-black flex items-center justify-between">
+            <div className="p-4 rounded-2xl bg-paper-bg/70 border border-dark-text/10 flex items-center justify-between">
               <div>
-                <span className="block text-[10px] font-bold text-gray-500 uppercase">
-                  ENTER 6-DIGIT OTP SENT TO:
+                <span className="block text-[10px] font-mono uppercase text-dark-text/50 font-semibold">
+                  OTP SENT TO NUMBER:
                 </span>
-                <span className="font-mono font-black text-sm text-ink-black">
+                <span className="font-serif font-bold text-base text-dark-text">
                   {normalizedPhone.formatted || mobileNumber}
                 </span>
               </div>
@@ -478,7 +464,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   setStep('phone');
                   setErrorMessage(null);
                 }}
-                className="text-[11px] font-bold text-blue-crate hover:underline flex items-center gap-1 p-1 bg-white border border-ink-black shadow-brutal-sm"
+                className="text-xs font-semibold text-farm-green hover:underline flex items-center gap-1 px-3 py-1.5 rounded-full bg-pure-white border border-dark-text/10 shadow-soft-sm"
               >
                 <Edit3 className="w-3 h-3" />
                 <span>Change</span>
@@ -487,8 +473,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
             {/* 6-Digit OTP Input */}
             <div className="py-2">
-              <label className="block text-center text-[10px] font-bold text-gray-700 uppercase mb-3">
-                ENTER 6-DIGIT OTP VERIFICATION CODE
+              <label className="block text-center text-[10px] font-mono font-semibold uppercase text-dark-text/60 mb-3">
+                Enter 6-digit verification code
               </label>
               
               <OtpInput
@@ -506,72 +492,64 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             </div>
 
             {/* Resend OTP & Countdown */}
-            <div className="text-center space-y-1">
+            <div className="text-center">
               {cooldown > 0 ? (
-                <div className="text-gray-600 font-mono text-[11px]">
-                  Didn&apos;t receive it? Resend OTP in{' '}
-                  <strong className="text-ink-black font-black">{cooldown}s</strong>
+                <div className="text-dark-text/60 font-mono text-xs">
+                  Resend code in <strong className="text-dark-text">{cooldown}s</strong>
                 </div>
               ) : (
                 <button
                   type="button"
                   onClick={handleResendOtp}
                   disabled={isLoading}
-                  className="font-bold text-xs text-tomato-red hover:underline inline-flex items-center gap-1 font-mono uppercase"
+                  className="font-semibold text-xs text-terracotta hover:underline inline-flex items-center gap-1 font-mono uppercase"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
-                  <span>Resend OTP Now</span>
+                  <span>Resend Verification Code</span>
                 </button>
               )}
             </div>
 
             {/* Verify CTA */}
             <Button
-              variant="yellow"
+              variant="clay"
               fullWidth
-              size="md"
+              size="lg"
               type="button"
               disabled={isLoading || otpCode.length !== 6}
               onClick={() => handleVerifyOtp()}
-              className="flex items-center justify-center gap-2"
+              className="shadow-soft-terracotta text-xs tracking-wider uppercase font-semibold"
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>VERIFYING OTP...</span>
+                  <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                  <span>Verifying Code...</span>
                 </>
               ) : (
                 <>
-                  <Check className="w-4 h-4" />
-                  <span>VERIFY & CONTINUE →</span>
+                  <Check className="w-4 h-4 mr-1.5" />
+                  <span>Verify &amp; Continue</span>
                 </>
               )}
             </Button>
-
-            <p className="text-[10px] text-gray-500 text-center font-mono">
-              OTP expires in 5 minutes • Rate limited to prevent unauthorized attempts
-            </p>
           </div>
         )}
 
-        {/* ==================== STEP 3: SUCCESS SPLASH ==================== */}
+        {/* STEP 3: SUCCESS SPLASH */}
         {step === 'success' && successUser && (
-          <div className="p-6 bg-warm-cream border-2 border-ink-black text-center space-y-2.5 animate-in zoom-in-95 duration-150">
+          <div className="p-6 rounded-3xl bg-farm-green/10 border border-farm-green/20 text-center space-y-3 animate-in zoom-in-95 duration-150">
             <CheckCircle2 className="w-12 h-12 text-farm-green mx-auto" />
-            <h4 className="font-heading font-black text-xl uppercase text-ink-black">
-              VERIFICATION SUCCESSFUL
+            <h4 className="font-serif font-bold text-xl text-dark-text">
+              Authentication Verified
             </h4>
-            <div className="font-mono text-xs text-gray-700">
-              Authenticated: <strong className="text-farm-green">{successUser.name}</strong>
+            <div className="text-xs text-dark-text/70">
+              Welcome, <strong className="text-farm-green">{successUser.name}</strong>
             </div>
-            <div className="inline-block bg-blue-crate text-citrus-yellow px-3 py-1 font-mono text-xs font-bold border border-ink-black">
+            <div className="inline-block bg-pure-white text-dark-text px-3 py-1 rounded-full font-mono text-xs font-bold border border-dark-text/10 shadow-soft-sm">
               {successUser.identifier}
             </div>
-            <div className="text-[11px] text-gray-600 font-mono">
-              +91 {successUser.mobileNumber} • {successUser.role.toUpperCase()}
-            </div>
-            <p className="text-[11px] text-gray-500 pt-1">
-              Establishing session and returning to your action...
+            <p className="text-[11px] text-dark-text/50 pt-1">
+              Establishing secure session...
             </p>
           </div>
         )}

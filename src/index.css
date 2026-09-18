@@ -2,15 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-paper-bg: #F4F0E6;
+  --color-dark-text: #17231A;
+  --color-primary-green: #315C3A;
+  --color-soft-green: #A9C29A;
+  --color-soft-green-tint: #E2EBDD;
+  --color-accent-yellow: #E5B94A;
+  --color-terracotta: #C96B45;
+  --color-terracotta-light: #F8ECE6;
+  --color-pure-white: #FFFDF7;
+  --color-mandi-tint: #EAE5D8;
+  --color-charcoal-muted: #4F6153;
+  --color-border-hairline: rgba(23, 35, 26, 0.12);
+}
+
 @layer base {
   * {
-    border-color: #111111;
+    border-color: var(--color-border-hairline);
   }
   
   html, body {
     max-width: 100vw;
     overflow-x: hidden;
     scroll-behavior: smooth;
+    background-color: var(--color-paper-bg);
+    color: var(--color-dark-text);
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+  }
+
+  h1, h2, h3, .font-serif, .font-editorial, .font-retro {
+    font-family: 'Fraunces', 'Newsreader', Georgia, serif;
+    font-feature-settings: "soft" 100, "wonk" 1;
+    font-variation-settings: "SOFT" 100, "WONK" 1;
   }
 }
 
@@ -23,156 +47,218 @@
   }
 }
 
-/* Neo-Brutalist Core Styles */
-.border-brutal {
-  border: 2.5px solid #111111;
+/* Soft Retro Organic Editorial Classes */
+.border-hairline {
+  border: 1px solid var(--color-border-hairline);
 }
 
-.border-brutal-thick {
-  border: 3.5px solid #111111;
+.border-hairline-t {
+  border-top: 1px solid var(--color-border-hairline);
 }
 
-.shadow-brutal-default {
-  box-shadow: 6px 6px 0px #111111;
+.border-hairline-b {
+  border-bottom: 1px solid var(--color-border-hairline);
 }
 
-.shadow-brutal-sm {
-  box-shadow: 3px 3px 0px #111111;
+.border-hairline-y {
+  border-top: 1px solid var(--color-border-hairline);
+  border-bottom: 1px solid var(--color-border-hairline);
 }
 
-.shadow-brutal-lg {
-  box-shadow: 10px 10px 0px #111111;
+/* Soft Organic Elevation */
+.shadow-soft {
+  box-shadow: 0 12px 28px -6px rgba(23, 35, 26, 0.07);
+}
+
+.shadow-soft-lg {
+  box-shadow: 0 24px 48px -12px rgba(23, 35, 26, 0.09);
+}
+
+.shadow-soft-terracotta {
+  box-shadow: 0 16px 32px -8px rgba(201, 107, 69, 0.22);
+}
+
+/* Micro-Interactions */
+.card-soft-lift {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-soft-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px -10px rgba(23, 35, 26, 0.10);
+}
+
+.image-soft-zoom {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.image-soft-zoom:hover {
+  transform: scale(1.03);
+}
+
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 20s linear infinite;
+}
+
+/* Organic Blob and Arch Masks */
+.mask-organic-blob {
+  border-radius: 44% 56% 60% 40% / 46% 48% 52% 54%;
+}
+
+.mask-organic-hero {
+  border-top-left-radius: 200px;
+  border-top-right-radius: 28px;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 80px;
+}
+
+@media (min-width: 768px) {
+  .mask-organic-hero {
+    border-top-left-radius: 280px;
+    border-top-right-radius: 36px;
+    border-bottom-left-radius: 60px;
+    border-bottom-right-radius: 120px;
+  }
+}
+
+.shadow-brutal-clay,
+.shadow-tactile-clay,
+.shadow-tactile-terracotta {
+  box-shadow: 2px 2px 0px #C96B45;
 }
 
 .shadow-brutal-yellow {
-  box-shadow: 6px 6px 0px #F4C542;
+  box-shadow: 2px 2px 0px #E5B94A;
 }
 
 .shadow-brutal-soil {
-  box-shadow: 6px 6px 0px #607829;
+  box-shadow: 2px 2px 0px #71805A;
 }
 
 .shadow-brutal-blue {
-  box-shadow: 5px 5px 0px #293379;
+  box-shadow: 2px 2px 0px #163323;
 }
 
 .shadow-brutal-red {
-  box-shadow: 5px 5px 0px #B81817;
+  box-shadow: 2px 2px 0px #B83A2A;
 }
 
-.shadow-brutal-yellow {
-  box-shadow: 5px 5px 0px #E6A300;
-}
-
-/* Tactile Clickable Neo-Brutalist Buttons */
+/* Tactile Clickable Editorial Buttons */
 .btn-brutal {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  border: 2.5px solid #111111;
-  box-shadow: 5px 5px 0px #111111;
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border: 1px solid #1C201D;
+  box-shadow: 2px 2px 0px #1C201D;
   transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
   user-select: none;
   cursor: pointer;
 }
 
 .btn-brutal:hover {
-  transform: translate(2px, 2px);
-  box-shadow: 3px 3px 0px #111111;
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px #1C201D;
 }
 
 .btn-brutal:active {
-  transform: translate(5px, 5px);
-  box-shadow: 0px 0px 0px #111111;
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px #1C201D;
 }
 
-/* Produce Color Button Variants */
+/* Modern Mandi Button Color Variants */
 .btn-brutal-primary {
-  background-color: #293379; /* Blue Crate */
+  background-color: #163323; /* Deep Agricultural Green */
   color: #FFFFFF;
 }
 
 .btn-brutal-primary:hover {
-  background-color: #1F2444;
+  background-color: #0F2418;
 }
 
 .btn-brutal-yellow {
-  background-color: #E6A300; /* Citrus Yellow */
-  color: #111111;
+  background-color: #D9651E; /* Harvest Orange Accent */
+  color: #FFFFFF;
 }
 
 .btn-brutal-yellow:hover {
-  background-color: #CE9200;
+  background-color: #C25614;
 }
 
 .btn-brutal-red {
-  background-color: #B81817; /* Tomato Red */
+  background-color: #B83A2A;
   color: #FFFFFF;
 }
 
 .btn-brutal-red:hover {
-  background-color: #961312;
+  background-color: #9C2E20;
 }
 
 .btn-brutal-green {
-  background-color: #607829; /* Green Beans */
+  background-color: #4D6A42; /* Muted Leaf Green */
   color: #FFFFFF;
 }
 
 .btn-brutal-green:hover {
-  background-color: #4B5E20;
+  background-color: #3C5434;
 }
 
 .btn-brutal-lettuce {
-  background-color: #A6AF32; /* Lettuce Green */
-  color: #111111;
+  background-color: #EAF0E8;
+  color: #163323;
+  border-color: #163323;
 }
 
 .btn-brutal-lettuce:hover {
-  background-color: #919929;
+  background-color: #DCE6D8;
 }
 
 .btn-brutal-orange {
-  background-color: #EE7302; /* Orange Accent */
+  background-color: #D9651E;
   color: #FFFFFF;
 }
 
 .btn-brutal-orange:hover {
-  background-color: #D46500;
+  background-color: #C25614;
 }
 
 .btn-brutal-white {
   background-color: #FFFFFF;
-  color: #111111;
+  color: #1C201D;
 }
 
 .btn-brutal-white:hover {
-  background-color: #FAF7F0;
+  background-color: #FAF7F2;
 }
 
 .btn-brutal-soil {
-  background-color: #607829;
-  color: #FAF7F0;
+  background-color: #4D6A42;
+  color: #FAF7F2;
 }
 
 .btn-brutal-soil:hover {
-  background-color: #4B5E20;
+  background-color: #3C5434;
 }
 
-/* Interactive Cards with subtle lift & border emphasis */
+/* Clean Editorial Paper Cards */
 .card-brutal {
   background-color: #FFFFFF;
-  border: 2.5px solid #111111;
-  box-shadow: 5px 5px 0px #111111;
+  border: 1px solid #1C201D;
+  box-shadow: 2px 2px 0px rgba(28, 32, 29, 0.9);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .card-brutal-interactive:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 8px 8px 0px #111111;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px rgba(28, 32, 29, 0.9);
 }
 
 /* SCRAPBOOK & FIELD NOTEBOOK VISUAL ACCENTS */
@@ -263,29 +349,29 @@
 
 /* 4. Field Notebook Grid Pattern */
 .bg-notebook-grid {
-  background-color: #FAF7F0;
-  background-size: 22px 22px;
+  background-color: #FAF7F2;
+  background-size: 24px 24px;
   background-image: 
-    linear-gradient(to right, rgba(41, 51, 121, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(41, 51, 121, 0.06) 1px, transparent 1px);
+    linear-gradient(to right, rgba(22, 51, 35, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(22, 51, 35, 0.05) 1px, transparent 1px);
 }
 
 /* AGRICULTURAL BACKGROUND PATTERNS */
 
-/* Subtle Grid Pattern */
+/* Subtle Swiss / Field Grid Pattern */
 .bg-grid-pattern {
   background-size: 24px 24px;
   background-image: 
-    linear-gradient(to right, rgba(17, 17, 17, 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(17, 17, 17, 0.07) 1px, transparent 1px);
+    linear-gradient(to right, rgba(28, 32, 29, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(28, 32, 29, 0.04) 1px, transparent 1px);
 }
 
 /* Topographic Elevation / Farmland Contour Pattern */
 .bg-topo-pattern {
-  background-color: #FAF7F0;
-  background-image: radial-gradient(circle at 50% 50%, transparent 45%, rgba(41, 51, 121, 0.04) 46%, rgba(41, 51, 121, 0.04) 47%, transparent 48%),
-                    radial-gradient(circle at 20% 80%, transparent 40%, rgba(96, 120, 41, 0.04) 41%, rgba(96, 120, 41, 0.04) 42%, transparent 43%),
-                    radial-gradient(circle at 80% 20%, transparent 55%, rgba(230, 163, 0, 0.05) 56%, rgba(230, 163, 0, 0.05) 57%, transparent 58%);
+  background-color: #FAF7F2;
+  background-image: radial-gradient(circle at 50% 50%, transparent 45%, rgba(22, 51, 35, 0.03) 46%, rgba(22, 51, 35, 0.03) 47%, transparent 48%),
+                    radial-gradient(circle at 20% 80%, transparent 40%, rgba(77, 106, 66, 0.03) 41%, rgba(77, 106, 66, 0.03) 42%, transparent 43%),
+                    radial-gradient(circle at 80% 20%, transparent 55%, rgba(217, 101, 30, 0.03) 56%, rgba(217, 101, 30, 0.03) 57%, transparent 58%);
   background-size: 140px 140px;
 }
 
@@ -293,8 +379,8 @@
 .bg-furrow-pattern {
   background-image: repeating-linear-gradient(
     -45deg,
-    rgba(41, 51, 121, 0.035),
-    rgba(41, 51, 121, 0.035) 4px,
+    rgba(22, 51, 35, 0.025),
+    rgba(22, 51, 35, 0.025) 4px,
     transparent 4px,
     transparent 14px
   );
@@ -302,8 +388,31 @@
 
 /* Soil Seed Speckle Texture */
 .bg-soil-speckle {
-  background-image: radial-gradient(rgba(96, 120, 41, 0.12) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(77, 106, 66, 0.1) 1px, transparent 1px);
   background-size: 16px 16px;
+}
+
+/* Authentic Produce Crate Label Stencil */
+.label-crate {
+  font-family: 'JetBrains Mono', monospace;
+  border: 1px dashed rgba(28, 32, 29, 0.4);
+  background-color: #FAF7F2;
+  padding: 4px 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 11px;
+}
+
+/* Authentic Agricultural Rubber / Mandi Seal */
+.stamp-mandi {
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  font-weight: 700;
+  border: 1.5px dashed currentColor;
+  padding: 2px 8px;
+  display: inline-block;
+  letter-spacing: 0.06em;
+  font-size: 10px;
 }
 
 /* ✨ PURPOSEFUL AGRICULTURAL & MOTION ANIMATIONS */
@@ -311,9 +420,9 @@
 /* Wind Sway on Leaves and Crops */
 @keyframes windSway {
   0% { transform: rotate(0deg); }
-  25% { transform: rotate(2.5deg) translateY(-1px); }
+  25% { transform: rotate(2deg) translateY(-1px); }
   50% { transform: rotate(0deg); }
-  75% { transform: rotate(-2deg) translateY(1px); }
+  75% { transform: rotate(-1.5deg) translateY(1px); }
   100% { transform: rotate(0deg); }
 }
 
@@ -330,7 +439,7 @@
 /* Floating Seed/Micro-Leaf Microparticles */
 @keyframes floatGentle {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-7px) rotate(4deg); }
+  50% { transform: translateY(-5px) rotate(3deg); }
 }
 
 .animate-float-gentle {
@@ -340,13 +449,13 @@
 /* Route & Produce Particle Flow Animation */
 @keyframes routeDash {
   to {
-    stroke-dashoffset: -40;
+    stroke-dashoffset: -32;
   }
 }
 
 .animate-route-flow {
-  stroke-dasharray: 8 6;
-  animation: routeDash 1.6s linear infinite;
+  stroke-dasharray: 6 5;
+  animation: routeDash 1.4s linear infinite;
 }
 
 /* Growing SVG line chart animation */
@@ -367,7 +476,7 @@
 
 /* Crop Growth Stage Transition */
 @keyframes sproutUp {
-  0% { transform: scaleY(0.4) translateY(6px); opacity: 0.6; }
+  0% { transform: scaleY(0.5) translateY(4px); opacity: 0.7; }
   100% { transform: scaleY(1) translateY(0); opacity: 1; }
 }
 
@@ -379,7 +488,7 @@
 /* Subtle Live Agricultural Pulse */
 @keyframes liveAgriPulse {
   0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.75; transform: scale(1.02); }
+  50% { opacity: 0.8; transform: scale(1.02); }
 }
 
 .animate-agri-pulse {
@@ -389,7 +498,7 @@
 /* Subtle Slow Cinematic Zoom on Desktop */
 @keyframes subtleZoom {
   0% { transform: scale(1.0); }
-  50% { transform: scale(1.035); }
+  50% { transform: scale(1.02); }
   100% { transform: scale(1.0); }
 }
 
@@ -400,22 +509,22 @@
   }
 }
 
-/* Custom Scrollbar for Neo-Brutalist look */
+/* Custom Scrollbar for Modern Mandi look */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #FAF7F0;
-  border-left: 2px solid #111111;
+  background: #FAF7F2;
+  border-left: 1px solid rgba(28, 32, 29, 0.12);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #293379;
-  border: 2px solid #111111;
+  background: #163323;
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #E6A300;
+  background: #D9651E;
 }

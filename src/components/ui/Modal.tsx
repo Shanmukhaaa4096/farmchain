@@ -16,7 +16,7 @@ export const Modal: React.FC<ModalProps> = ({
   title,
   subtitle,
   children,
-  maxWidth = 'lg'
+  maxWidth = 'lg',
 }) => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -46,24 +46,24 @@ export const Modal: React.FC<ModalProps> = ({
   };
 
   return (
-    <div 
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-ink-black/70 backdrop-blur-xs animate-in fade-in duration-150"
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-dark-text/50 backdrop-blur-sm transition-opacity duration-300"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
     >
-      <div 
-        className={`relative w-full ${maxWidthStyles[maxWidth]} bg-paper-white border-brutal-thick shadow-brutal-lg max-h-[94vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-150`}
+      <div
+        className={`relative w-full ${maxWidthStyles[maxWidth]} rounded-3xl border border-dark-text/15 bg-pure-white shadow-soft-lg max-h-[94vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200`}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Brutalist Modal Header */}
-        <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 bg-farm-green text-paper-white border-b-brutal">
+        {/* Editorial Modal Header */}
+        <div className="flex items-center justify-between border-b border-dark-text/10 px-6 py-5 bg-paper-bg/60">
           <div>
-            <h3 className="font-heading font-black text-base sm:text-xl uppercase tracking-wider text-harvest-yellow">
+            <h3 className="font-serif text-xl font-bold tracking-tight text-dark-text sm:text-2xl">
               {title}
             </h3>
             {subtitle && (
-              <p className="font-mono text-[11px] sm:text-xs text-warm-cream opacity-80 mt-0.5">
+              <p className="text-xs text-dark-text/70 mt-1 font-sans">
                 {subtitle}
               </p>
             )}
@@ -71,14 +71,14 @@ export const Modal: React.FC<ModalProps> = ({
           <button
             onClick={onClose}
             aria-label="Close dialog"
-            className="p-1 bg-harvest-yellow text-ink-black border-2 border-ink-black hover:bg-white active:translate-x-0.5 active:translate-y-0.5 transition-colors cursor-pointer shrink-0 ml-2"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-dark-text/10 bg-pure-white text-dark-text/70 hover:bg-dark-text/5 hover:text-dark-text transition-colors cursor-pointer shrink-0 ml-4"
           >
-            <X className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
+            <X className="w-4 h-4 stroke-[2]" />
           </button>
         </div>
 
         {/* Modal Scrollable Body */}
-        <div className="p-4 sm:p-6 overflow-y-auto max-h-[calc(94vh-75px)]">
+        <div className="p-6 overflow-y-auto max-h-[calc(94vh-80px)]">
           {children}
         </div>
       </div>

@@ -15,23 +15,23 @@ export const Badge: React.FC<BadgeProps> = ({
   dot = false,
   className = ''
 }) => {
-  const baseStyles = "inline-flex items-center gap-1.5 font-mono uppercase font-bold tracking-wider border-2 border-ink-black select-none";
+  const baseStyles = "inline-flex items-center gap-1.5 font-mono uppercase font-semibold tracking-wider border select-none rounded-full";
   
   const sizeStyles = {
-    sm: "px-2 py-0.5 text-[10px]",
-    md: "px-2.5 py-1 text-xs"
+    sm: "px-2.5 py-0.5 text-[10px]",
+    md: "px-3 py-1 text-xs"
   };
 
   const variantStyles = {
-    green: "bg-green-beans text-paper-white",
-    blue: "bg-blue-crate text-paper-white",
-    yellow: "bg-citrus-yellow text-ink-black",
-    lettuce: "bg-lettuce-green text-ink-black",
-    orange: "bg-orange-accent text-paper-white",
-    white: "bg-paper-white text-ink-black",
-    dark: "bg-ink-black text-paper-white",
-    red: "bg-tomato-red text-paper-white",
-    outline: "bg-transparent text-ink-black"
+    green: "bg-primary-green/15 text-primary-green border-primary-green/30",
+    blue: "bg-primary-green/15 text-primary-green border-primary-green/30",
+    yellow: "bg-accent-yellow/20 text-dark-text border-accent-yellow/40",
+    lettuce: "bg-soft-green/25 text-primary-green border-soft-green/40",
+    orange: "bg-terracotta/15 text-terracotta border-terracotta/30",
+    white: "bg-pure-white text-dark-text border-dark-text/15 shadow-soft-sm",
+    dark: "bg-dark-text text-pure-white border-dark-text",
+    red: "bg-terracotta/15 text-terracotta border-terracotta/30",
+    outline: "bg-transparent text-dark-text border-dark-text/25"
   };
 
   return (

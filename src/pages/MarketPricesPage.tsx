@@ -6,32 +6,35 @@ import { Card } from '../components/ui/Card';
 
 export const MarketPricesPage: React.FC = () => {
   return (
-    <div className="py-12 bg-warm-cream min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <div className="py-10 sm:py-16 bg-paper-bg min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         
         {/* Page Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b-brutal">
-          <div>
-            <div className="flex items-center gap-2 mb-2 font-mono text-xs font-bold">
-              <Badge variant="blue" size="sm">PRICE INTELLIGENCE</Badge>
-              <Badge variant="lettuce" size="sm">ZERO BROKER CUTS</Badge>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-dark-text/10">
+          <div className="space-y-3">
+            <div className="flex items-center gap-2 font-mono text-xs">
+              <span className="px-2.5 py-1 bg-farm-green text-pure-white text-[10px] font-mono uppercase tracking-wider rounded-full">
+                Price Intelligence Desk
+              </span>
+              <span className="px-2.5 py-1 bg-paper-bg text-dark-text border border-dark-text/15 text-[10px] font-mono uppercase rounded-full">
+                Zero Middleman Spread
+              </span>
             </div>
-            <h1 className="font-heading font-black text-4xl sm:text-6xl uppercase tracking-tight text-ink-black">
-              KNOW THE PRICE. <br className="hidden sm:inline" />
-              NEGOTIATE BETTER.
+            <h1 className="font-serif font-medium text-3xl sm:text-5xl tracking-tight text-dark-text max-w-3xl leading-[1.1]">
+              Transparent Mandi Benchmarks & Direct Pricing
             </h1>
-            <p className="font-body text-base text-gray-700 mt-2 font-medium max-w-2xl">
-              Transparent market price signals provide farmers and buyers with calibrated reference points for fair, direct contracts.
+            <p className="font-sans text-sm sm:text-base text-dark-text/70 max-w-2xl leading-relaxed">
+              Transparent APMC price signals calibrate fair reference baselines for direct farm-gate contracts between farmer clusters and verified buyers.
             </p>
           </div>
 
-          {/* Prompt explicit disclaimer requirement */}
-          <div className="p-4 bg-paper-white border-2 border-ink-black font-mono text-xs max-w-sm shadow-brutal-sm">
-            <div className="flex items-center gap-1.5 font-bold text-ink-black mb-1">
-              <Info className="w-4 h-4 text-blue-crate" /> PLATFORM POLICY
+          {/* Platform Policy Note */}
+          <div className="p-5 bg-pure-white border border-dark-text/10 rounded-2xl font-mono text-xs max-w-sm shadow-soft-sm shrink-0">
+            <div className="flex items-center gap-1.5 font-serif font-bold text-dark-text mb-1.5">
+              <Info className="w-4 h-4 text-farm-green" /> Platform Policy
             </div>
-            <p className="text-[11px] text-gray-700 leading-tight">
-              Indicative/reference information : <strong>not a guaranteed transaction price</strong>. FarmChain does not buy, sell, or determine the final trading price.
+            <p className="text-[11px] text-dark-text/70 leading-relaxed font-sans">
+              Indicative/reference data : <strong className="text-dark-text">not a guaranteed transaction price</strong>. FarmChain does not buy, sell, or dictate final settlement rates.
             </p>
           </div>
         </div>
@@ -40,28 +43,28 @@ export const MarketPricesPage: React.FC = () => {
         <PriceCalculator />
 
         {/* Value Preservation Principles */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6">
-          <Card variant="cream" shadow="sm" className="p-6 border-brutal space-y-3">
-            <h3 className="font-heading font-black text-xl uppercase text-ink-black">
-              WHERE DO TRADITIONAL COMMISSIONS GO?
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+          <Card variant="paper" className="p-7 space-y-3">
+            <h3 className="font-serif font-bold text-xl text-dark-text">
+              Where do traditional commissions go?
             </h3>
-            <p className="font-body text-xs text-gray-700 leading-relaxed">
+            <p className="font-sans text-xs sm:text-sm text-dark-text/70 leading-relaxed">
               In physical APMC mandis, unregulated loading charges (hamali), weighing cess, cleaning deductions, and 6-10% informal broker cuts drain ₹4 to ₹7 per kilogram directly from the farmer's pocket before they even receive cash.
             </p>
-            <div className="pt-2 font-mono text-xs font-bold text-tomato-red">
-              TRADITIONAL MARGIN EROSION: UP TO 38%
+            <div className="pt-2 font-mono text-xs font-semibold text-terracotta">
+              Traditional margin erosion: Up to 38% lost to intermediaries
             </div>
           </Card>
 
-          <Card variant="cream" shadow="sm" className="p-6 border-brutal space-y-3">
-            <h3 className="font-heading font-black text-xl uppercase text-ink-black">
-              THE FARMCHAIN TRANSPARENCY PROMISE
+          <Card variant="paper" className="p-7 space-y-3">
+            <h3 className="font-serif font-bold text-xl text-dark-text">
+              The FarmChain transparency promise
             </h3>
-            <p className="font-body text-xs text-gray-700 leading-relaxed">
+            <p className="font-sans text-xs sm:text-sm text-dark-text/70 leading-relaxed">
               Every invoice clearly itemizes the agreed farm-gate payout to the farmer and the exact logistics transportation cost. Buyers pay lower than wholesale distributors, while farmers earn significantly higher than local mandi auctions.
             </p>
-            <div className="pt-2 font-mono text-xs font-bold text-green-beans">
-              DIRECT VALUE REALIZATION: 86%+ RETAINED
+            <div className="pt-2 font-mono text-xs font-semibold text-farm-green">
+              Direct value realization: 86%+ retained by the producer
             </div>
           </Card>
         </div>

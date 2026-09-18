@@ -248,7 +248,7 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-warm-cream font-body text-ink-black antialiased selection:bg-harvest-yellow">
+    <div className="min-h-screen flex flex-col bg-paper-bg font-sans text-dark-text antialiased selection:bg-harvest-yellow/30">
       
       {/* Streamlined Farmer-First Navbar */}
       <Navbar
@@ -270,30 +270,32 @@ export const App: React.FC = () => {
         onOpenSellModal={handleOpenSellModal}
       />
 
-      {/* Floating Action Toast Notification */}
+      {/* Floating Action Toast Notification (Sonner/shadcn inspired) */}
       {toast && (
-        <div className={`fixed bottom-16 sm:bottom-6 right-4 sm:right-6 z-50 text-paper-white border-brutal-thick p-4 shadow-brutal-lg max-w-md flex items-start justify-between gap-3 animate-in slide-in-from-bottom-4 ${
-          toast.type === 'error' ? 'bg-rust-red' : 'bg-farm-green'
-        }`}>
-          <div className="flex items-start gap-2.5 font-mono text-xs">
-            {toast.type === 'error' ? (
-              <AlertTriangle className="w-5 h-5 text-harvest-yellow shrink-0 mt-0.5" />
-            ) : (
-              <CheckCircle2 className="w-5 h-5 text-harvest-yellow shrink-0 mt-0.5" />
-            )}
+        <div className="fixed bottom-6 right-4 sm:right-6 z-50 rounded-2xl border border-dark-text/15 bg-pure-white p-4 shadow-soft-lg max-w-md flex items-start justify-between gap-3 animate-in fade-in slide-in-from-bottom-4 duration-300">
+          <div className="flex items-start gap-3">
+            <div className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl ${
+              toast.type === 'error' ? 'bg-terracotta/15 text-terracotta' : 'bg-farm-green/15 text-farm-green'
+            }`}>
+              {toast.type === 'error' ? (
+                <AlertTriangle className="h-4 w-4" />
+              ) : (
+                <CheckCircle2 className="h-4 w-4" />
+              )}
+            </div>
             <div>
-              <strong className="text-harvest-yellow block uppercase font-bold">
-                {toast.type === 'error' ? 'SYSTEM ALERT:' : 'STATUS UPDATE:'}
-              </strong>
-              <p className="mt-0.5 text-paper-white">{toast.message}</p>
+              <p className="text-xs font-mono uppercase tracking-wider text-dark-text/50">
+                {toast.type === 'error' ? 'System Notice' : 'Verified Event'}
+              </p>
+              <p className="mt-0.5 text-sm font-medium text-dark-text">{toast.message}</p>
             </div>
           </div>
           <button 
             onClick={() => setToast(null)}
-            className="text-paper-white hover:text-harvest-yellow"
+            className="flex h-6 w-6 items-center justify-center rounded-full text-dark-text/40 hover:bg-dark-text/5 hover:text-dark-text transition-colors"
             aria-label="Dismiss notification"
           >
-            <X className="w-4 h-4" />
+            <X className="w-3.5 h-3.5" />
           </button>
         </div>
       )}
