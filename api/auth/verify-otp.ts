@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'http';
-import { normalizeIndianMobile, verifyUserOtp, signSessionToken } from './_utils.ts';
+import { normalizeIndianMobile, verifyUserOtp, signSessionToken } from './_utils.js';
 
 function generateRoleIdentifier(role: string): string {
   const randomDigits = Math.floor(1000 + Math.random() * 9000);

@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'http';
-import { verifySessionToken } from './_utils.ts';
+import { verifySessionToken } from './_utils.js';
 
 export default async function handler(
   req: IncomingMessage & { body?: any; query?: any },
