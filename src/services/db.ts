@@ -1,32 +1,19 @@
-// FarmChain Database Simulation & Systems Operations Service
-// Implements client-side models matching database/schema.sql
+// FarmChain Database Design Specification Service
+// Provides design targets and audit log entries for the /technology page.
+// All values are DESIGN TARGETS for the pilot deployment, not live benchmarks.
 
-export interface SystemMetrics {
-  activeConnections: number;
+export interface SystemDesignTargets {
+  /** Maximum concurrent users the pilot is designed to handle */
+  maxConcurrentUsers: number;
+  /** Connection pool size (PgBouncer) */
   maxPoolSize: number;
-  p99LatencyMs: number;
-  cacheHitRatio: number;
-  totalRecords: number;
-  openDemandsCount: number;
-  matchedFarmersCount: number;
+  /** Design target for p99 query latency (ms) */
+  p99LatencyTargetMs: number;
+  /** Point-in-time recovery window (hours) */
+  pitRecoveryWindowHours: number;
+  /** Last recorded backup status */
   lastBackupTimestamp: string;
   backupStatus: 'VERIFIED' | 'RUNNING' | 'STALE';
-}
-
-export interface FarmerPushRecord {
-  id: string;
-  demandId: string;
-  farmerId: string;
-  farmerName: string;
-  phone: string;
-  language: 'te' | 'hi' | 'kn' | 'mr' | 'en';
-  crop: string;
-  quantityKg: number;
-  ratePerKg: number;
-  totalPayout: number;
-  status: 'PENDING' | 'ACCEPTED' | 'REJECTED';
-  distanceKm: number;
-  timestamp: string;
 }
 
 export interface AuditLogEntry {
@@ -40,15 +27,12 @@ export interface AuditLogEntry {
 }
 
 class DatabaseService {
-  private metrics: SystemMetrics = {
-    activeConnections: 42,
+  private designTargets: SystemDesignTargets = {
+    maxConcurrentUsers: 500,
     maxPoolSize: 100,
-    p99LatencyMs: 6.8,
-    cacheHitRatio: 94.6,
-    totalRecords: 14820,
-    openDemandsCount: 28,
-    matchedFarmersCount: 142,
-    lastBackupTimestamp: 'Today, 03:00 UTC (PITR Verified)',
+    p99LatencyTargetMs: 200,
+    pitRecoveryWindowHours: 24,
+    lastBackupTimestamp: 'Scheduled: daily 03:00 UTC',
     backupStatus: 'VERIFIED'
   };
 
@@ -60,7 +44,7 @@ class DatabaseService {
       action: 'PUSH_DEMAND_DISPATCH',
       status: 'SUCCESS',
       latencyMs: 4.2,
-      details: 'Dispatched 500 KG Tomatoes requirement to 3 nearby Chevella farmers via PostGIS ST_DWithin'
+      details: 'Dispatched 220 KG Tomatoes requirement to 3 nearby Chevella farmers via PostGIS ST_DWithin'
     },
     {
       id: 'LOG-9080',
@@ -82,8 +66,8 @@ class DatabaseService {
     }
   ];
 
-  public getMetrics(): SystemMetrics {
-    return { ...this.metrics };
+  public getDesignTargets(): SystemDesignTargets {
+    return { ...this.designTargets };
   }
 
   public getAuditLogs(): AuditLogEntry[] {
@@ -92,7 +76,7 @@ class DatabaseService {
 
   public triggerManualBackup(): { success: boolean; snapshotId: string; durationMs: number } {
     const snapshotId = `SNAP-2026-${Math.floor(100000 + Math.random() * 900000)}`;
-    this.metrics.lastBackupTimestamp = 'Just now (Verified)';
+    this.designTargets.lastBackupTimestamp = 'Just now (Design simulation)';
     this.auditLogs.unshift({
       id: `LOG-${Math.floor(9100 + Math.random() * 900)}`,
       timestamp: 'Just now',
@@ -100,30 +84,17 @@ class DatabaseService {
       action: 'WAL_PITR_SNAPSHOT',
       status: 'SUCCESS',
       latencyMs: 142,
-      details: `Full WAL snapshot ${snapshotId} exported to encrypted S3 storage. Hash verified.`
+      details: `Design: WAL snapshot ${snapshotId} would be exported to encrypted S3 storage with hash verification.`
     });
     return { success: true, snapshotId, durationMs: 142 };
   }
 
-  public simulate10kQueryBenchmark(): {
-    concurrentUsers: number;
-    qps: number;
-    p50Ms: number;
-    p95Ms: number;
-    p99Ms: number;
-    errorRate: string;
-    indexUsed: string;
-  } {
-    return {
-      concurrentUsers: 10000,
-      qps: 18450,
-      p50Ms: 1.8,
-      p95Ms: 4.6,
-      p99Ms: 7.9,
-      errorRate: '0.00%',
-      indexUsed: 'GIST(geom_location) + Partial B-Tree(idx_demands_open)'
-    };
-  }
+  /** @deprecated Removed — this was a client-side simulation misleadingly presented as a live benchmark. */
+  // simulate10kQueryBenchmark() was removed in Phase 2 refactor.
+  // Design target: up to 500 concurrent users, p99 < 200ms, for pilot scale.
 }
 
 export const db = new DatabaseService();
+
+// Re-export type aliases for backward compatibility
+export type SystemMetrics = SystemDesignTargets;

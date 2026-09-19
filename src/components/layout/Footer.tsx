@@ -196,8 +196,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               </li>
               <li>
                 {/* As requested: Tech & Design linked only from footer */}
-                <button onClick={() => onNavigate('tech')} className="text-[#E5B94A] hover:underline font-bold uppercase tracking-wider text-[11px] cursor-pointer">
-                  Tech &amp; Design →
+                <button onClick={() => onNavigate('technology')} className="text-[#E5B94A] hover:underline font-bold uppercase tracking-wider text-[11px] cursor-pointer">
+                  Technology &amp; Safety →
                 </button>
               </li>
             </ul>

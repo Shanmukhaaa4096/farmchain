@@ -13,35 +13,22 @@ import {
   FileText,
   Clock,
   ArrowRight,
-  Terminal,
-  Play
+  Terminal
 } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { Card } from '../components/ui/Card';
-import { db, SystemMetrics, AuditLogEntry } from '../services/db';
+import { db, AuditLogEntry } from '../services/db';
 
 export const DatabasePage: React.FC = () => {
-  const [metrics, setMetrics] = useState<SystemMetrics>(db.getMetrics());
+  const designTargets = db.getDesignTargets();
   const [auditLogs, setAuditLogs] = useState<AuditLogEntry[]>(db.getAuditLogs());
-  const [benchmarkResult, setBenchmarkResult] = useState<any | null>(null);
-  const [isBenchmarking, setIsBenchmarking] = useState(false);
   const [backupAlert, setBackupAlert] = useState<string | null>(null);
-
-  const runBenchmark = () => {
-    setIsBenchmarking(true);
-    setTimeout(() => {
-      const res = db.simulate10kQueryBenchmark();
-      setBenchmarkResult(res);
-      setIsBenchmarking(false);
-    }, 600);
-  };
 
   const handleBackup = () => {
     const res = db.triggerManualBackup();
-    setMetrics(db.getMetrics());
     setAuditLogs(db.getAuditLogs());
-    setBackupAlert(`Backup snapshot ${res.snapshotId} generated and SHA-256 verified in ${res.durationMs}ms.`);
+    setBackupAlert(`Backup simulation ${res.snapshotId} triggered in ${res.durationMs}ms. (Design simulation — not a live system action.)`);
     setTimeout(() => setBackupAlert(null), 5000);
   };
 
@@ -75,7 +62,7 @@ export const DatabasePage: React.FC = () => {
           <div className="p-5 bg-pure-white rounded-2xl border border-dark-text/10 shadow-soft-sm">
             <span className="font-mono text-[10px] text-dark-text/60 block uppercase font-bold">PGBOUNCER POOL</span>
             <strong className="font-serif font-bold text-2xl text-dark-text block mt-1">
-              {metrics.activeConnections} / {metrics.maxPoolSize}
+              {designTargets.maxConcurrentUsers} / {designTargets.maxPoolSize}
             </strong>
             <span className="font-mono text-[10px] text-farm-green font-bold">TRANSACTION POOLING MODE</span>
           </div>
@@ -83,17 +70,17 @@ export const DatabasePage: React.FC = () => {
           <div className="p-5 bg-pure-white rounded-2xl border border-dark-text/10 shadow-soft-sm">
             <span className="font-mono text-[10px] text-dark-text/60 block uppercase font-bold">P99 QUERY LATENCY</span>
             <strong className="font-serif font-bold text-2xl text-farm-green block mt-1">
-              {metrics.p99LatencyMs} ms
+              &lt;{designTargets.p99LatencyTargetMs} ms
             </strong>
-            <span className="font-mono text-[10px] text-dark-text/60">TARGET: &lt; 15.0 MS</span>
+            <span className="font-mono text-[10px] text-dark-text/60">DESIGN TARGET (p99)</span>
           </div>
 
           <div className="p-5 bg-pure-white rounded-2xl border border-dark-text/10 shadow-soft-sm">
             <span className="font-mono text-[10px] text-dark-text/60 block uppercase font-bold">CACHE HIT RATIO</span>
             <strong className="font-serif font-bold text-2xl text-dark-text block mt-1">
-              {metrics.cacheHitRatio}%
+              {designTargets.pitRecoveryWindowHours}h PITR
             </strong>
-            <span className="font-mono text-[10px] text-farm-green font-bold">REDIS L1 QUERY CACHE</span>
+            <span className="font-mono text-[10px] text-farm-green font-bold">POINT-IN-TIME RECOVERY</span>
           </div>
 
           <div className="p-5 bg-harvest-yellow/20 rounded-2xl border border-accent-yellow/40 shadow-soft-sm">
@@ -105,28 +92,20 @@ export const DatabasePage: React.FC = () => {
           </div>
         </div>
 
-        {/* Scalability & 10k User Benchmark Section */}
+        {/* Scalability Architecture & System Targets */}
         <div className="bg-pure-white rounded-3xl border border-dark-text/10 p-6 sm:p-10 shadow-soft space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-dark-text/10">
             <div>
               <span className="font-mono text-xs font-bold text-farm-green uppercase block">
-                PERFORMANCE VALIDATION
+                DESIGN SPECIFICATION
               </span>
               <h2 className="font-serif font-bold text-xl sm:text-2xl text-dark-text">
-                10,000 Concurrent User Benchmark Simulation
+                Scalability Architecture for Pilot Deployment
               </h2>
+              <p className="text-xs text-dark-text/60 mt-1 font-sans">
+                These are design targets — not live benchmark results. Actual performance depends on infrastructure and real traffic.
+              </p>
             </div>
-
-            <Button
-              variant="primary"
-              size="md"
-              onClick={runBenchmark}
-              disabled={isBenchmarking}
-              className="flex items-center gap-2"
-            >
-              <Play className="w-4 h-4" />
-              <span>{isBenchmarking ? 'EXECUTING QUERIES...' : 'RUN 10K QUERY BENCHMARK'}</span>
-            </Button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
@@ -136,64 +115,48 @@ export const DatabasePage: React.FC = () => {
               </h3>
               <ul className="space-y-2 list-disc pl-4">
                 <li>
-                  <strong className="text-dark-text">Connection Multiplexing:</strong> 10,000 app sessions share 50 backend PostgreSQL connections via PgBouncer. Zero memory thrashing.
+                  <strong className="text-dark-text">Connection Multiplexing:</strong> Up to {designTargets.maxConcurrentUsers} concurrent pilot users share {designTargets.maxPoolSize} PostgreSQL connections via PgBouncer. Zero memory thrashing.
                 </li>
                 <li>
-                  <strong className="text-dark-text">PostGIS Spatial Indexing:</strong> Radius queries (`ST_DWithin`) between farmer coordinates and delivery hubs utilize spatial GIST trees, bypassing table scans.
+                  <strong className="text-dark-text">PostGIS Spatial Indexing:</strong> Radius queries (ST_DWithin) between farmer coordinates and delivery hubs utilize spatial GIST trees, bypassing table scans.
                 </li>
                 <li>
-                  <strong className="text-dark-text">Partial B-Tree Indexing:</strong> `idx_demands_open` indexes only demands with `status = 'OPEN'`, eliminating overhead from millions of historical records.
+                  <strong className="text-dark-text">Partial B-Tree Indexing:</strong> idx_demands_open indexes only demands with status = 'OPEN', eliminating overhead from historical records.
                 </li>
                 <li>
-                  <strong className="text-dark-text">Table Partitioning:</strong> Telemetry and audit logs partition quarterly (`system_audit_logs PARTITION BY RANGE`).
+                  <strong className="text-dark-text">Point-in-Time Recovery:</strong> {designTargets.pitRecoveryWindowHours}-hour WAL archive window. Target RPO &lt; 5 minutes.
                 </li>
               </ul>
             </div>
 
-            {/* Benchmark Output Card */}
             <div className="bg-dark-text text-pure-white rounded-2xl border border-dark-text/20 p-5 font-mono text-xs space-y-2.5 shadow-soft">
               <div className="flex items-center justify-between border-b border-pure-white/10 pb-2 text-harvest-yellow">
                 <span className="flex items-center gap-1.5 font-bold">
-                  <Terminal className="w-4 h-4" /> BENCHMARK TELEMETRY
+                  <Terminal className="w-4 h-4" /> DESIGN TARGETS
                 </span>
-                <span className="text-[10px] bg-farm-green text-pure-white px-2 py-0.5 rounded">EXPLAIN ANALYZE</span>
+                <span className="text-[10px] bg-farm-green text-pure-white px-2 py-0.5 rounded">PILOT SCALE</span>
               </div>
-
-              {benchmarkResult ? (
-                <div className="space-y-1.5 pt-2 text-pure-white/80">
-                  <div className="flex justify-between">
-                    <span>SIMULATED CLIENTS:</span>
-                    <strong className="text-harvest-yellow">{benchmarkResult.concurrentUsers.toLocaleString()}</strong>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>THROUGHPUT:</span>
-                    <strong className="text-pure-white">{benchmarkResult.qps.toLocaleString()} QPS</strong>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>P50 LATENCY:</span>
-                    <strong className="text-pure-white">{benchmarkResult.p50Ms} ms</strong>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>P95 LATENCY:</span>
-                    <strong className="text-pure-white">{benchmarkResult.p95Ms} ms</strong>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>P99 LATENCY:</span>
-                    <strong className="text-farm-green font-bold">{benchmarkResult.p99Ms} ms</strong>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>ERROR RATE:</span>
-                    <strong className="text-farm-green font-bold">{benchmarkResult.errorRate}</strong>
-                  </div>
-                  <div className="pt-2 border-t border-pure-white/10 text-[10px] text-pure-white/60">
-                    <span>INDEX EXECUTED:</span> {benchmarkResult.indexUsed}
-                  </div>
+              <div className="space-y-1.5 pt-2 text-pure-white/80">
+                <div className="flex justify-between">
+                  <span>MAX CONCURRENT USERS:</span>
+                  <strong className="text-harvest-yellow">{designTargets.maxConcurrentUsers.toLocaleString()}</strong>
                 </div>
-              ) : (
-                <div className="py-8 text-center text-pure-white/50">
-                  Click 'RUN 10K QUERY BENCHMARK' to execute synthetic load testing against the PostGIS matching engine.
+                <div className="flex justify-between">
+                  <span>CONNECTION POOL:</span>
+                  <strong className="text-pure-white">{designTargets.maxPoolSize} (PgBouncer)</strong>
                 </div>
-              )}
+                <div className="flex justify-between">
+                  <span>P99 LATENCY TARGET:</span>
+                  <strong className="text-farm-green font-bold">&lt;{designTargets.p99LatencyTargetMs}ms</strong>
+                </div>
+                <div className="flex justify-between">
+                  <span>PITR WINDOW:</span>
+                  <strong className="text-pure-white">{designTargets.pitRecoveryWindowHours}h WAL Archive</strong>
+                </div>
+                <div className="pt-2 border-t border-pure-white/10 text-[10px] text-pure-white/60">
+                  <span>NOTE: Design targets for pilot. Not live benchmark data.</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -263,7 +226,7 @@ export const DatabasePage: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-xs">
             <div className="p-4 bg-paper-bg rounded-xl border border-dark-text/10">
               <span className="text-dark-text/60 block text-[10px]">LAST BACKUP:</span>
-              <strong className="text-dark-text">{metrics.lastBackupTimestamp}</strong>
+              <strong className="text-dark-text">{designTargets.lastBackupTimestamp}</strong>
             </div>
             <div className="p-4 bg-paper-bg rounded-xl border border-dark-text/10">
               <span className="text-dark-text/60 block text-[10px]">RECOVERY TARGET:</span>

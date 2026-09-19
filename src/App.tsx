@@ -56,7 +56,7 @@ const parseRoute = (path: string): ParsedRoute => {
   if (clean === 'cart') return { view: 'cart' };
   if (clean === 'how-it-works') return { view: 'how-it-works' };
   if (clean === 'help') return { view: 'help' };
-  if (clean === 'tech') return { view: 'tech' };
+  if (clean === 'tech' || clean === 'technology') return { view: 'technology' };
 
   const cropMatch = clean.match(/^crop\/([^/]+)$/);
   if (cropMatch) return { view: 'crop', param: cropMatch[1] };
@@ -69,7 +69,7 @@ const parseRoute = (path: string): ParsedRoute => {
   const validViews = [
     'marketplace', 'farmer', 'orders', 'buyer', 'logistics', 
     'forecast', 'prices', 'database', 'privacy', 'terms', 
-    'onboarding', 'admin', 'cart', 'how-it-works', 'help', 'tech'
+    'onboarding', 'admin', 'cart', 'how-it-works', 'help', 'technology'
   ];
   if (validViews.includes(clean)) return { view: clean };
 
@@ -84,7 +84,7 @@ const getSlugFromView = (view: string, param?: string): string => {
   if (view === 'cart') return '/cart';
   if (view === 'how-it-works') return '/how-it-works';
   if (view === 'help') return '/help';
-  if (view === 'tech') return '/tech';
+  if (view === 'technology') return '/technology';
   if (view === 'notfound') return '/404';
   return `/${view}`;
 };
@@ -450,7 +450,7 @@ export const App: React.FC = () => {
                     />
                   )}
 
-                  {currentView === 'tech' && (
+                  {currentView === 'technology' && (
                     <TechPage
                       onNavigate={handleNavigate}
                     />
