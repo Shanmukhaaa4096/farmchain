@@ -43,12 +43,50 @@ export const FarmerDashboard: React.FC<FarmerDashboardProps> = ({
 }) => {
   const currentFarmer = MOCK_FARMERS[0]; // Ramesh Reddy
 
-  // Local inventory state
   const [cropsInventory, setCropsInventory] = useState([
     { crop: 'Tomatoes', variety: 'US-440 Hybrid', acreage: 2.5, readyDate: '24-28 Sep', estimatedKg: 1400, pledgedKg: 800, expectedPrice: 24 },
     { crop: 'Green Chilli', variety: 'G4 Hot Slender', acreage: 1.2, readyDate: '02-05 Oct', estimatedKg: 650, pledgedKg: 200, expectedPrice: 48 },
     { crop: 'Bell Peppers', variety: 'Indra Yellow/Red', acreage: 0.8, readyDate: '10-15 Oct', estimatedKg: 500, pledgedKg: 0, expectedPrice: 58 },
   ]);
+
+  // Incoming wholesale buyer offers state
+  const [incomingOffers, setIncomingOffers] = useState([
+    {
+      id: 'OFF-2026-101',
+      buyer: 'UrbanFork Kitchens',
+      buyerType: 'Restaurant Chain',
+      crop: 'Tomatoes (US-440 Hybrid)',
+      quantityKg: 500,
+      offeredRate: 26,
+      pickupDate: '28 Sep 2026',
+      status: 'pending', // 'pending' | 'accepted' | 'rejected'
+      total: 13000,
+      note: 'Need Grade A firm harvest. Verified Reefer collection at Village Gate #1.'
+    },
+    {
+      id: 'OFF-2026-102',
+      buyer: 'Spiceland Wholesale Traders',
+      buyerType: 'Wholesale Buyer',
+      crop: 'Green Chilli (G4 Hot)',
+      quantityKg: 300,
+      offeredRate: 50,
+      pickupDate: '02 Oct 2026',
+      status: 'pending',
+      total: 15000,
+      note: 'Direct dock delivery, 100% escrow advance locked.'
+    }
+  ]);
+
+  const [counterOfferId, setCounterOfferId] = useState<string | null>(null);
+  const [counterRate, setCounterRate] = useState<number>(28);
+
+  const handleAcceptOffer = (offerId: string) => {
+    setIncomingOffers(prev => prev.map(o => o.id === offerId ? { ...o, status: 'accepted' } : o));
+  };
+
+  const handleRejectOffer = (offerId: string) => {
+    setIncomingOffers(prev => prev.map(o => o.id === offerId ? { ...o, status: 'rejected' } : o));
+  };
 
   const [showMarketDetails, setShowMarketDetails] = useState(false);
 
@@ -204,6 +242,99 @@ export const FarmerDashboard: React.FC<FarmerDashboardProps> = ({
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* SECTION 1.5: INCOMING WHOLESALE BUYER OFFERS */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-dark-text/10">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#C77B58] animate-pulse" />
+              <h2 className="font-serif text-xl font-bold text-dark-text">
+                Incoming Buyer Offers (Direct Bids)
+              </h2>
+            </div>
+            <span className="font-mono text-xs text-[#536458]">
+              {incomingOffers.filter(o => o.status === 'pending').length} Pending Review
+            </span>
+          </div>
+
+          <div className="space-y-3">
+            {incomingOffers.map((offer) => {
+              const isAccepted = offer.status === 'accepted';
+              const isRejected = offer.status === 'rejected';
+
+              return (
+                <div
+                  key={offer.id}
+                  className={`rounded-2xl border p-5 transition-all shadow-soft-sm ${
+                    isAccepted
+                      ? 'bg-emerald-50/70 border-emerald-300'
+                      : isRejected
+                      ? 'bg-gray-50 border-gray-200 opacity-60'
+                      : 'bg-pure-white border-dark-text/10 hover:border-farm-green/30'
+                  }`}
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <strong className="font-serif font-bold text-lg text-dark-text">
+                          {offer.crop}
+                        </strong>
+                        <span className="font-mono text-xs text-[#536458]">
+                          • {offer.quantityKg} KG
+                        </span>
+                        <span className={`text-[10px] font-mono font-bold uppercase px-2.5 py-0.5 rounded-full ${
+                          isAccepted
+                            ? 'bg-emerald-100 text-emerald-800'
+                            : isRejected
+                            ? 'bg-red-100 text-red-800'
+                            : 'bg-amber-100 text-amber-800'
+                        }`}>
+                          {offer.status}
+                        </span>
+                      </div>
+
+                      <p className="text-xs text-dark-text/75">
+                        Offered by: <strong className="text-dark-text">{offer.buyer}</strong> ({offer.buyerType}) •
+                        Offered Rate: <strong className="text-farm-green text-sm">₹{offer.offeredRate}/KG</strong> (Total: ₹{offer.total.toLocaleString()})
+                      </p>
+                      <p className="text-[11px] text-[#536458] font-mono">
+                        Pickup: {offer.pickupDate} • {offer.note}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-2 shrink-0">
+                      {offer.status === 'pending' && (
+                        <>
+                          <Button
+                            variant="primary"
+                            size="sm"
+                            onClick={() => handleAcceptOffer(offer.id)}
+                            className="text-xs px-4"
+                          >
+                            Accept Offer
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleRejectOffer(offer.id)}
+                            className="text-xs"
+                          >
+                            Decline
+                          </Button>
+                        </>
+                      )}
+                      {isAccepted && (
+                        <span className="text-xs font-mono font-bold text-emerald-700 flex items-center gap-1">
+                          <CheckCircle2 className="w-4 h-4" /> Escrow Payout Locked
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
 

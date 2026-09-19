@@ -11,6 +11,8 @@ import {
 import { DemandCard } from '../components/marketplace/DemandCard';
 import { Button } from '../components/ui/Button';
 import { EmptyState } from '../components/ui/EmptyState';
+import { VoiceSearchButton } from '../components/ui/VoiceSearchButton';
+import { MakeOfferModal } from '../components/modals/MakeOfferModal';
 import { DemandRequirement } from '../types';
 
 interface MarketplacePageProps {
@@ -112,16 +114,19 @@ export const MarketplacePage: React.FC<MarketplacePageProps> = ({
             })}
           </div>
 
-          {/* Quick Search Input */}
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-dark-text/40" />
+          {/* Quick Search Input with Voice Recognition */}
+          <div className="relative flex items-center">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-dark-text/40 pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by crop name (e.g. Tomatoes), buyer name, or delivery district..."
-              className="w-full pl-11 pr-4 py-3 rounded-2xl bg-pure-white border border-dark-text/15 text-dark-text text-sm focus:outline-none focus:border-farm-green focus:ring-2 focus:ring-farm-green/10 shadow-soft-sm placeholder:text-dark-text/40 transition-all"
+              placeholder="Search crops by text or click microphone to speak (e.g. Tamatar, Mirchi)..."
+              className="w-full pl-11 pr-14 py-3 rounded-2xl bg-pure-white border border-dark-text/15 text-dark-text text-sm focus:outline-none focus:border-farm-green focus:ring-2 focus:ring-farm-green/10 shadow-soft-sm placeholder:text-dark-text/40 transition-all"
             />
+            <div className="absolute right-2 top-1/2 -translate-y-1/2">
+              <VoiceSearchButton onResult={(speechText) => setSearchQuery(speechText)} />
+            </div>
           </div>
         </div>
 

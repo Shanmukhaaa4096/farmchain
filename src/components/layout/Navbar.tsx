@@ -3,24 +3,19 @@ import {
   Sprout, 
   Menu, 
   X, 
-  ChevronRight, 
   TrendingUp, 
   Truck, 
-  ShieldCheck, 
-  LogOut, 
-  Key, 
   Building2, 
   ChevronDown, 
-  UserPlus,
-  PackageCheck,
-  PlusCircle,
-  Home,
-  SlidersHorizontal,
-  MoreVertical
+  Home, 
+  Globe,
+  ShieldCheck
 } from 'lucide-react';
 import { Button } from '../ui/Button';
-import { Badge } from '../ui/Badge';
+import { Sheet } from '../ui/Sheet';
 import { UserRole, AuthUser } from '../../types';
+import { useLanguage } from '../../context/LanguageContext';
+import { SupportedLanguage } from '../../i18n/translations';
 
 interface NavbarProps {
   currentView: string;
@@ -45,38 +40,39 @@ export const Navbar: React.FC<NavbarProps> = ({
   onSignOut,
   onOpenSellModal
 }) => {
+  const { language, setLanguage, t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [moreToolsOpen, setMoreToolsOpen] = useState(false);
+  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
 
-  // Minimal clean editorial navigation items
   const primaryNavItems = [
-    { id: 'landing', label: 'Home', icon: Home },
-    { id: 'farmer', label: 'For Farmers', icon: Sprout },
-    { id: 'buyer', label: 'For Buyers', icon: Building2 },
-    { id: 'how-it-works', label: 'How It Works', icon: TrendingUp },
+    { id: 'landing', label: t.nav.home, icon: Home },
+    { id: 'farmer', label: t.nav.forFarmers, icon: Sprout },
+    { id: 'buyer', label: t.nav.forBuyers, icon: Building2 },
+    { id: 'how-it-works', label: t.nav.howItWorks, icon: TrendingUp },
   ];
 
   const secondaryTools = [
-    { id: 'orders', label: 'Orders Ledger', desc: 'Track active & past contracts' },
-    { id: 'marketplace', label: 'Market Demand', desc: 'Browse live buyer requirements' },
-    { id: 'logistics', label: 'Delivery & Logistics', desc: 'Fleet telemetry & dispatch' },
-    { id: 'prices', label: 'Mandi Prices', desc: 'Govt APMC benchmark rates' },
-    { id: 'forecast', label: 'Price Forecast', desc: 'AI 7-day crop demand curves' },
-    { id: 'database', label: 'System Architecture', desc: 'Schema & scalability docs' },
+    { id: 'orders', label: t.nav.orders, desc: 'Track active & past contracts' },
+    { id: 'marketplace', label: t.nav.marketplace, desc: 'Browse live produce & buyer demands' },
+    { id: 'logistics', label: 'Logistics Circuits', desc: 'Fleet telemetry & village milk-runs' },
+    { id: 'prices', label: t.nav.prices, desc: 'APMC mandi benchmarks vs direct prices' },
+    { id: 'forecast', label: 'AI Demand Forecast', desc: 'Agri-LSTM price curves' },
+    { id: 'onboarding', label: 'KYC Verification', desc: 'Submit farmer/buyer trade credentials' },
+    { id: 'admin', label: 'Security Desk', desc: 'Admin KYC & compliance audit queue' },
+    { id: 'database', label: 'System Architecture', desc: 'PostgreSQL schema & scalability' },
   ];
 
   const handleNavClick = (id: string) => {
     if (id === 'how-it-works') {
       if (currentView === 'landing') {
-        const journeyEl = document.getElementById('farm-to-market-journey') || document.getElementById('journey');
+        const journeyEl = document.getElementById('how-it-works') || document.getElementById('farm-to-market-journey');
         if (journeyEl) {
           journeyEl.scrollIntoView({ behavior: 'smooth' });
           return;
         }
       }
-      onNavigate('about');
-      return;
     }
     onNavigate(id);
   };
@@ -84,41 +80,85 @@ export const Navbar: React.FC<NavbarProps> = ({
   const getRoleIcon = (role: UserRole) => {
     switch (role) {
       case 'farmer':
-        return <Sprout className="w-3.5 h-3.5 text-accent-yellow" />;
+        return <Sprout className="w-3.5 h-3.5 text-[#E5B94A]" />;
       case 'buyer':
-        return <Building2 className="w-3.5 h-3.5 text-accent-yellow" />;
+        return <Building2 className="w-3.5 h-3.5 text-[#E5B94A]" />;
       case 'logistics':
-        return <Truck className="w-3.5 h-3.5 text-accent-yellow" />;
+        return <Truck className="w-3.5 h-3.5 text-[#E5B94A]" />;
+      case 'admin':
+        return <ShieldCheck className="w-3.5 h-3.5 text-[#E5B94A]" />;
     }
+  };
+
+  const languageLabels: Record<SupportedLanguage, string> = {
+    en: 'EN',
+    hi: 'हिन्दी',
+    te: 'తెలుగు',
   };
 
   return (
     <>
-      <header className="sticky top-0 z-40 bg-paper-bg/95 border-b border-dark-text/10 backdrop-blur-md">
+      <header className="sticky top-0 z-40 bg-[#F4EFE6]/95 border-b border-[#2F4A3A]/10 backdrop-blur-md">
         {/* Minimal Editorial Top Ticker */}
-        <div className="bg-primary-green text-pure-white px-4 sm:px-6 py-1.5 text-xs font-mono flex items-center justify-between select-none">
+        <div className="bg-[#163323] text-[#FBF8F2] px-4 sm:px-6 py-1.5 text-xs font-mono flex items-center justify-between select-none">
           <div className="flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent-yellow animate-pulse shrink-0"></span>
-            <span className="font-bold text-accent-yellow text-[11px] tracking-wider uppercase">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#E5B94A] animate-pulse shrink-0"></span>
+            <span className="font-bold text-[#E5B94A] text-[11px] tracking-wider uppercase">
               18.5 MT ACTIVE WHOLESALE DEMAND
             </span>
-            <span className="text-pure-white/40 hidden sm:inline">•</span>
-            <span className="hidden sm:inline text-pure-white/90 text-[11px]">
-              Direct Farm-Gate Payout • 0% Broker Intermediary Fees
+            <span className="text-[#FBF8F2]/40 hidden sm:inline">•</span>
+            <span className="hidden sm:inline text-[#FBF8F2]/90 text-[11px]">
+              Direct Farm-Gate Payout • 0% Broker Fee
             </span>
           </div>
 
-          <div className="flex items-center gap-2 text-[11px]">
+          <div className="flex items-center gap-4 text-[11px]">
+            {/* Language Switcher Pill */}
+            <div className="relative">
+              <button
+                onClick={() => setLangDropdownOpen(!langDropdownOpen)}
+                className="flex items-center gap-1 text-[11px] font-sans font-bold uppercase text-[#E5B94A] hover:text-[#FBF8F2] transition-colors cursor-pointer"
+                aria-label="Change language"
+              >
+                <Globe className="w-3 h-3" />
+                <span>{languageLabels[language]}</span>
+                <ChevronDown className="w-2.5 h-2.5" />
+              </button>
+
+              {langDropdownOpen && (
+                <div className="absolute right-0 mt-1.5 w-28 bg-[#FBF8F2] border border-[#2F4A3A]/15 rounded-xl shadow-soft p-1 z-50 text-[#163323] font-sans">
+                  <button
+                    onClick={() => { setLanguage('en'); setLangDropdownOpen(false); }}
+                    className={`w-full text-left px-2.5 py-1 text-xs rounded-lg transition-colors ${language === 'en' ? 'bg-[#2F4A3A] text-[#FBF8F2] font-bold' : 'hover:bg-[#F4EFE6]'}`}
+                  >
+                    English
+                  </button>
+                  <button
+                    onClick={() => { setLanguage('hi'); setLangDropdownOpen(false); }}
+                    className={`w-full text-left px-2.5 py-1 text-xs rounded-lg transition-colors ${language === 'hi' ? 'bg-[#2F4A3A] text-[#FBF8F2] font-bold' : 'hover:bg-[#F4EFE6]'}`}
+                  >
+                    हिन्दी
+                  </button>
+                  <button
+                    onClick={() => { setLanguage('te'); setLangDropdownOpen(false); }}
+                    className={`w-full text-left px-2.5 py-1 text-xs rounded-lg transition-colors ${language === 'te' ? 'bg-[#2F4A3A] text-[#FBF8F2] font-bold' : 'hover:bg-[#F4EFE6]'}`}
+                  >
+                    తెలుగు
+                  </button>
+                </div>
+              )}
+            </div>
+
             {isAuthenticated && currentUser ? (
-              <span className="text-pure-white/90 font-mono text-[10px] hidden sm:inline">
-                Signed in as <strong className="text-accent-yellow">{currentUser.name}</strong>
+              <span className="text-[#FBF8F2]/90 font-mono text-[10px] hidden sm:inline">
+                Signed in as <strong className="text-[#E5B94A]">{currentUser.name}</strong>
               </span>
             ) : (
               <button
                 onClick={() => onOpenAuth('signin')}
-                className="text-accent-yellow font-bold hover:underline"
+                className="text-[#E5B94A] font-bold hover:underline"
               >
-                SIGN IN →
+                {t.nav.signIn} →
               </button>
             )}
           </div>
@@ -128,45 +168,45 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             
-            {/* Left Nav Links: FOR FARMERS | FOR BUYERS | HOW IT WORKS */}
-            <nav className="hidden lg:flex items-center gap-8 font-sans text-xs uppercase tracking-[0.15em] font-semibold text-dark-text/80">
+            {/* Left Nav Links */}
+            <nav className="hidden lg:flex items-center gap-7 font-sans text-xs uppercase tracking-[0.15em] font-semibold text-[#2F4A3A]">
               <button
                 onClick={() => handleNavClick('farmer')}
-                className={`transition-colors py-1 hover:text-primary-green border-b pb-0.5 ${
-                  currentView === 'farmer' ? 'border-primary-green text-primary-green' : 'border-transparent'
+                className={`transition-colors py-1 hover:text-[#C77B58] border-b-2 pb-0.5 cursor-pointer ${
+                  currentView === 'farmer' ? 'border-[#C77B58] text-[#C77B58]' : 'border-transparent'
                 }`}
               >
-                FOR FARMERS
+                {t.nav.forFarmers}
               </button>
               <button
                 onClick={() => handleNavClick('buyer')}
-                className={`transition-colors py-1 hover:text-primary-green border-b pb-0.5 ${
-                  currentView === 'buyer' ? 'border-primary-green text-primary-green' : 'border-transparent'
+                className={`transition-colors py-1 hover:text-[#C77B58] border-b-2 pb-0.5 cursor-pointer ${
+                  currentView === 'buyer' ? 'border-[#C77B58] text-[#C77B58]' : 'border-transparent'
                 }`}
               >
-                FOR BUYERS
+                {t.nav.forBuyers}
               </button>
               <button
                 onClick={() => handleNavClick('how-it-works')}
-                className="transition-colors py-1 hover:text-primary-green border-b border-transparent pb-0.5"
+                className="transition-colors py-1 hover:text-[#C77B58] border-b-2 border-transparent pb-0.5 cursor-pointer"
               >
-                HOW IT WORKS
+                {t.nav.howItWorks}
               </button>
 
               {/* More Tools Dropdown */}
               <div className="relative">
                 <button
                   onClick={() => setMoreToolsOpen(!moreToolsOpen)}
-                  className="uppercase tracking-[0.15em] text-dark-text/70 hover:text-dark-text flex items-center gap-1 py-1 transition-colors"
+                  className="uppercase tracking-[0.15em] text-[#2F4A3A]/80 hover:text-[#2F4A3A] flex items-center gap-1 py-1 transition-colors cursor-pointer"
                 >
                   <span>MORE</span>
                   <ChevronDown className="w-3 h-3" />
                 </button>
 
                 {moreToolsOpen && (
-                  <div className="absolute left-0 mt-2 w-64 bg-pure-white border border-dark-text/15 rounded-2xl shadow-soft p-3 font-sans text-xs space-y-1.5 z-50">
-                    <div className="text-[10px] text-mandi-charcoal-muted font-mono font-bold uppercase px-2 py-1 border-b border-dark-text/10">
-                      APPLICATION TOOLS & LEDGERS
+                  <div className="absolute left-0 mt-2 w-64 bg-[#FBF8F2] border border-[#2F4A3A]/15 rounded-2xl shadow-soft-lg p-3 font-sans text-xs space-y-1 z-50">
+                    <div className="text-[10px] text-[#2F4A3A]/60 font-mono font-bold uppercase px-2 py-1 border-b border-[#2F4A3A]/10">
+                      PLATFORM MODULES
                     </div>
                     {secondaryTools.map((tool) => (
                       <button
@@ -175,12 +215,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                           onNavigate(tool.id);
                           setMoreToolsOpen(false);
                         }}
-                        className="w-full text-left p-2 rounded-xl hover:bg-paper-bg transition-colors block"
+                        className="w-full text-left p-2 rounded-xl hover:bg-[#F4EFE6] transition-colors block cursor-pointer"
                       >
-                        <strong className="font-editorial text-sm font-bold text-dark-text block">
+                        <strong className="font-editorial text-sm font-bold text-[#163323] block">
                           {tool.label}
                         </strong>
-                        <span className="text-[11px] text-mandi-charcoal-muted block">
+                        <span className="text-[11px] text-[#2F4A3A]/70 block">
                           {tool.desc}
                         </span>
                       </button>
@@ -190,48 +230,48 @@ export const Navbar: React.FC<NavbarProps> = ({
               </div>
             </nav>
 
-            {/* Mobile Menu Button (Left on mobile) */}
+            {/* Mobile Menu Button */}
             <div className="flex items-center lg:hidden">
               <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 text-dark-text hover:text-primary-green"
+                onClick={() => setMobileMenuOpen(true)}
+                className="min-h-[44px] min-w-[44px] flex items-center justify-center text-[#163323] hover:text-[#C77B58]"
                 aria-label="Toggle Menu"
               >
-                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                <Menu className="w-6 h-6" />
               </button>
             </div>
 
-            {/* Brand Logo (Centered in chunky retro Fraunces serif) */}
+            {/* Brand Logo (Centered) */}
             <div 
               onClick={() => onNavigate('landing')}
               className="flex flex-col items-center justify-center cursor-pointer select-none group"
             >
-              <span className="font-editorial font-bold text-2xl sm:text-3xl tracking-tight text-dark-text leading-none group-hover:text-primary-green transition-colors">
+              <span className="font-editorial font-bold text-2xl sm:text-3xl tracking-tight text-[#163323] leading-none group-hover:text-[#C77B58] transition-colors">
                 FarmChain
               </span>
-              <span className="text-[9px] font-mono tracking-[0.24em] uppercase text-dark-text/50 mt-1">
-                — NATURAL DEMAND —
+              <span className="text-[9px] font-mono tracking-[0.24em] uppercase text-[#2F4A3A]/60 mt-1">
+                — ZERO MIDDLEMEN —
               </span>
             </div>
 
-            {/* Right Action CTAs: MARKETPLACE | PRICES | LOGIN | JOIN */}
-            <div className="flex items-center gap-4 sm:gap-6">
-              <div className="hidden lg:flex items-center gap-7 font-sans text-xs uppercase tracking-[0.15em] font-semibold text-dark-text/80">
+            {/* Right Action CTAs */}
+            <div className="flex items-center gap-3 sm:gap-6">
+              <div className="hidden lg:flex items-center gap-6 font-sans text-xs uppercase tracking-[0.15em] font-semibold text-[#2F4A3A]">
                 <button
                   onClick={() => onNavigate('marketplace')}
-                  className={`transition-colors py-1 hover:text-primary-green border-b pb-0.5 ${
-                    currentView === 'marketplace' ? 'border-primary-green text-primary-green' : 'border-transparent'
+                  className={`transition-colors py-1 hover:text-[#C77B58] border-b-2 pb-0.5 cursor-pointer ${
+                    currentView === 'marketplace' ? 'border-[#C77B58] text-[#C77B58]' : 'border-transparent'
                   }`}
                 >
-                  MARKETPLACE
+                  {t.nav.marketplace}
                 </button>
                 <button
                   onClick={() => onNavigate('prices')}
-                  className={`transition-colors py-1 hover:text-primary-green border-b pb-0.5 ${
-                    currentView === 'prices' ? 'border-primary-green text-primary-green' : 'border-transparent'
+                  className={`transition-colors py-1 hover:text-[#C77B58] border-b-2 pb-0.5 cursor-pointer ${
+                    currentView === 'prices' ? 'border-[#C77B58] text-[#C77B58]' : 'border-transparent'
                   }`}
                 >
-                  PRICES
+                  {t.nav.prices}
                 </button>
               </div>
 
@@ -239,24 +279,24 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <div className="relative">
                   <button
                     onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                    className="flex items-center gap-2 px-3 py-1.5 bg-pure-white border border-dark-text/15 rounded-full shadow-soft-sm hover:bg-paper-bg transition-colors"
+                    className="flex items-center gap-2 min-h-[44px] px-3.5 py-1.5 bg-[#FBF8F2] border border-[#2F4A3A]/15 rounded-full shadow-soft-sm hover:bg-[#F4EFE6] transition-colors cursor-pointer"
                   >
-                    <div className="w-5 h-5 bg-primary-green rounded-full flex items-center justify-center">
+                    <div className="w-6 h-6 bg-[#2F4A3A] rounded-full flex items-center justify-center">
                       {getRoleIcon(currentUser.role)}
                     </div>
-                    <span className="font-sans text-xs font-semibold text-dark-text max-w-[100px] truncate">
+                    <span className="font-sans text-xs font-semibold text-[#163323] max-w-[100px] truncate">
                       {currentUser.name}
                     </span>
-                    <ChevronDown className="w-3 h-3 text-dark-text/60" />
+                    <ChevronDown className="w-3 h-3 text-[#2F4A3A]/60" />
                   </button>
 
                   {userDropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-56 bg-pure-white border border-dark-text/15 rounded-2xl shadow-soft-lg p-3 font-sans text-xs space-y-2 z-50">
-                      <div className="pb-2 border-b border-dark-text/10">
-                        <strong className="font-editorial font-bold text-sm text-dark-text block">
+                    <div className="absolute right-0 mt-2 w-56 bg-[#FBF8F2] border border-[#2F4A3A]/15 rounded-2xl shadow-soft-lg p-3 font-sans text-xs space-y-2 z-50">
+                      <div className="pb-2 border-b border-[#2F4A3A]/10">
+                        <strong className="font-editorial font-bold text-sm text-[#163323] block">
                           {currentUser.name}
                         </strong>
-                        <span className="text-[10px] text-primary-green uppercase font-bold">
+                        <span className="text-[10px] text-[#C77B58] uppercase font-bold">
                           {currentUser.role} Account
                         </span>
                       </div>
@@ -265,18 +305,18 @@ export const Navbar: React.FC<NavbarProps> = ({
                           onNavigate(currentUser.role === 'buyer' ? 'buyer' : 'farmer');
                           setUserDropdownOpen(false);
                         }}
-                        className="w-full text-left py-1 hover:text-primary-green block"
+                        className="w-full text-left py-1.5 hover:text-[#C77B58] block cursor-pointer"
                       >
-                        Dashboard →
+                        {t.nav.dashboard} →
                       </button>
                       <button
                         onClick={() => {
                           onNavigate('orders');
                           setUserDropdownOpen(false);
                         }}
-                        className="w-full text-left py-1 hover:text-primary-green block"
+                        className="w-full text-left py-1.5 hover:text-[#C77B58] block cursor-pointer"
                       >
-                        My Orders →
+                        {t.nav.orders} →
                       </button>
                       {onSignOut && (
                         <button
@@ -284,9 +324,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                             onSignOut();
                             setUserDropdownOpen(false);
                           }}
-                          className="w-full text-left py-1 text-terracotta hover:underline block pt-2 border-t border-dark-text/10"
+                          className="w-full text-left py-1.5 text-[#C77B58] font-semibold hover:underline block pt-2 border-t border-[#2F4A3A]/10 cursor-pointer"
                         >
-                          Sign Out
+                          {t.nav.signOut}
                         </button>
                       )}
                     </div>
@@ -296,18 +336,18 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <div className="flex items-center gap-2 sm:gap-3">
                   <button
                     onClick={() => onOpenAuth('signin')}
-                    className="px-3 py-1.5 text-xs font-sans font-semibold tracking-[0.14em] text-dark-text uppercase hover:text-primary-green transition-colors"
+                    className="min-h-[44px] px-3 py-2 text-xs font-sans font-semibold tracking-[0.14em] text-[#163323] uppercase hover:text-[#C77B58] transition-colors cursor-pointer"
                   >
-                    SIGN IN
+                    {t.nav.signIn}
                   </button>
 
                   <Button
-                    variant="clay"
+                    variant="primary"
                     size="sm"
                     onClick={() => onOpenAuth('signup')}
                     className="text-[11px]"
                   >
-                    JOIN
+                    {t.nav.join}
                   </Button>
                 </div>
               )}
@@ -315,15 +355,50 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           </div>
         </div>
+      </header>
 
-        {/* Mobile Full Drawer Menu (Soft Retro Editorial) */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden bg-paper-bg border-t border-dark-text/10 px-5 py-6 space-y-5 animate-in slide-in-from-top-2 max-h-[85vh] overflow-y-auto font-sans">
-            <div className="text-xs font-semibold text-primary-green uppercase tracking-[0.18em]">
-              MAIN SECTIONS
+      {/* Accessible Slide-Over Sheet Mobile Drawer */}
+      <Sheet
+        isOpen={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
+        title="FarmChain Navigation"
+        side="left"
+      >
+        <div className="space-y-6 font-sans">
+          
+          {/* Language Selector in Drawer */}
+          <div className="space-y-2 pb-4 border-b border-[#2F4A3A]/10">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#C77B58]">
+              Select Language / भाषा / భాష
+            </span>
+            <div className="grid grid-cols-3 gap-2">
+              <button
+                onClick={() => setLanguage('en')}
+                className={`min-h-[44px] px-2 rounded-xl text-xs font-bold border ${language === 'en' ? 'bg-[#2F4A3A] text-[#FBF8F2] border-[#2F4A3A]' : 'bg-[#FBF8F2] text-[#2F4A3A] border-[#2F4A3A]/15'}`}
+              >
+                English
+              </button>
+              <button
+                onClick={() => setLanguage('hi')}
+                className={`min-h-[44px] px-2 rounded-xl text-xs font-bold border ${language === 'hi' ? 'bg-[#2F4A3A] text-[#FBF8F2] border-[#2F4A3A]' : 'bg-[#FBF8F2] text-[#2F4A3A] border-[#2F4A3A]/15'}`}
+              >
+                हिन्दी
+              </button>
+              <button
+                onClick={() => setLanguage('te')}
+                className={`min-h-[44px] px-2 rounded-xl text-xs font-bold border ${language === 'te' ? 'bg-[#2F4A3A] text-[#FBF8F2] border-[#2F4A3A]' : 'bg-[#FBF8F2] text-[#2F4A3A] border-[#2F4A3A]/15'}`}
+              >
+                తెలుగు
+              </button>
             </div>
-            
-            <div className="grid grid-cols-2 gap-2.5">
+          </div>
+
+          {/* Main Navigation Links */}
+          <div className="space-y-2">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#2F4A3A]/60">
+              Quick Links
+            </span>
+            <div className="space-y-1.5">
               {primaryNavItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = currentView === item.id;
@@ -334,24 +409,26 @@ export const Navbar: React.FC<NavbarProps> = ({
                       handleNavClick(item.id);
                       setMobileMenuOpen(false);
                     }}
-                    className={`p-3.5 text-left font-sans text-xs font-semibold uppercase tracking-wider rounded-2xl border transition-all flex items-center gap-2.5 ${
-                      isActive 
-                        ? 'bg-primary-green text-pure-white border-primary-green shadow-soft' 
-                        : 'bg-pure-white text-dark-text border-dark-text/10 hover:bg-pure-white/80 shadow-soft-sm'
+                    className={`w-full min-h-[48px] px-4 py-3 rounded-2xl border text-left font-sans text-xs font-bold uppercase tracking-wider flex items-center gap-3 transition-all ${
+                      isActive
+                        ? 'bg-[#2F4A3A] text-[#FBF8F2] border-[#2F4A3A] shadow-soft'
+                        : 'bg-[#FBF8F2] text-[#163323] border-[#2F4A3A]/10 hover:bg-[#F4EFE6]'
                     }`}
                   >
-                    <Icon className="w-4 h-4 shrink-0" />
+                    <Icon className="w-5 h-5 shrink-0" />
                     <span>{item.label}</span>
                   </button>
                 );
               })}
             </div>
+          </div>
 
-            <div className="text-xs font-semibold text-primary-green uppercase tracking-[0.18em] pt-2">
-              MARKET &amp; ANALYTICS TOOLS
-            </div>
-
-            <div className="space-y-2">
+          {/* Secondary Tools */}
+          <div className="space-y-2 pt-2">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#2F4A3A]/60">
+              Platform Modules
+            </span>
+            <div className="grid grid-cols-2 gap-2">
               {secondaryTools.map((tool) => (
                 <button
                   key={tool.id}
@@ -359,97 +436,63 @@ export const Navbar: React.FC<NavbarProps> = ({
                     onNavigate(tool.id);
                     setMobileMenuOpen(false);
                   }}
-                  className="w-full text-left p-3.5 bg-pure-white rounded-2xl border border-dark-text/10 flex items-center justify-between shadow-soft-sm hover:border-dark-text/30 transition-colors"
+                  className="min-h-[44px] p-3 rounded-xl bg-[#FBF8F2] border border-[#2F4A3A]/10 text-left hover:bg-[#F4EFE6] transition-colors"
                 >
-                  <div>
-                    <strong className="font-editorial font-bold text-sm text-dark-text block">
-                      {tool.label}
-                    </strong>
-                    <span className="font-sans text-xs text-mandi-charcoal-muted block mt-0.5">
-                      {tool.desc}
-                    </span>
-                  </div>
-                  <ChevronRight className="w-4 h-4 text-dark-text/40" />
+                  <strong className="text-xs font-bold text-[#163323] block truncate">
+                    {tool.label}
+                  </strong>
                 </button>
               ))}
             </div>
-
-            {/* Auth section */}
-            <div className="pt-4 border-t border-dark-text/10">
-              {isAuthenticated && currentUser ? (
-                <div className="flex items-center justify-between p-4 bg-pure-white rounded-2xl border border-dark-text/10 shadow-soft-sm">
-                  <div>
-                    <strong className="font-editorial font-bold text-base block text-dark-text">
-                      {currentUser.name}
-                    </strong>
-                    <span className="font-sans text-[11px] text-primary-green font-semibold uppercase tracking-wider">
-                      {currentUser.role} Account
-                    </span>
-                  </div>
-                  {onSignOut && (
-                    <button
-                      onClick={() => {
-                        onSignOut();
-                        setMobileMenuOpen(false);
-                      }}
-                      className="text-terracotta font-sans text-xs font-semibold uppercase tracking-wider hover:underline"
-                    >
-                      Sign Out
-                    </button>
-                  )}
-                </div>
-              ) : (
-                <div className="grid grid-cols-2 gap-3">
-                  <button
-                    onClick={() => {
-                      onOpenAuth('signin');
-                      setMobileMenuOpen(false);
-                    }}
-                    className="py-3 text-center text-xs font-sans font-semibold uppercase tracking-wider rounded-full bg-pure-white border border-dark-text/15 text-dark-text shadow-soft"
-                  >
-                    SIGN IN
-                  </button>
-                  <button
-                    onClick={() => {
-                      onOpenAuth('signup');
-                      setMobileMenuOpen(false);
-                    }}
-                    className="py-3 text-center text-xs font-sans font-semibold uppercase tracking-wider rounded-full bg-primary-green text-pure-white shadow-soft"
-                  >
-                    JOIN
-                  </button>
-                </div>
-              )}
-            </div>
           </div>
-        )}
-      </header>
 
-      {/* MOBILE BOTTOM NAVIGATION BAR (Pill-shaped floating/docked thumb navigation) */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-pure-white/95 backdrop-blur-md border-t border-dark-text/10 shadow-soft-lg select-none">
-        <div className="grid grid-cols-4 h-15 max-w-md mx-auto">
-          {primaryNavItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = currentView === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => handleNavClick(item.id)}
-                className={`flex flex-col items-center justify-center py-2 transition-colors ${
-                  isActive ? 'text-primary-green font-bold' : 'text-dark-text/70 hover:text-dark-text'
-                }`}
-              >
-                <div className={`p-1 rounded-full transition-colors ${isActive ? 'bg-soft-green/25' : ''}`}>
-                  <Icon className={`w-4 h-4 ${isActive ? 'stroke-[2.5] text-primary-green' : 'stroke-2'}`} />
+          {/* Auth Action */}
+          <div className="pt-4 border-t border-[#2F4A3A]/10">
+            {isAuthenticated && currentUser ? (
+              <div className="space-y-2">
+                <div className="text-xs text-[#2F4A3A]">
+                  Logged in as <strong>{currentUser.name}</strong> ({currentUser.role})
                 </div>
-                <span className="font-sans text-[10px] uppercase tracking-wider mt-0.5 leading-none font-semibold">
-                  {item.id === 'how-it-works' ? 'JOURNEY' : item.label.replace('For ', '')}
-                </span>
-              </button>
-            );
-          })}
+                {onSignOut && (
+                  <button
+                    onClick={() => {
+                      onSignOut();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="w-full min-h-[44px] py-2.5 rounded-full border border-[#C77B58] text-[#C77B58] font-bold uppercase tracking-wider text-xs"
+                  >
+                    {t.nav.signOut}
+                  </button>
+                )}
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-3">
+                <Button
+                  variant="outline"
+                  size="md"
+                  onClick={() => {
+                    onOpenAuth('signin');
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  {t.nav.signIn}
+                </Button>
+                <Button
+                  variant="primary"
+                  size="md"
+                  onClick={() => {
+                    onOpenAuth('signup');
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  {t.nav.join}
+                </Button>
+              </div>
+            )}
+          </div>
+
         </div>
-      </div>
+      </Sheet>
     </>
   );
 };

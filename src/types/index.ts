@@ -1,4 +1,6 @@
-export type UserRole = 'farmer' | 'buyer' | 'logistics';
+export type UserRole = 'farmer' | 'buyer' | 'logistics' | 'admin';
+
+export type VerificationStatus = 'unverified' | 'pending' | 'verified' | 'rejected';
 
 export interface AuthUser {
   id: string;
@@ -6,9 +8,11 @@ export interface AuthUser {
   mobileNumber: string;
   role: UserRole;
   name: string;
-  identifier: string; // e.g., KISAN: TS-RR-902184, GSTIN: 36AAACU9120K, FLEET: TS-08-NP-2026
+  identifier: string; // e.g., KISAN: TS-RR-902184, GSTIN: 36AAACU9120K, FLEET: TS-08-NP-2026, ADMIN: FC-SEC-01
   organization?: string;
   location?: string;
+  verificationStatus?: VerificationStatus;
+  verificationDocUrl?: string;
   createdAt: string;
 }
 

@@ -7,6 +7,19 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Phase 2 Master Palette: Soft Retro Organic Editorial
+        'bg': 'var(--bg, #F4EFE6)',
+        'surface': 'var(--surface, #FBF8F2)',
+        'ink': 'var(--ink, #2F4A3A)',
+        'ink-deep': 'var(--ink-deep, #163323)',
+        'primary': {
+          DEFAULT: 'var(--primary, #C77B58)',
+          hover: 'var(--primary-hover, #B26A49)',
+        },
+        'band': 'var(--band, #A8B89A)',
+        'highlight': 'var(--highlight, #F1C9B8)',
+        'muted': 'var(--muted, #536458)',
+
         // Soft Retro Organic Editorial Palette (bound to CSS Variables)
         'paper-bg': 'var(--color-paper-bg, #F4F0E6)',
         'dark-text': 'var(--color-dark-text, #17231A)',
@@ -65,8 +78,8 @@ export default {
         editorial: ['Fraunces', 'Newsreader', 'Georgia', 'serif'],
         heading: ['Fraunces', 'Newsreader', 'Georgia', 'serif'],
         retro: ['Fraunces', 'serif'],
-        body: ['"Plus Jakarta Sans"', 'Inter', '-apple-system', 'sans-serif'],
-        sans: ['"Plus Jakarta Sans"', 'Inter', '-apple-system', 'sans-serif'],
+        body: ['"DM Sans"', '"Plus Jakarta Sans"', 'Inter', '-apple-system', 'sans-serif'],
+        sans: ['"DM Sans"', '"Plus Jakarta Sans"', 'Inter', '-apple-system', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
         sketch: ['Caveat', 'cursive'],
         grotesk: ['"Space Grotesk"', 'sans-serif'],

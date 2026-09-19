@@ -1,18 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { LandingPage } from './pages/LandingPage';
-import { MarketplacePage } from './pages/MarketplacePage';
-import { FarmerDashboard } from './pages/FarmerDashboard';
-import { BuyerDashboard } from './pages/BuyerDashboard';
-import { OrdersPage } from './pages/OrdersPage';
-import { LogisticsPage } from './pages/LogisticsPage';
-import { ForecastPage } from './pages/ForecastPage';
-import { MarketPricesPage } from './pages/MarketPricesPage';
-import { DatabasePage } from './pages/DatabasePage';
-import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
-import { TermsPage } from './pages/TermsPage';
-import { NotFoundPage } from './pages/NotFoundPage';
+
+// Lazy loaded secondary views for code splitting and instant initial paint
+const MarketplacePage = lazy(() => import('./pages/MarketplacePage').then(m => ({ default: m.MarketplacePage })));
+const FarmerDashboard = lazy(() => import('./pages/FarmerDashboard').then(m => ({ default: m.FarmerDashboard })));
+const BuyerDashboard = lazy(() => import('./pages/BuyerDashboard').then(m => ({ default: m.BuyerDashboard })));
+const OrdersPage = lazy(() => import('./pages/OrdersPage').then(m => ({ default: m.OrdersPage })));
+const LogisticsPage = lazy(() => import('./pages/LogisticsPage').then(m => ({ default: m.LogisticsPage })));
+const ForecastPage = lazy(() => import('./pages/ForecastPage').then(m => ({ default: m.ForecastPage })));
+const MarketPricesPage = lazy(() => import('./pages/MarketPricesPage').then(m => ({ default: m.MarketPricesPage })));
+const DatabasePage = lazy(() => import('./pages/DatabasePage').then(m => ({ default: m.DatabasePage })));
+const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage').then(m => ({ default: m.PrivacyPolicyPage })));
+const TermsPage = lazy(() => import('./pages/TermsPage').then(m => ({ default: m.TermsPage })));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
+const OnboardingPage = lazy(() => import('./pages/OnboardingPage').then(m => ({ default: m.OnboardingPage })));
+const AdminPage = lazy(() => import('./pages/AdminPage').then(m => ({ default: m.AdminPage })));
+
 import { AuthModal } from './pages/AuthModal';
 import { DemandDetailModal } from './components/modals/DemandDetailModal';
 import { PostDemandModal } from './components/modals/PostDemandModal';
@@ -22,11 +27,14 @@ import { INITIAL_DEMANDS } from './data/mockData';
 import { DemandRequirement, UserRole, AuthUser } from './types';
 import { authService } from './services/authService';
 import { CheckCircle2, AlertTriangle, X } from 'lucide-react';
+import { LanguageProvider } from './context/LanguageContext';
+import { AuthProvider } from './context/AuthContext';
+import { ToastProvider } from './components/ui/Toast';
 
 const getViewFromPath = (path: string): string => {
   const clean = path.replace(/^\/+|\/+$/g, '').toLowerCase();
   if (!clean || clean === 'landing') return 'landing';
-  const validViews = ['marketplace', 'farmer', 'orders', 'buyer', 'logistics', 'forecast', 'prices', 'database', 'privacy', 'terms'];
+  const validViews = ['marketplace', 'farmer', 'orders', 'buyer', 'logistics', 'forecast', 'prices', 'database', 'privacy', 'terms', 'onboarding', 'admin'];
   if (validViews.includes(clean)) return clean;
   return 'notfound';
 };
@@ -149,6 +157,8 @@ export const App: React.FC = () => {
       database: 'System Architecture : FarmChain',
       privacy: 'Privacy Policy : FarmChain',
       terms: 'Terms and Conditions : FarmChain',
+      onboarding: 'KYC & Trade Verification : FarmChain',
+      admin: 'Security Desk & Verification Queue : FarmChain',
       notfound: 'Page Not Found : FarmChain'
     };
     document.title = titles[currentView] || 'FarmChain : Direct Agri-Tech Platform';
@@ -248,7 +258,10 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-paper-bg font-sans text-dark-text antialiased selection:bg-harvest-yellow/30">
+    <LanguageProvider>
+      <AuthProvider>
+        <ToastProvider>
+          <div className="min-h-screen flex flex-col bg-[#F4EFE6] font-sans text-[#2F4A3A] antialiased selection:bg-[#A8B89A]/30">
       
       {/* Streamlined Farmer-First Navbar */}
       <Navbar
@@ -302,102 +315,117 @@ export const App: React.FC = () => {
 
       {/* Main Routed View Container */}
       <main className="flex-1">
-        {currentView === 'landing' && (
-          <LandingPage
-            onNavigate={handleNavigate}
-            onOpenPostDemand={handleOpenPostDemand}
-            liveDemands={demands}
-            onSelectDemand={(demand) => {
-              setSelectedDemand(demand);
-              setDemandModalInitialTab('specs');
-            }}
-            onOpenSellModal={handleOpenSellModal}
-          />
-        )}
+        <Suspense fallback={
+          <div className="min-h-[50vh] flex flex-col items-center justify-center py-20 px-4">
+            <div className="w-10 h-10 border-3 border-[#C77B58]/30 border-t-[#C77B58] rounded-full animate-spin mb-4" />
+            <p className="text-sm font-serif italic text-[#536458]">Connecting to FarmChain Direct Network...</p>
+          </div>
+        }>
+          {currentView === 'landing' && (
+            <LandingPage
+              onNavigate={handleNavigate}
+              onOpenPostDemand={handleOpenPostDemand}
+              liveDemands={demands}
+              onSelectDemand={(demand) => {
+                setSelectedDemand(demand);
+                setDemandModalInitialTab('specs');
+              }}
+              onOpenSellModal={handleOpenSellModal}
+            />
+          )}
 
-        {currentView === 'marketplace' && (
-          <MarketplacePage
-            demands={demands}
-            onSelectDemand={(demand) => {
-              setSelectedDemand(demand);
-              setDemandModalInitialTab('specs');
-            }}
-            onOpenPostDemand={handleOpenPostDemand}
-            onPledgeDemand={handlePledgeDemand}
-            onNavigate={handleNavigate}
-            userRole={activeRole}
-          />
-        )}
+          {currentView === 'marketplace' && (
+            <MarketplacePage
+              demands={demands}
+              onSelectDemand={(demand) => {
+                setSelectedDemand(demand);
+                setDemandModalInitialTab('specs');
+              }}
+              onOpenPostDemand={handleOpenPostDemand}
+              onPledgeDemand={handlePledgeDemand}
+              onNavigate={handleNavigate}
+              userRole={activeRole}
+            />
+          )}
 
-        {currentView === 'farmer' && (
-          <FarmerDashboard
-            demands={demands}
-            onSelectDemand={(demand) => {
-              setSelectedDemand(demand);
-              setDemandModalInitialTab('specs');
-            }}
-            onPledgeDemand={handlePledgeDemand}
-            onNavigate={handleNavigate}
-            onOpenSellModal={handleOpenSellModal}
-            requireAuth={requireAuth}
-            isAuthenticated={isAuthenticated}
-          />
-        )}
+          {currentView === 'farmer' && (
+            <FarmerDashboard
+              demands={demands}
+              onSelectDemand={(demand) => {
+                setSelectedDemand(demand);
+                setDemandModalInitialTab('specs');
+              }}
+              onPledgeDemand={handlePledgeDemand}
+              onNavigate={handleNavigate}
+              onOpenSellModal={handleOpenSellModal}
+              requireAuth={requireAuth}
+              isAuthenticated={isAuthenticated}
+            />
+          )}
 
-        {currentView === 'orders' && (
-          <OrdersPage
-            onNavigate={handleNavigate}
-            onOpenSellModal={handleOpenSellModal}
-          />
-        )}
+          {currentView === 'orders' && (
+            <OrdersPage
+              onNavigate={handleNavigate}
+              onOpenSellModal={handleOpenSellModal}
+            />
+          )}
 
-        {currentView === 'buyer' && (
-          <BuyerDashboard
-            demands={demands}
-            onOpenPostDemand={handleOpenPostDemand}
-            onSelectDemand={(demand, tab = 'specs') => {
-              setSelectedDemand(demand);
-              setDemandModalInitialTab(tab);
-            }}
-            onNavigate={handleNavigate}
-            requireAuth={requireAuth}
-            isAuthenticated={isAuthenticated}
-          />
-        )}
+          {currentView === 'buyer' && (
+            <BuyerDashboard
+              demands={demands}
+              onOpenPostDemand={handleOpenPostDemand}
+              onSelectDemand={(demand, tab = 'specs') => {
+                setSelectedDemand(demand);
+                setDemandModalInitialTab(tab);
+              }}
+              onNavigate={handleNavigate}
+              requireAuth={requireAuth}
+              isAuthenticated={isAuthenticated}
+            />
+          )}
 
-        {currentView === 'logistics' && (
-          <LogisticsPage 
-            requireAuth={requireAuth}
-            isAuthenticated={isAuthenticated}
-            onPostAvailability={() => {
-              showToast('Vehicle registered for regional collection loops!');
-            }}
-          />
-        )}
+          {currentView === 'logistics' && (
+            <LogisticsPage 
+              requireAuth={requireAuth}
+              isAuthenticated={isAuthenticated}
+              onPostAvailability={() => {
+                showToast('Vehicle registered for regional collection loops!');
+              }}
+            />
+          )}
 
-        {currentView === 'forecast' && (
-          <ForecastPage />
-        )}
+          {currentView === 'forecast' && (
+            <ForecastPage />
+          )}
 
-        {currentView === 'prices' && (
-          <MarketPricesPage />
-        )}
+          {currentView === 'prices' && (
+            <MarketPricesPage />
+          )}
 
-        {currentView === 'database' && (
-          <DatabasePage />
-        )}
+          {currentView === 'database' && (
+            <DatabasePage />
+          )}
 
-        {currentView === 'privacy' && (
-          <PrivacyPolicyPage onNavigate={handleNavigate} />
-        )}
+          {currentView === 'privacy' && (
+            <PrivacyPolicyPage onNavigate={handleNavigate} />
+          )}
 
-        {currentView === 'terms' && (
-          <TermsPage onNavigate={handleNavigate} />
-        )}
+          {currentView === 'terms' && (
+            <TermsPage onNavigate={handleNavigate} />
+          )}
 
-        {!['landing', 'marketplace', 'farmer', 'orders', 'buyer', 'logistics', 'forecast', 'prices', 'database', 'privacy', 'terms'].includes(currentView) && (
-          <NotFoundPage onNavigate={handleNavigate} />
-        )}
+          {currentView === 'onboarding' && (
+            <OnboardingPage onNavigate={handleNavigate} />
+          )}
+
+          {currentView === 'admin' && (
+            <AdminPage onNavigate={handleNavigate} />
+          )}
+
+          {!['landing', 'marketplace', 'farmer', 'orders', 'buyer', 'logistics', 'forecast', 'prices', 'database', 'privacy', 'terms', 'onboarding', 'admin'].includes(currentView) && (
+            <NotFoundPage onNavigate={handleNavigate} />
+          )}
+        </Suspense>
       </main>
 
       {/* Global Modals */}
@@ -447,7 +475,10 @@ export const App: React.FC = () => {
       {/* Footer */}
       <Footer onNavigate={handleNavigate} />
 
-    </div>
+        </div>
+        </ToastProvider>
+      </AuthProvider>
+    </LanguageProvider>
   );
 };
 

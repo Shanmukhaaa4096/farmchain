@@ -180,6 +180,10 @@ class AuthService {
         return `GSTIN: 36AAACU${randomDigits}K1Z${suffix}`;
       case 'logistics':
         return `FLEET: TS-08-NP-${randomDigits}`;
+      case 'admin':
+        return `ADMIN: FC-SEC-${randomDigits}`;
+      default:
+        return `FC-USR-${randomDigits}`;
     }
   }
 

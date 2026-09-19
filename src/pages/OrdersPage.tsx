@@ -11,14 +11,19 @@ import {
   AlertCircle,
   Package,
   Store,
-  Sparkles
+  Sparkles,
+  Star,
+  ShieldCheck,
+  Landmark
 } from 'lucide-react';
 import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
 import { Modal } from '../components/ui/Modal';
 import { EmptyState } from '../components/ui/EmptyState';
+import { RatingModal } from '../components/modals/RatingModal';
+import { EscrowSimulator } from '../components/interactive/EscrowSimulator';
 
-export type OrderStage = 'REQUESTED' | 'MATCHED' | 'CONFIRMED' | 'PACKED' | 'IN TRANSIT' | 'DELIVERED';
+export type OrderStage = 'Offered' | 'Accepted' | 'Pickup scheduled' | 'Delivered' | 'Paid';
 
 export interface FarmerOrder {
   id: string;
@@ -28,7 +33,7 @@ export interface FarmerOrder {
   buyer: string;
   buyerType: string;
   stage: OrderStage;
-  stageIndex: number; // 0 to 5
+  stageIndex: number; // 0 to 4
   pickupDate: string;
   pickupTime: string;
   pickupLocation: string;
@@ -38,15 +43,15 @@ export interface FarmerOrder {
   driverPhone?: string;
   vehiclePlate?: string;
   notes?: string;
+  hasReviewed?: boolean;
 }
 
 const ORDER_STAGES: { stage: OrderStage; label: string }[] = [
-  { stage: 'REQUESTED', label: 'Requested' },
-  { stage: 'MATCHED', label: 'Matched' },
-  { stage: 'CONFIRMED', label: 'Confirmed' },
-  { stage: 'PACKED', label: 'Packed' },
-  { stage: 'IN TRANSIT', label: 'In Transit' },
-  { stage: 'DELIVERED', label: 'Delivered' },
+  { stage: 'Offered', label: 'Offered' },
+  { stage: 'Accepted', label: 'Accepted' },
+  { stage: 'Pickup scheduled', label: 'Pickup Scheduled' },
+  { stage: 'Delivered', label: 'Delivered' },
+  { stage: 'Paid', label: 'Paid' },
 ];
 
 const INITIAL_ORDERS: FarmerOrder[] = [
@@ -57,8 +62,8 @@ const INITIAL_ORDERS: FarmerOrder[] = [
     quantityKg: 800,
     buyer: 'UrbanFork Kitchens',
     buyerType: 'Restaurant Chain',
-    stage: 'IN TRANSIT',
-    stageIndex: 4,
+    stage: 'Pickup scheduled',
+    stageIndex: 2,
     pickupDate: 'Today, 25 Sep 2026',
     pickupTime: '07:15 AM',
     pickupLocation: 'Chevella Village Farm Gate #1',
@@ -76,8 +81,8 @@ const INITIAL_ORDERS: FarmerOrder[] = [
     quantityKg: 200,
     buyer: 'Spiceland Wholesale Traders',
     buyerType: 'Wholesale Buyer',
-    stage: 'PACKED',
-    stageIndex: 3,
+    stage: 'Accepted',
+    stageIndex: 1,
     pickupDate: 'Tomorrow, 26 Sep 2026',
     pickupTime: '08:30 AM',
     pickupLocation: 'Chevella Village Farm Gate #1',
@@ -95,8 +100,8 @@ const INITIAL_ORDERS: FarmerOrder[] = [
     quantityKg: 400,
     buyer: 'Grand Hyatt Procurement',
     buyerType: 'Luxury Hotel',
-    stage: 'CONFIRMED',
-    stageIndex: 2,
+    stage: 'Offered',
+    stageIndex: 0,
     pickupDate: '28 Sep 2026',
     pickupTime: '09:00 AM',
     pickupLocation: 'Chevella Village Hub',
@@ -111,8 +116,8 @@ const INITIAL_ORDERS: FarmerOrder[] = [
     quantityKg: 1500,
     buyer: 'FreshSprout Supermarkets',
     buyerType: 'Supermarket Chain',
-    stage: 'DELIVERED',
-    stageIndex: 5,
+    stage: 'Paid',
+    stageIndex: 4,
     pickupDate: '20 Sep 2026',
     pickupTime: '06:45 AM',
     pickupLocation: 'Chevella Village Hub',
@@ -121,7 +126,8 @@ const INITIAL_ORDERS: FarmerOrder[] = [
     driverName: 'Mohd. Imran',
     driverPhone: '+91 97000 44123',
     vehiclePlate: 'MH-12-BQ-5501',
-    notes: 'Delivered and signed off at Madhapur dock. Full payment of ₹42,000 released directly to farmer account ending in ...8412.'
+    hasReviewed: false,
+    notes: 'Delivered and signed off at Madhapur dock. Full payment of ₹42,000 released directly to farmer account ending in ...8412 via instant IMPS.'
   }
 ];
 
@@ -131,14 +137,24 @@ interface OrdersPageProps {
 }
 
 export const OrdersPage: React.FC<OrdersPageProps> = ({ onNavigate, onOpenSellModal }) => {
+  const [orders, setOrders] = useState<FarmerOrder[]>(INITIAL_ORDERS);
   const [activeTab, setActiveTab] = useState<'all' | 'active' | 'completed'>('all');
   const [selectedOrder, setSelectedOrder] = useState<FarmerOrder | null>(null);
+  const [ratingTargetOrder, setRatingTargetOrder] = useState<FarmerOrder | null>(null);
+  const [showEscrowSimulator, setShowEscrowSimulator] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  const filteredOrders = INITIAL_ORDERS.filter(order => {
-    if (activeTab === 'active') return order.stage !== 'DELIVERED';
-    if (activeTab === 'completed') return order.stage === 'DELIVERED';
+  const filteredOrders = orders.filter(order => {
+    if (activeTab === 'active') return order.stage !== 'Paid';
+    if (activeTab === 'completed') return order.stage === 'Paid' || order.stage === 'Delivered';
     return true;
   });
+
+  const handleReviewSubmitted = (data: { orderId: string; rating: number; comment: string; tags: string[] }) => {
+    setOrders(prev => prev.map(o => o.id === data.orderId ? { ...o, hasReviewed: true } : o));
+    setToastMessage(`Thank you! Your ${data.rating}★ verified trade review has been published.`);
+    setTimeout(() => setToastMessage(null), 4000);
+  };
 
   return (
     <div className="py-8 sm:py-12 bg-paper-bg min-h-screen text-dark-text">
@@ -152,30 +168,54 @@ export const OrdersPage: React.FC<OrdersPageProps> = ({ onNavigate, onOpenSellMo
                 Direct Dispatch Ledger
               </span>
               <span className="px-2.5 py-0.5 rounded-full bg-pure-white text-dark-text border border-dark-text/15 text-[10px] uppercase font-semibold">
-                Escrow Guaranteed
+                5-Stage Escrow Tracker
               </span>
             </div>
             <h1 className="font-serif font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-dark-text">
               Orders &amp; Dispatch Status
             </h1>
             <p className="text-xs sm:text-base text-dark-text/70 mt-1 max-w-2xl">
-              Track multi-stage order lifecycles from initial matching and packing through refrigerated transit to instant dock escrow release.
+              Track multi-stage order lifecycles: <strong>Offered → Accepted → Pickup scheduled → Delivered → Paid</strong> with instant dock escrow release.
             </p>
           </div>
 
-          {onOpenSellModal && (
-            <div className="shrink-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <Button
+              variant="outline"
+              size="md"
+              onClick={() => setShowEscrowSimulator(!showEscrowSimulator)}
+              className="text-xs tracking-wider uppercase font-semibold"
+            >
+              <Landmark className="w-3.5 h-3.5 mr-1" />
+              {showEscrowSimulator ? 'Hide Simulator' : 'Escrow Simulator'}
+            </Button>
+            {onOpenSellModal && (
               <Button
                 variant="clay"
                 size="md"
                 onClick={onOpenSellModal}
                 className="shadow-soft-terracotta text-xs tracking-wider uppercase font-semibold"
               >
-                + Sell More Produce
+                + Sell Produce
               </Button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
+
+        {/* Action Toast */}
+        {toastMessage && (
+          <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2 animate-in fade-in">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <span>{toastMessage}</span>
+          </div>
+        )}
+
+        {/* Collapsible Escrow Simulator Component */}
+        {showEscrowSimulator && (
+          <div className="animate-in fade-in duration-300">
+            <EscrowSimulator />
+          </div>
+        )}
 
         {/* Filter Tabs: All, Active, Completed */}
         <div className="flex items-center gap-2 border-b border-dark-text/10 pb-2 font-mono text-xs">
@@ -187,7 +227,7 @@ export const OrdersPage: React.FC<OrdersPageProps> = ({ onNavigate, onOpenSellMo
                 : 'bg-pure-white text-dark-text border border-dark-text/15 hover:bg-paper-bg'
             }`}
           >
-            ALL ORDERS ({INITIAL_ORDERS.length})
+            ALL ORDERS ({orders.length})
           </button>
           <button
             onClick={() => setActiveTab('active')}
@@ -197,7 +237,7 @@ export const OrdersPage: React.FC<OrdersPageProps> = ({ onNavigate, onOpenSellMo
                 : 'bg-pure-white text-dark-text border border-dark-text/15 hover:bg-paper-bg'
             }`}
           >
-            ACTIVE ({INITIAL_ORDERS.filter(o => o.stage !== 'DELIVERED').length})
+            ACTIVE ({orders.filter(o => o.stage !== 'Paid').length})
           </button>
           <button
             onClick={() => setActiveTab('completed')}
@@ -207,7 +247,7 @@ export const OrdersPage: React.FC<OrdersPageProps> = ({ onNavigate, onOpenSellMo
                 : 'bg-pure-white text-dark-text border border-dark-text/15 hover:bg-paper-bg'
             }`}
           >
-            DELIVERED ({INITIAL_ORDERS.filter(o => o.stage === 'DELIVERED').length})
+            COMPLETED / PAID ({orders.filter(o => o.stage === 'Paid' || o.stage === 'Delivered').length})
           </button>
         </div>
 
@@ -223,13 +263,12 @@ export const OrdersPage: React.FC<OrdersPageProps> = ({ onNavigate, onOpenSellMo
             />
           ) : (
             filteredOrders.map((order) => {
-              const isDone = order.stage === 'DELIVERED';
+              const isPaid = order.stage === 'Paid';
 
               return (
                 <div
                   key={order.id}
-                  onClick={() => setSelectedOrder(order)}
-                  className="rounded-3xl border border-dark-text/10 bg-pure-white p-6 shadow-soft-sm hover:border-farm-green/30 hover:shadow-soft-md transition-all cursor-pointer space-y-5"
+                  className="rounded-3xl border border-dark-text/10 bg-pure-white p-6 shadow-soft-sm hover:border-farm-green/30 hover:shadow-soft-md transition-all space-y-5"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div className="space-y-1">
@@ -249,32 +288,47 @@ export const OrdersPage: React.FC<OrdersPageProps> = ({ onNavigate, onOpenSellMo
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 flex-wrap">
                       <span className={`px-3 py-1 rounded-full font-mono text-xs font-bold uppercase tracking-wider ${
-                        isDone 
-                          ? 'bg-farm-green/10 text-farm-green border border-farm-green/20' 
+                        isPaid 
+                          ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' 
                           : 'bg-harvest-yellow/20 text-dark-text border border-harvest-yellow/30'
                       }`}>
                         {order.stage}
                       </span>
+
+                      {isPaid && !order.hasReviewed && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setRatingTargetOrder(order);
+                          }}
+                          className="text-xs"
+                        >
+                          <Star className="w-3.5 h-3.5 text-amber-500 mr-1 fill-amber-500" />
+                          Rate Trade
+                        </Button>
+                      )}
                     </div>
                   </div>
 
-                  {/* 6-Stage Lifecycle Stepper (ReUI Pattern) */}
+                  {/* 5-Stage Lifecycle Stepper */}
                   <div className="pt-2 border-t border-dark-text/10">
                     <div className="mb-2 flex items-center justify-between text-[11px] font-mono uppercase text-dark-text/50 font-semibold">
                       <span>Status Progression</span>
-                      <span className="text-farm-green font-bold">Stage {order.stageIndex + 1} of 6</span>
+                      <span className="text-farm-green font-bold">Stage {order.stageIndex + 1} of 5</span>
                     </div>
 
-                    <div className="grid grid-cols-6 gap-1.5 sm:gap-2">
+                    <div className="grid grid-cols-5 gap-1.5 sm:gap-2">
                       {ORDER_STAGES.map((s, idx) => {
                         const isPast = idx < order.stageIndex;
                         const isCurrent = idx === order.stageIndex;
 
                         return (
                           <div key={s.stage} className="flex flex-col items-center text-center">
-                            <div className={`h-1.5 w-full rounded-full transition-all ${
+                            <div className={`h-2 w-full rounded-full transition-all ${
                               isPast || isCurrent
                                 ? 'bg-farm-green'
                                 : 'bg-dark-text/10'
@@ -294,16 +348,19 @@ export const OrdersPage: React.FC<OrdersPageProps> = ({ onNavigate, onOpenSellMo
                     </div>
                   </div>
 
-                  {/* Bottom Strip: Pickup Time & Details Link */}
+                  {/* Bottom Strip */}
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 text-xs font-mono text-dark-text/70">
                     <div className="flex items-center gap-1.5">
                       <Calendar className="w-3.5 h-3.5 text-farm-green shrink-0" />
                       <span>Scheduled: <strong className="text-dark-text">{order.pickupDate}</strong> at {order.pickupTime}</span>
                     </div>
-                    <span className="text-farm-green font-semibold hover:underline flex items-center gap-1">
+                    <button
+                      onClick={() => setSelectedOrder(order)}
+                      className="text-farm-green font-semibold hover:underline flex items-center gap-1 cursor-pointer"
+                    >
                       <span>View Dispatch Slip</span>
                       <ChevronRight className="w-4 h-4" />
-                    </span>
+                    </button>
                   </div>
                 </div>
               );
@@ -338,12 +395,12 @@ export const OrdersPage: React.FC<OrdersPageProps> = ({ onNavigate, onOpenSellMo
                 </div>
               </div>
 
-              {/* 6-Stage Visual Stepper */}
+              {/* 5-Stage Visual Stepper */}
               <div className="p-4 rounded-2xl border border-dark-text/10 bg-pure-white space-y-3">
                 <span className="font-mono text-[10px] text-dark-text/50 uppercase tracking-wider font-semibold block">
                   LIFECYCLE TIMELINE
                 </span>
-                <div className="grid grid-cols-6 gap-1.5 text-center">
+                <div className="grid grid-cols-5 gap-1.5 text-center">
                   {ORDER_STAGES.map((s, idx) => {
                     const isPassed = idx <= selectedOrder.stageIndex;
                     return (
@@ -439,6 +496,18 @@ export const OrdersPage: React.FC<OrdersPageProps> = ({ onNavigate, onOpenSellMo
 
             </div>
           </Modal>
+        )}
+
+        {/* Rating Modal */}
+        {ratingTargetOrder && (
+          <RatingModal
+            isOpen={ratingTargetOrder !== null}
+            onClose={() => setRatingTargetOrder(null)}
+            orderId={ratingTargetOrder.id}
+            counterpartName={ratingTargetOrder.buyer}
+            crop={ratingTargetOrder.product}
+            onSubmit={handleReviewSubmitted}
+          />
         )}
 
       </div>

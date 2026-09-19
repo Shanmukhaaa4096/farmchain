@@ -1,5 +1,6 @@
-import { defineConfig, type Plugin } from 'vite'
-import react from '@vitejs/plugin-react'
+import path from 'path';
+import { defineConfig, type Plugin } from 'vite';
+import react from '@vitejs/plugin-react';
 
 function authDevMiddleware(): Plugin {
   return {
@@ -48,5 +49,10 @@ function authDevMiddleware(): Plugin {
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), authDevMiddleware()],
-})
+  resolve: {
+    alias: {
+      '@': path.resolve(import.meta.dirname, './src'),
+    },
+  },
+});
 

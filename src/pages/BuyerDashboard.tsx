@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Building, 
   Plus, 
@@ -9,12 +9,17 @@ import {
   FileText, 
   MessageSquare, 
   ArrowRight,
-  ShieldCheck
+  ShieldCheck,
+  Search,
+  Scale,
+  DollarSign
 } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
 import { DemandRequirement, UserRole } from '../types';
+import { MakeOfferModal } from '../components/modals/MakeOfferModal';
+import { VoiceSearchButton } from '../components/ui/VoiceSearchButton';
 import { MOCK_MATCHES_FOR_TOMATO } from '../data/mockData';
 
 interface BuyerDashboardProps {
@@ -34,7 +39,40 @@ export const BuyerDashboard: React.FC<BuyerDashboardProps> = ({
   requireAuth,
   isAuthenticated = false
 }) => {
-  const buyerDemands = demands.filter(d => d.buyerId.startsWith('BUY'));
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedGrade, setSelectedGrade] = useState<'ALL' | 'Grade A' | 'Grade B' | 'Export Quality'>('ALL');
+  const [isMakeOfferOpen, setIsMakeOfferOpen] = useState(false);
+  const [activeOfferTarget, setActiveOfferTarget] = useState<{
+    crop: string;
+    farmer: string;
+    rate: number;
+    qty: number;
+  }>({
+    crop: 'Tomatoes (Grade A)',
+    farmer: 'Ramesh Reddy (Chevella FPO)',
+    rate: 24,
+    qty: 1500,
+  });
+
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const buyerDemands = demands.filter(d => {
+    const matchesSearch = d.crop.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          d.deliveryLocation.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesGrade = selectedGrade === 'ALL' || d.qualityGrade === selectedGrade;
+    return matchesSearch && matchesGrade;
+  });
+
+  const handleOfferSubmitted = (data: {
+    crop: string;
+    offeredRate: number;
+    quantityKg: number;
+    deliveryDate: string;
+    notes: string;
+  }) => {
+    setToastMessage(`Offer of ₹${data.offeredRate}/KG for ${data.quantityKg} KG ${data.crop} dispatched directly to farmer ledger!`);
+    setTimeout(() => setToastMessage(null), 4000);
+  };
 
   return (
     <div className="py-10 sm:py-14 bg-paper-bg min-h-screen text-dark-text">
@@ -59,7 +97,15 @@ export const BuyerDashboard: React.FC<BuyerDashboardProps> = ({
             </p>
           </div>
 
-          <div className="shrink-0">
+          <div className="flex items-center gap-3 shrink-0 flex-wrap">
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={() => setIsMakeOfferOpen(true)}
+              className="text-xs tracking-wider uppercase font-semibold"
+            >
+              Make Direct Offer
+            </Button>
             <Button
               variant="clay"
               size="lg"
@@ -71,6 +117,14 @@ export const BuyerDashboard: React.FC<BuyerDashboardProps> = ({
             </Button>
           </div>
         </div>
+
+        {/* Action Toast */}
+        {toastMessage && (
+          <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2 animate-in fade-in">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <span>{toastMessage}</span>
+          </div>
+        )}
 
         {/* Matched Supply Breakdown Highlight */}
         <div className="rounded-3xl border border-dark-text/15 bg-pure-white p-6 md:p-8 shadow-soft-sm space-y-6">
@@ -148,14 +202,50 @@ export const BuyerDashboard: React.FC<BuyerDashboardProps> = ({
           </div>
         </div>
 
+        {/* Sourcing Search & Filter Strip */}
+        <div className="space-y-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="relative flex items-center w-full sm:max-w-md">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-dark-text/40 pointer-events-none" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search by crop or delivery dock..."
+                className="w-full pl-11 pr-14 py-2.5 rounded-2xl bg-pure-white border border-dark-text/15 text-dark-text text-sm focus:outline-none focus:border-farm-green focus:ring-2 focus:ring-farm-green/10 shadow-soft-sm"
+              />
+              <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                <VoiceSearchButton onResult={(text) => setSearchQuery(text)} />
+              </div>
+            </div>
+
+            {/* Quality Grade Filter */}
+            <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto font-mono text-xs">
+              {(['ALL', 'Grade A', 'Grade B', 'Export Quality'] as const).map((grade) => (
+                <button
+                  key={grade}
+                  onClick={() => setSelectedGrade(grade)}
+                  className={`px-3 py-1.5 rounded-full uppercase font-bold transition-all whitespace-nowrap ${
+                    selectedGrade === grade
+                      ? 'bg-farm-green text-paper-bg shadow-soft-sm'
+                      : 'bg-pure-white border border-dark-text/15 text-dark-text/70 hover:bg-paper-bg'
+                  }`}
+                >
+                  {grade}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* Active Requirements List */}
         <div className="space-y-4">
           <div className="flex items-center justify-between pb-3 border-b border-dark-text/10">
             <h3 className="font-serif font-bold text-xl tracking-tight text-dark-text">
-              Active Sourcing Requirements
+              Active Sourcing Requirements ({buyerDemands.length})
             </h3>
             <span className="font-mono text-xs text-dark-text/50 uppercase">
-              {buyerDemands.length} Active Direct Orders
+              Automated 100% Bank Escrow
             </span>
           </div>
 
@@ -242,6 +332,17 @@ export const BuyerDashboard: React.FC<BuyerDashboardProps> = ({
             })}
           </div>
         </div>
+
+        {/* Modal for Direct Offers */}
+        <MakeOfferModal
+          isOpen={isMakeOfferOpen}
+          onClose={() => setIsMakeOfferOpen(false)}
+          cropName={activeOfferTarget.crop}
+          farmerName={activeOfferTarget.farmer}
+          listedPricePerKg={activeOfferTarget.rate}
+          availableKg={activeOfferTarget.qty}
+          onSubmitOffer={handleOfferSubmitted}
+        />
 
       </div>
     </div>

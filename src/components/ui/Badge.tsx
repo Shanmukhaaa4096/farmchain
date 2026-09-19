@@ -2,7 +2,7 @@ import React from 'react';
 
 export interface BadgeProps {
   children: React.ReactNode;
-  variant?: 'green' | 'yellow' | 'white' | 'dark' | 'red' | 'outline' | 'blue' | 'lettuce' | 'orange';
+  variant?: 'green' | 'yellow' | 'white' | 'dark' | 'red' | 'outline' | 'blue' | 'lettuce' | 'orange' | 'primary' | 'neutral' | 'success' | 'warning' | 'error';
   size?: 'sm' | 'md';
   dot?: boolean;
   className?: string;
@@ -31,7 +31,12 @@ export const Badge: React.FC<BadgeProps> = ({
     white: "bg-pure-white text-dark-text border-dark-text/15 shadow-soft-sm",
     dark: "bg-dark-text text-pure-white border-dark-text",
     red: "bg-terracotta/15 text-terracotta border-terracotta/30",
-    outline: "bg-transparent text-dark-text border-dark-text/25"
+    outline: "bg-transparent text-dark-text border-dark-text/25",
+    primary: "bg-[#C77B58]/15 text-[#C77B58] border-[#C77B58]/30",
+    neutral: "bg-pure-white text-dark-text border-dark-text/15 shadow-soft-sm",
+    success: "bg-primary-green/15 text-primary-green border-primary-green/30",
+    warning: "bg-accent-yellow/20 text-dark-text border-accent-yellow/40",
+    error: "bg-terracotta/15 text-terracotta border-terracotta/30"
   };
 
   return (

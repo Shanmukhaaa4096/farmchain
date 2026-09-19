@@ -1,52 +1,83 @@
 import React from 'react';
+import { ArrowRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'yellow' | 'white' | 'dark' | 'outline' | 'danger' | 'blue' | 'red' | 'green' | 'lettuce' | 'orange' | 'clay';
+  variant?: 
+    | 'primary' 
+    | 'secondary' 
+    | 'ink' 
+    | 'ink-deep' 
+    | 'band' 
+    | 'outline' 
+    | 'ghost' 
+    | 'clay' 
+    | 'yellow' 
+    | 'white' 
+    | 'dark' 
+    | 'danger';
   size?: 'sm' | 'md' | 'lg';
   fullWidth?: boolean;
+  withArrow?: boolean;
   children: React.ReactNode;
 }
 
-export const Button: React.FC<ButtonProps> = ({
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
   variant = 'primary',
   size = 'md',
   fullWidth = false,
+  withArrow = false,
   className = '',
   children,
   ...props
-}) => {
-  const baseStyles = "group relative inline-flex items-center justify-center font-sans font-semibold uppercase tracking-[0.12em] select-none rounded-full transition-all duration-250 ease-out cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:transition-transform [&_svg]:duration-200 group-hover:[&_svg]:translate-x-0.5";
+}, ref) => {
+  const baseStyles = cn(
+    "group relative inline-flex items-center justify-center font-sans font-semibold uppercase tracking-[0.14em] select-none",
+    "rounded-full transition-all duration-200 ease-out cursor-pointer",
+    "disabled:opacity-50 disabled:cursor-not-allowed",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C77B58] focus-visible:ring-offset-2",
+    "[&_svg]:transition-transform [&_svg]:duration-200 group-hover:[&_svg]:translate-x-1"
+  );
   
   const sizeStyles = {
-    sm: "px-4 py-1.5 text-[11px] shadow-soft-sm hover:-translate-y-0.5 hover:shadow-soft",
-    md: "px-6 py-2.5 text-xs shadow-soft hover:-translate-y-0.5 hover:shadow-soft-md",
-    lg: "px-8 py-3.5 text-xs sm:text-sm shadow-soft hover:-translate-y-0.5 hover:shadow-soft-lg",
+    sm: "min-h-[40px] px-4 py-1.5 text-[11px] shadow-soft-sm hover:-translate-y-0.5 hover:shadow-soft",
+    md: "min-h-[44px] px-6 py-2.5 text-xs shadow-soft hover:-translate-y-0.5 hover:shadow-soft-md",
+    lg: "min-h-[50px] px-8 py-3.5 text-xs sm:text-sm shadow-soft hover:-translate-y-0.5 hover:shadow-soft-lg",
   };
 
   const variantStyles = {
-    primary: "bg-primary-green text-pure-white border border-primary-green/30 hover:bg-dark-text",
-    blue: "bg-primary-green text-pure-white border border-primary-green/30 hover:bg-dark-text",
-    yellow: "bg-accent-yellow text-dark-text border border-dark-text/15 hover:bg-[#D4A738]",
-    orange: "bg-terracotta text-pure-white border border-terracotta/30 hover:bg-[#B55A35] shadow-soft-terracotta",
-    clay: "bg-terracotta text-pure-white border border-terracotta/30 hover:bg-[#B55A35] shadow-soft-terracotta",
-    white: "bg-pure-white text-dark-text border border-dark-text/15 hover:bg-paper-bg hover:border-dark-text/30",
-    dark: "bg-dark-text text-pure-white border border-dark-text hover:bg-primary-green",
-    outline: "bg-transparent text-dark-text border border-dark-text/25 hover:bg-pure-white hover:border-dark-text",
-    danger: "bg-terracotta text-pure-white border border-terracotta hover:bg-red-800",
-    red: "bg-terracotta text-pure-white border border-terracotta hover:bg-red-800",
-    green: "bg-primary-green text-pure-white border border-primary-green hover:bg-dark-text",
-    lettuce: "bg-soft-green/30 text-primary-green border border-soft-green/50 hover:bg-soft-green/50",
+    primary: "bg-[#C77B58] text-[#FBF8F2] border border-[#C77B58] hover:bg-[#B26A49] shadow-soft-terracotta",
+    clay: "bg-[#C77B58] text-[#FBF8F2] border border-[#C77B58] hover:bg-[#B26A49] shadow-soft-terracotta",
+    secondary: "bg-[#A8B89A] text-[#163323] border border-[#A8B89A] hover:bg-[#96A887]",
+    band: "bg-[#A8B89A] text-[#163323] border border-[#A8B89A] hover:bg-[#96A887]",
+    ink: "bg-[#2F4A3A] text-[#FBF8F2] border border-[#2F4A3A] hover:bg-[#163323]",
+    'ink-deep': "bg-[#163323] text-[#FBF8F2] border border-[#163323] hover:bg-[#0D1E15]",
+    dark: "bg-[#163323] text-[#FBF8F2] border border-[#163323] hover:bg-[#2F4A3A]",
+    yellow: "bg-[#E5B94A] text-[#17231A] border border-[#E5B94A] hover:bg-[#D4A738]",
+    white: "bg-[#FBF8F2] text-[#2F4A3A] border border-[#2F4A3A]/15 hover:bg-[#F4EFE6] hover:border-[#2F4A3A]/30",
+    outline: "bg-transparent text-[#2F4A3A] border border-[#2F4A3A]/25 hover:bg-[#FBF8F2] hover:border-[#2F4A3A]",
+    ghost: "bg-transparent text-[#2F4A3A] hover:bg-[#FBF8F2]",
+    danger: "bg-[#C77B58] text-[#FBF8F2] border border-red-700 hover:bg-red-800",
   };
-
-  const widthStyle = fullWidth ? "w-full" : "";
 
   return (
     <button
-      className={`${baseStyles} ${sizeStyles[size]} ${variantStyles[variant]} ${widthStyle} ${className}`}
+      ref={ref}
+      className={cn(
+        baseStyles,
+        sizeStyles[size],
+        variantStyles[variant],
+        fullWidth && "w-full",
+        className
+      )}
       {...props}
     >
-      {children}
+      <span>{children}</span>
+      {withArrow && (
+        <ArrowRight className="w-3.5 h-3.5 ml-2 transition-transform duration-200 group-hover:translate-x-1 shrink-0" />
+      )}
     </button>
   );
-};
+});
 
+Button.displayName = 'Button';
