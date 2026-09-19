@@ -24,6 +24,8 @@ import { UserRole, AuthUser } from '../../types';
 import { useLanguage } from '../../context/LanguageContext';
 import { SupportedLanguage } from '../../i18n/translations';
 import { useCart } from '../../context/CartContext';
+import { useDataSaver } from '../../context/DataSaverContext';
+import { Zap, ZapOff } from 'lucide-react';
 
 interface NavbarProps {
   currentView: string;
@@ -50,6 +52,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const { language, setLanguage, t } = useLanguage();
   const { itemCount } = useCart();
+  const { isDataSaver, toggleDataSaver } = useDataSaver();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
@@ -254,6 +257,21 @@ export const Navbar: React.FC<NavbarProps> = ({
                 )}
               </button>
 
+              {/* Data Saver Mode Toggle (Part C #5) */}
+              <button
+                onClick={toggleDataSaver}
+                className={`hidden sm:flex items-center gap-1.5 min-h-[44px] px-3 py-1 rounded-full text-[11px] font-mono font-bold border transition-all cursor-pointer ${
+                  isDataSaver 
+                    ? 'bg-[#2F4A3A] text-[#E5B94A] border-[#2F4A3A] shadow-soft-sm' 
+                    : 'bg-[#FBF8F2] text-[#536458] border-[#2F4A3A]/15 hover:text-[#2F4A3A]'
+                }`}
+                title={isDataSaver ? 'Data Saver Active: images and animations reduced' : 'Enable Data Saver for weak networks'}
+                aria-label="Toggle Data Saver"
+              >
+                {isDataSaver ? <Zap className="w-3.5 h-3.5 text-[#E5B94A]" /> : <ZapOff className="w-3.5 h-3.5 text-[#536458]" />}
+                <span>{isDataSaver ? 'Data Saver ON' : 'Data Saver'}</span>
+              </button>
+
               {/* Farmer Quick Action: Sell Produce */}
               {(!isAuthenticated || currentUser?.role === 'farmer') && onOpenSellModal && (
                 <Button
@@ -435,6 +453,28 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </span>
               </button>
             ))}
+          </div>
+
+          {/* Data Saver Toggle in Mobile Menu */}
+          <div className="pt-2 pb-1">
+            <button
+              onClick={toggleDataSaver}
+              className={`w-full min-h-[44px] flex items-center justify-between px-3.5 py-2.5 rounded-2xl border transition-all text-xs font-mono font-bold ${
+                isDataSaver
+                  ? 'bg-[#2F4A3A] text-[#E5B94A] border-[#2F4A3A]'
+                  : 'bg-white text-[#2F4A3A] border-[#2F4A3A]/15'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                {isDataSaver ? <Zap className="w-4 h-4 text-[#E5B94A]" /> : <ZapOff className="w-4 h-4 text-[#536458]" />}
+                <span>Data Saver Mode</span>
+              </div>
+              <span className={`px-2 py-0.5 rounded-full text-[10px] uppercase font-bold ${
+                isDataSaver ? 'bg-[#E5B94A]/20 text-[#E5B94A]' : 'bg-[#2F4A3A]/10 text-[#536458]'
+              }`}>
+                {isDataSaver ? 'ACTIVE' : 'OFF'}
+              </span>
+            </button>
           </div>
 
           {/* Quick Actions in Mobile Menu */}

@@ -38,8 +38,10 @@ import { CheckCircle2, AlertTriangle, X, ShieldAlert } from 'lucide-react';
 import { LanguageProvider } from './context/LanguageContext';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
+import { DataSaverProvider } from './context/DataSaverContext';
 import { ToastProvider } from './components/ui/Toast';
 import { Button } from './components/ui/Button';
+import { MobileTabBar } from './components/layout/MobileTabBar';
 
 interface ParsedRoute {
   view: string;
@@ -322,8 +324,9 @@ export const App: React.FC = () => {
     <LanguageProvider>
       <AuthProvider>
         <CartProvider>
-          <ToastProvider>
-            <div className="min-h-dvh flex flex-col bg-[#F4EFE6] font-sans text-[#2F4A3A] antialiased selection:bg-[#A8B89A]/30">
+          <DataSaverProvider>
+            <ToastProvider>
+              <div className="min-h-dvh flex flex-col bg-[#F4EFE6] font-sans text-[#2F4A3A] antialiased selection:bg-[#A8B89A]/30">
         
               {/* Role-based Navbar */}
               <Navbar
@@ -609,12 +612,24 @@ export const App: React.FC = () => {
               {/* Footer */}
               <Footer onNavigate={handleNavigate} />
 
+              {/* Mobile Bottom Tab Bar (Part C #2) */}
+              <MobileTabBar 
+                currentView={currentView}
+                onNavigate={handleNavigate}
+                onOpenAuth={(mode) => {
+                  setAuthPromptMessage(undefined);
+                  setAuthModalMode(mode || 'signin');
+                  setIsAuthOpen(true);
+                }}
+              />
+
             </div>
           </ToastProvider>
-        </CartProvider>
-      </AuthProvider>
-    </LanguageProvider>
-  );
+        </DataSaverProvider>
+      </CartProvider>
+    </AuthProvider>
+  </LanguageProvider>
+);
 };
 
 export default App;

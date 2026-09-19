@@ -1,0 +1,19 @@
+{
+  "name": "FarmChain : Direct Farm-to-Buyer Marketplace",
+  "short_name": "FarmChain",
+  "description": "Sell and buy fresh crops directly with zero broker fees, transparent prices, village pickup, and safe bank payments.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F4EFE6",
+  "theme_color": "#2F4A3A",
+  "orientation": "portrait-primary",
+  "categories": ["business", "shopping", "productivity"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

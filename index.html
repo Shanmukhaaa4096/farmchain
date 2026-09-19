@@ -4,29 +4,33 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     
     <!-- Primary Meta Tags -->
-    <title>FarmChain : Direct Agricultural Marketplace &amp; Farmer Logistics</title>
-    <meta name="title" content="FarmChain : Direct Agricultural Marketplace &amp; Farmer Logistics" />
-    <meta name="description" content="Direct farm-to-buyer marketplace. Connect with verified wholesale buyers, agree on harvest prices in advance, get village pickup, and receive 100% direct bank payout with 0% broker fee." />
+    <title>FarmChain : Direct Farm-to-Buyer Marketplace | Zero Broker Fee</title>
+    <meta name="title" content="FarmChain : Direct Farm-to-Buyer Marketplace | Zero Broker Fee" />
+    <meta name="description" content="Direct farm-to-buyer marketplace for households, shops, restaurants, and bulk buyers. Sell crops directly at transparent prices, enjoy village pickup, and receive safe bank payments with 0% broker fee." />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://farmchain-gamma.vercel.app/" />
-    <meta name="theme-color" content="#163323" />
+    <meta name="theme-color" content="#2F4A3A" />
+    <meta name="color-scheme" content="light" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://farmchain-gamma.vercel.app/" />
-    <meta property="og:title" content="FarmChain : Direct Agricultural Marketplace" />
-    <meta property="og:description" content="Sell crops directly to verified wholesale buyers. 100% direct bank payout with 0% broker commission." />
-    <meta property="og:image" content="https://farmchain-gamma.vercel.app/og-image.svg" />
+    <meta property="og:title" content="FarmChain : Direct Farm-to-Buyer Marketplace" />
+    <meta property="og:description" content="Direct marketplace connecting local farmers directly with households, restaurants, and bulk buyers. Zero broker fee, fair mandi prices, and safe payment." />
+    <meta property="og:image" content="https://farmchain-gamma.vercel.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://farmchain-gamma.vercel.app/" />
-    <meta property="twitter:title" content="FarmChain : Direct Agricultural Marketplace" />
-    <meta property="twitter:description" content="Direct farm-to-buyer demand network. Scheduled pickups and 100% direct bank payouts." />
-    <meta property="twitter:image" content="https://farmchain-gamma.vercel.app/og-image.svg" />
+    <meta property="twitter:title" content="FarmChain : Direct Farm-to-Buyer Marketplace" />
+    <meta property="twitter:description" content="Direct marketplace connecting local farmers with households, shops, restaurants, and bulk buyers. Village pickup and safe payment in your bank." />
+    <meta property="twitter:image" content="https://farmchain-gamma.vercel.app/og-image.png" />
 
     <!-- Typography (Soft Retro Organic Editorial: Fraunces & DM Sans with font-display: swap) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,16 +45,16 @@
         {
           "@type": "Organization",
           "@id": "https://farmchain-gamma.vercel.app/#organization",
-          "name": "FarmChain Infrastructure Labs",
+          "name": "FarmChain",
           "url": "https://farmchain-gamma.vercel.app",
           "logo": "https://farmchain-gamma.vercel.app/favicon.svg",
-          "description": "Direct agricultural demand coordination network connecting Indian farmers directly with commercial wholesale buyers.",
+          "description": "Direct farm-to-buyer marketplace connecting Indian farmers with households, shops, restaurants, and bulk buyers with zero broker fee.",
           "contactPoint": {
             "@type": "ContactPoint",
-            "telephone": "+91-800-123-4567",
+            "telephone": "+91-1800-309-8822",
             "contactType": "customer service",
             "areaServed": "IN",
-            "availableLanguage": ["en", "te", "hi", "kn", "mr"]
+            "availableLanguage": ["en", "te", "hi"]
           }
         },
         {
@@ -58,30 +62,17 @@
           "@id": "https://farmchain-gamma.vercel.app/#website",
           "url": "https://farmchain-gamma.vercel.app",
           "name": "FarmChain",
-          "description": "Direct agricultural marketplace and coordinated rural transit.",
+          "description": "Direct farm-to-buyer marketplace for households, shops, restaurants, and bulk buyers.",
           "publisher": {
             "@id": "https://farmchain-gamma.vercel.app/#organization"
           }
-        },
-        {
-          "@type": "Service",
-          "@id": "https://farmchain-gamma.vercel.app/#service",
-          "name": "Farm-to-Buyer Direct Agricultural Sourcing",
-          "provider": {
-            "@id": "https://farmchain-gamma.vercel.app/#organization"
-          },
-          "areaServed": {
-            "@type": "Country",
-            "name": "India"
-          },
-          "serviceType": "Agricultural Marketplace & Cold-Chain Logistics"
         }
       ]
     }
     </script>
   </head>
-  <body class="bg-warm-cream text-ink-black font-body antialiased selection:bg-harvest-yellow selection:text-ink-black">
-    <div id="root"></div>
+  <body class="bg-[#F4EFE6] text-[#2F4A3A] font-sans antialiased selection:bg-[#A8B89A]/30 overflow-x-hidden min-h-dvh">
+    <div id="root" class="min-h-dvh flex flex-col overflow-x-hidden"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

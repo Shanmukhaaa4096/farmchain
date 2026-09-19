@@ -434,8 +434,8 @@ export const CropDetailPage: React.FC<CropDetailPageProps> = ({
 
       </div>
 
-      {/* Sticky Mobile Primary CTA */}
-      <div className="fixed bottom-0 left-0 right-0 z-30 lg:hidden bg-[#FBF8F2]/95 border-t border-[#2F4A3A]/15 backdrop-blur-md p-3 px-4 flex items-center justify-between gap-4 shadow-soft-lg pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+      {/* Sticky Mobile Primary CTA (Positioned cleanly above Mobile Tab Bar) */}
+      <div className="fixed bottom-[54px] left-0 right-0 z-30 lg:hidden bg-[#FBF8F2]/95 border-t border-[#2F4A3A]/15 backdrop-blur-md p-3 px-4 flex items-center justify-between gap-4 shadow-soft-lg">
         <div>
           <span className="text-[10px] font-mono text-[#536458] uppercase block">Direct Price</span>
           <div className="flex items-baseline gap-1">
