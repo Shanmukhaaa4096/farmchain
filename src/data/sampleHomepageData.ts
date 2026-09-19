@@ -1,14 +1,15 @@
 /**
- * FarmChain Sample Data for Smart India Hackathon Prototype.
+ * FarmChain Pilot Sample Data — Direct Farm-to-Buyer Marketplace.
  * All listings, price benchmarks, impact metrics, and farmer stories below
- * are explicitly designated as SAMPLE DATA for demonstration purposes.
- * 
- * Rules:
- * - Vegetable/fruit listings: 50-500 kg
- * - Grains, pulses, spices: 5-30 quintals (1 quintal = 100 kg)
- * - Never above 50 quintals unless marked as a farmer group
- * - Realistic market prices matching real Indian mandi/direct rates
- * - Labeled "Sample data"
+ * are explicitly designated as PILOT DATA (sample) for demonstration purposes.
+ *
+ * Rules enforced by scripts/validate-data.ts:
+ * - Vegetable/fruit listings: 50–500 kg
+ * - Grains, pulses, spices: 500–3,000 kg (5–30 quintals)
+ * - Farmer groups (FPO) may exceed 3,000 kg
+ * - Prices within ±10% of reference mandi rates
+ * - Ratings 3.8–4.8, reviews ≤ 60
+ * - Counters from src/data/stats.ts (single source of truth)
  */
 
 export interface FarmerProfile {
@@ -85,7 +86,7 @@ export const SAMPLE_FARMERS: Record<string, FarmerProfile> = {
     cropsGrown: ['Tomato', 'Green Chilli', 'Brinjal'],
     bio: 'Third generation smallholder growing natural red tomatoes and G4 chillies using drip irrigation.',
     verified: true,
-    rating: 4.9,
+    rating: 4.7,
     reviewsCount: 38,
     experienceYears: 18,
     avatarUrl: '/farmer_hands_produce.jpg',
@@ -102,7 +103,7 @@ export const SAMPLE_FARMERS: Record<string, FarmerProfile> = {
     cropsGrown: ['Onion', 'Groundnut'],
     bio: 'Specialist in slow-cured Nashik Red onions with naturally dry papery skin that lasts 30+ days.',
     verified: true,
-    rating: 4.8,
+    rating: 4.6,
     reviewsCount: 42,
     experienceYears: 22,
     avatarUrl: '/farmer_harvest_crate.jpg',
@@ -119,7 +120,7 @@ export const SAMPLE_FARMERS: Record<string, FarmerProfile> = {
     cropsGrown: ['Organic Jaggery', 'Robusta Banana', 'Sona Masoori Rice'],
     bio: 'Artisanal sugarcane grower producing chemical-free brown jaggery cubes and sweet river bananas.',
     verified: true,
-    rating: 4.9,
+    rating: 4.5,
     reviewsCount: 29,
     experienceYears: 16,
     avatarUrl: '/hero_indian_agriculture.jpg',
@@ -136,7 +137,7 @@ export const SAMPLE_FARMERS: Record<string, FarmerProfile> = {
     cropsGrown: ['Sharbati Wheat', 'Toor Dal'],
     bio: 'Cultivating rainfed certified Sharbati wheat prized for sweet rotis, high protein, and golden grain luster.',
     verified: true,
-    rating: 5.0,
+    rating: 4.4,
     reviewsCount: 51,
     experienceYears: 25,
     avatarUrl: '/hero_tractor_farmland.jpg',
@@ -153,7 +154,7 @@ export const SAMPLE_FARMERS: Record<string, FarmerProfile> = {
     cropsGrown: ['Yellow Maize', 'Potato', 'Okra'],
     bio: 'Progressive woman farmer leading a 14-member women self-help collective growing sweet corn and baby okra.',
     verified: true,
-    rating: 4.9,
+    rating: 4.6,
     reviewsCount: 34,
     experienceYears: 12,
     avatarUrl: '/farmer_video_thumb.jpg',
@@ -172,8 +173,8 @@ export const SAMPLE_FARMERS: Record<string, FarmerProfile> = {
     cropsGrown: ['Basmati Rice', 'Lokwan Wheat'],
     bio: 'Head of 48-farmer Malwa collective. Direct farm gate sorting with zero post-harvest stubble burning.',
     verified: true,
-    rating: 4.8,
-    reviewsCount: 67,
+    rating: 4.5,
+    reviewsCount: 47,
     experienceYears: 28,
     avatarUrl: '/wholesale_produce_dock.jpg',
   },
@@ -189,7 +190,7 @@ export const SAMPLE_FARMERS: Record<string, FarmerProfile> = {
     cropsGrown: ['Salem Turmeric', 'Groundnut'],
     bio: 'Heritage turmeric planter delivering high-curcumin (4.2%) polished golden finger turmeric.',
     verified: true,
-    rating: 4.9,
+    rating: 4.7,
     reviewsCount: 23,
     experienceYears: 19,
     avatarUrl: '/agri_tech_field_tablet.jpg',
@@ -206,7 +207,7 @@ export const SAMPLE_FARMERS: Record<string, FarmerProfile> = {
     cropsGrown: ['Potato', 'Green Chilli', 'Tomato'],
     bio: 'Grower of table potatoes and spicy green chillies with solar pump irrigation and calibrated sorting.',
     verified: true,
-    rating: 4.7,
+    rating: 4.5,
     reviewsCount: 31,
     experienceYears: 15,
     avatarUrl: '/farmer_hands_produce.jpg',
@@ -284,9 +285,9 @@ export const SAMPLE_LISTINGS: SampleListing[] = [
     quantity: '90 KG',
     quantityKg: 90,
     unit: 'kg',
-    pricePerKg: 64,
-    mandiPricePerKg: 46,
-    retailPricePerKg: 85,
+    pricePerKg: 62,
+    mandiPricePerKg: 49,
+    retailPricePerKg: 75,
     harvestDate: 'Picked Today',
     shelfLifeDays: 8,
     photoUrl: '/farmer_harvest_crate.jpg',
@@ -537,9 +538,9 @@ export const SAMPLE_LISTINGS: SampleListing[] = [
     quantity: '7 Quintals (700 KG)',
     quantityKg: 700,
     unit: 'quintal',
-    pricePerKg: 138,
-    mandiPricePerKg: 108,
-    retailPricePerKg: 175,
+    pricePerKg: 118,
+    mandiPricePerKg: 98,
+    retailPricePerKg: 142,
     harvestDate: 'Steam Boiled & Polished',
     shelfLifeDays: 365,
     photoUrl: '/agri_tech_field_tablet.jpg',
@@ -866,7 +867,7 @@ export const SAMPLE_LISTINGS: SampleListing[] = [
     id: 'lot-124',
     crop: 'Ginger',
     variety: 'Maran Fibrous Spicy',
-    category: 'spices',
+    category: 'vegetables',
     farmerId: 'farmer-7',
     farmerName: 'M. Selvam',
     village: 'Erode Rural',
@@ -891,13 +892,15 @@ export const SAMPLE_LISTINGS: SampleListing[] = [
   },
 ];
 
+import { PILOT_STATS } from './stats';
+
 export const SAMPLE_IMPACT_COUNTERS = [
   {
-    value: 380,
+    value: PILOT_STATS.verifiedFarmers,
     prefix: '',
     suffix: '+',
     label: 'Verified Farmers',
-    subtext: 'Across 42 pilot villages with verified land records',
+    subtext: `Across ${PILOT_STATS.villagesConnected} pilot villages with verified land records`,
   },
   {
     value: 18.4,
@@ -907,14 +910,14 @@ export const SAMPLE_IMPACT_COUNTERS = [
     subtext: 'Settled within 2 hours with 0% broker fee',
   },
   {
-    value: 42,
+    value: PILOT_STATS.villagesConnected,
     prefix: '',
     suffix: '',
     label: 'Villages Connected',
-    subtext: 'Direct refrigerated pickup milk-runs',
+    subtext: 'Scheduled pickup routes across pilot districts',
   },
   {
-    value: 0,
+    value: PILOT_STATS.brokerFeePercent,
     prefix: '',
     suffix: '%',
     label: 'Broker Fee',

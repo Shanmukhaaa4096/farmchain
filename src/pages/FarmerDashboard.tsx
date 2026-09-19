@@ -239,7 +239,9 @@ export const FarmerDashboard: React.FC<FarmerDashboardProps> = ({
               Money in Your Bank
             </span>
             <div className="font-editorial text-2xl sm:text-3xl font-bold text-[#2F4A3A] mt-1.5">
-              ₹1,48,200
+              {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(
+                recentOrders.filter(o => o.status === 'Paid').reduce((sum, o) => sum + o.totalAmount, 0)
+              )}
             </div>
             <div className="text-xs text-[#536458] mt-1">
               0% broker deduction
@@ -254,7 +256,7 @@ export const FarmerDashboard: React.FC<FarmerDashboardProps> = ({
               {cropsInventory.length} Lots
             </div>
             <div className="text-xs text-[#536458] mt-1">
-              1,560 KG available
+              {cropsInventory.reduce((sum, c) => sum + (c.estimatedKg - c.pledgedKg), 0).toLocaleString('en-IN')} KG available
             </div>
           </div>
         </div>
