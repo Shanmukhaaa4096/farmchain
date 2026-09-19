@@ -1,6 +1,10 @@
 User-agent: *
 Allow: /
-Disallow: /api/private/
-Disallow: /admin/
+Disallow: /admin
+Disallow: /farmer
+Disallow: /buyer
+Disallow: /orders
+Disallow: /cart
+Disallow: /api/
 
 Sitemap: https://farmchain-gamma.vercel.app/sitemap.xml

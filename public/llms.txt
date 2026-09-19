@@ -1,0 +1,25 @@
+# FarmChain
+
+> Direct farm-to-buyer marketplace connecting verified Indian farmers directly with households, retail shops, restaurants, and wholesale bulk buyers with 0% broker fee.
+
+## Core Features
+- Direct Trade: Farmers list their harvest directly, setting fair farm-gate prices.
+- Transparent Mandi Benchmarks: Live APMC / Agmarknet modal prices provide open price discovery without intermediaries taking 20-30% cuts.
+- Flexible Fulfillment: Micro-lots for households (1-25 kg) and commercial demands for businesses (100-2,000 kg).
+- Village Pickup & Delivery: Coordinated rural logistics connecting farm gate to doorstep.
+- Safe Escrow Payouts: Buyer payments held safely and released to farmer's verified bank account upon delivery acceptance.
+
+## Public Web Navigation
+- Marketplace: https://farmchain-gamma.vercel.app/market
+- How It Works: https://farmchain-gamma.vercel.app/how-it-works
+- Mandi Price Discovery: https://farmchain-gamma.vercel.app/prices
+- Harvest Yield Forecasts: https://farmchain-gamma.vercel.app/forecast
+- Rural Logistics & Fleet: https://farmchain-gamma.vercel.app/logistics
+- Technology & System Safety: https://farmchain-gamma.vercel.app/technology
+- Help & Support: https://farmchain-gamma.vercel.app/help
+- Privacy Policy: https://farmchain-gamma.vercel.app/privacy
+- Terms of Service: https://farmchain-gamma.vercel.app/terms
+
+## Technology Stack
+- Architecture: React 19, TypeScript, Vite, Tailwind CSS, Supabase PostgreSQL with Row Level Security (RLS).
+- Reliability: Point-in-time recovery WAL archiving, transaction pooling via PgBouncer, PostGIS geospatial indexing for rural routing.
