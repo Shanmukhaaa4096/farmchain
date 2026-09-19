@@ -67,7 +67,7 @@ export const VideoStoryModal: React.FC<VideoStoryModalProps> = ({ isOpen, onClos
           <div className="p-4 bg-paper-bg rounded-2xl border border-dark-text/10 text-center shadow-soft-sm">
             <span className="text-[10px] text-dark-text/60 block font-semibold">PAYMENT SETTLEMENT</span>
             <strong className="font-serif font-bold text-2xl text-farm-green block mt-0.5">24 HOURS</strong>
-            <span className="text-[10px] text-dark-text/50">Direct escrow bank credit</span>
+            <span className="text-[10px] text-dark-text/50">Direct safe bank payment</span>
           </div>
         </div>
 

@@ -102,17 +102,17 @@ const JOURNEY_STEPS: JourneyStep[] = [
     id: 'buyer',
     stage: '05',
     label: 'BUYER',
-    subLabel: 'Weighbridge & Instant Escrow',
+    subLabel: 'Weighbridge & Safe Payment',
     icon: Building2,
     location: 'Madhapur Central Kitchen / Dock Hub',
     timing: '11:15 AM Dock Arrival & Signoff',
     dataTag: {
-      lot: 'ESCROW-HYD-9021',
+      lot: 'SAFE-PAY-HYD-9021',
       spec: 'INSTANT BANK RELEASE',
       value: '₹1,34,400 Transferred'
     },
-    details: 'Buyer verifies weight on calibrated scales. Instant digital receipt triggers automated escrow payment straight into the farmer’s bank account.',
-    guarantee: '100% direct bank payout released within 2 hours of dock signoff'
+    details: 'Buyer verifies weight on calibrated scales. Instant digital receipt triggers safe payment straight into the farmer’s bank account.',
+    guarantee: '100% money in your bank released within 2 hours of dock signoff'
   }
 ];
 
@@ -419,14 +419,14 @@ export const ProduceJourneyFlow: React.FC<{
                 </div>
               </div>
 
-              {/* Right Column: Telemetry Slip (5 cols) */}
+              {/* Right Column: Trip Slip (5 cols) */}
               <div className="col-span-5 bg-pure-white rounded-2xl border border-dark-text/10 shadow-soft p-5 space-y-3 font-sans text-xs">
                 <div className="flex items-center justify-between border-b border-dark-text/10 pb-2">
                   <span className="font-bold text-[10px] text-dark-text uppercase tracking-wider">
-                    FIELD TELEMETRY SLIP
+                    HARVEST TRIP SLIP
                   </span>
                   <span className="px-2.5 py-0.5 rounded-full bg-soft-green/40 text-primary-green text-[10px] font-bold">
-                    APMC COMPLIANT
+                    MANDI EXEMPTION COMPLIANT
                   </span>
                 </div>
 
@@ -450,7 +450,7 @@ export const ProduceJourneyFlow: React.FC<{
                 </div>
 
                 <div className="pt-2 border-t border-dashed border-dark-text/15 flex items-center justify-between text-[11px] text-mandi-charcoal-muted">
-                  <span>ESCROW PROTOCOL</span>
+                  <span>SAFE PAYMENT PROTOCOL</span>
                   <span className="text-primary-green font-bold flex items-center gap-1">
                     <ShieldCheck className="w-3.5 h-3.5" /> 100% DIRECT
                   </span>
@@ -497,7 +497,7 @@ export const ProduceJourneyFlow: React.FC<{
         <div className="block md:hidden space-y-4">
           
           <div className="font-sans text-xs text-primary-green font-semibold uppercase tracking-[0.18em] mb-2">
-            TAP STAGE TO INSPECT TELEMETRY
+            TAP STAGE TO INSPECT DETAILS
           </div>
 
           <div className="relative pl-6 space-y-3">

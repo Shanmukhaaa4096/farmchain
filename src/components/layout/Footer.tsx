@@ -105,7 +105,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             </div>
 
             <p className="text-[#FBF8F2]/70 text-xs leading-relaxed">
-              Direct farm-to-buyer marketplace for households, shops, restaurants, and wholesale buyers with zero broker fee.
+              Direct farm-to-buyer marketplace for households, shops, restaurants, and bulk buyers with zero broker fee.
             </p>
 
             <div className="text-xs text-[#FBF8F2]/85 space-y-1.5 pt-1 font-sans">

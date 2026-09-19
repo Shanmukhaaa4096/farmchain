@@ -61,7 +61,7 @@ export const FieldPlotVisual: React.FC = () => {
           <div className="flex items-center gap-2 mb-1">
             <span className="h-2.5 w-2.5 rounded-full bg-terminal-green animate-pulse"></span>
             <span className="font-mono text-xs font-bold text-farm-green uppercase tracking-wider">
-              PRECISION FARMLAND SATELLITE & IOT TELEMETRY
+              FARMLAND SATELLITE &amp; SOIL DATA
             </span>
           </div>
           <h3 className="font-heading font-black text-xl sm:text-2xl uppercase tracking-tight text-ink-black">
@@ -134,7 +134,7 @@ export const FieldPlotVisual: React.FC = () => {
             <div className="text-gray-600 text-[11px]">{active.village} • {active.acreage}</div>
           </div>
           <Badge variant="green" size="sm">
-            DIRECT ESCROW APPROVED
+            SAFE PAYMENT APPROVED
           </Badge>
         </div>
 

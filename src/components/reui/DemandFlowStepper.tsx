@@ -57,8 +57,8 @@ const FLOW_STEPS: FlowStep[] = [
     id: 'market',
     stepNumber: '05',
     title: 'MARKET',
-    subtitle: 'Automated escrow settlement on delivery',
-    description: 'Direct dispatch to regional fulfillment centers with instant digital escrow payout directly into the grower’s bank account.',
+    subtitle: 'Safe bank settlement on delivery',
+    description: 'Direct dispatch to fulfillment centers with instant safe payment directly into the farmer’s bank account.',
     metric: 'Instant T+0 payment',
     icon: Store,
     accent: '#315C3A',
@@ -145,7 +145,7 @@ export const DemandFlowStepper: React.FC<{ className?: string }> = ({ className 
               </div>
             </div>
             <div className="mt-4 border-t border-dark-text/10 pt-4 text-xs leading-relaxed text-dark-text/70">
-              Contract guarantee governed by FarmChain smart routing. Fully compliant with APMC direct mandi exemptions.
+              Contract guarantee governed by FarmChain smart routing. Fully compliant with direct farm trade norms.
             </div>
           </div>
         </div>

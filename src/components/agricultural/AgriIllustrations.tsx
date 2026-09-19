@@ -110,7 +110,7 @@ export const CropGrowthStageIndicator: React.FC<{ activeStage?: number; cropName
         <div className="flex items-center gap-2">
           <Sprout className="w-4 h-4 text-farm-green" />
           <span className="font-heading font-black text-sm uppercase text-ink-black">
-            CROP PHENOLOGY TELEMETRY // {cropName}
+            CROP HARVEST PROFILE // {cropName}
           </span>
         </div>
         <span className="px-2 py-0.5 bg-farm-green text-harvest-yellow text-[10px] font-bold border border-ink-black">

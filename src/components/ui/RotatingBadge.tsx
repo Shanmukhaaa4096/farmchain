@@ -9,7 +9,7 @@ export interface RotatingBadgeProps {
 }
 
 export const RotatingBadge: React.FC<RotatingBadgeProps> = ({
-  text = "DIRECT FROM FARM • ZERO MIDDLEMEN • 100% DIRECT BANK PAYOUT • ",
+  text = "DIRECT FROM FARM • ZERO MIDDLEMEN • 100% MONEY IN YOUR BANK • ",
   size = 140,
   className = "",
   icon = <Sprout className="w-7 h-7 text-[#2F4A3A]" />

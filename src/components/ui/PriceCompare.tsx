@@ -52,12 +52,12 @@ export const PriceCompare: React.FC<PriceCompareProps> = ({
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="font-sans text-[10px] font-bold uppercase tracking-[0.18em] text-[#C77B58] bg-[#F1C9B8]/40 px-2.5 py-0.5 rounded-full border border-[#C77B58]/25">
-              SAMPLE BENCHMARK DATA
+              SAMPLE DATA COMPARISON
             </span>
-            <span className="font-mono text-[10px] text-[#2F4A3A]/60">APMC BOWENPALLY & AZADPUR BENCHMARK</span>
+            <span className="font-mono text-[10px] text-[#2F4A3A]/60">BOWENPALLY &amp; AZADPUR MANDI BENCHMARK</span>
           </div>
           <h3 className="font-editorial text-2xl sm:text-3xl font-bold text-[#163323] tracking-tight">
-            Mandi vs. FarmChain Payout Simulator
+            Mandi vs. FarmChain Earnings Comparison
           </h3>
         </div>
 
@@ -87,7 +87,7 @@ export const PriceCompare: React.FC<PriceCompareProps> = ({
         <div className="lg:col-span-4 p-6 rounded-3xl bg-[#F4EFE6] border border-[#2F4A3A]/10 space-y-4">
           <div className="flex items-center justify-between">
             <span className="font-mono text-[10px] uppercase font-bold text-[#2F4A3A]/60 tracking-wider">
-              TRADITIONAL APMC MANDI
+              TRADITIONAL LOCAL MANDI
             </span>
             <span className="text-[10px] text-red-700 bg-red-100 font-bold px-2 py-0.5 rounded-full">
               -8% to -12% DEDUCTED
@@ -140,7 +140,7 @@ export const PriceCompare: React.FC<PriceCompareProps> = ({
 
           <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#163323] bg-[#A8B89A]/30 px-3 py-1 rounded-full border border-[#A8B89A]/50">
             <CheckCircle2 className="w-3.5 h-3.5 text-[#2F4A3A]" />
-            <span>0% Broker Fee • Guaranteed Escrow Payout</span>
+            <span>0% Broker Fee • Safe Payment in Your Bank</span>
           </div>
         </div>
 
@@ -161,7 +161,7 @@ export const PriceCompare: React.FC<PriceCompareProps> = ({
               <span className="text-xs font-sans font-normal text-[#FBF8F2]/70">/kg net</span>
             </div>
             <p className="text-[11px] font-sans text-[#FBF8F2]/80 mt-1">
-              Pre-agreed price locked in escrow before harvest with village-gate refrigerated pickup.
+              Pre-agreed price locked in Safe Payment before harvest with village-gate pickup.
             </p>
           </div>
 

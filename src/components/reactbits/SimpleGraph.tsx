@@ -14,7 +14,7 @@ const FORECAST_DATA: Record<string, CropForecast> = {
     name: 'Tomato (Hybrid Desi)',
     unitPrice: '₹32 - ₹36 / KG',
     projectedVolume: '14.2 MT Projected Peak',
-    confidence: '88.4% APMC Correlation',
+    confidence: '88.4% Mandi Price Accuracy',
     points: [
       { day: 'Day 1', demandIndex: 40, price: 28 },
       { day: 'Day 3', demandIndex: 55, price: 30 },
@@ -29,7 +29,7 @@ const FORECAST_DATA: Record<string, CropForecast> = {
     name: 'Onion (Medium Pink)',
     unitPrice: '₹26 - ₹30 / KG',
     projectedVolume: '19.8 MT Projected Peak',
-    confidence: '91.2% APMC Correlation',
+    confidence: '91.2% Mandi Price Accuracy',
     points: [
       { day: 'Day 1', demandIndex: 60, price: 26 },
       { day: 'Day 3', demandIndex: 65, price: 27 },
@@ -44,7 +44,7 @@ const FORECAST_DATA: Record<string, CropForecast> = {
     name: 'Potato (Jyoti Fresh)',
     unitPrice: '₹21 - ₹24 / KG',
     projectedVolume: '11.5 MT Projected Peak',
-    confidence: '86.7% APMC Correlation',
+    confidence: '86.7% Mandi Price Accuracy',
     points: [
       { day: 'Day 1', demandIndex: 50, price: 21 },
       { day: 'Day 3', demandIndex: 54, price: 22 },
@@ -99,7 +99,7 @@ export const SimpleGraph: React.FC<{ onNavigate?: (view: string) => void }> = ({
               AI DEMAND FORECASTING
             </span>
             <span className="text-[11px] font-sans text-terracotta font-medium tracking-wide">
-              • APMC LEDGER CALIBRATED
+              • MANDI RECORDS CALIBRATED
             </span>
           </div>
           <h3 className="font-editorial text-2xl sm:text-3xl font-bold text-dark-text mt-1">

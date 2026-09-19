@@ -42,7 +42,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
             Sign In Required
           </h2>
           <p className="text-sm text-[#536458] mb-6 leading-relaxed">
-            Please verify your mobile number to access direct farm trading, real-time demand contracts, and guaranteed bank payouts.
+            Please verify your mobile number to access direct farm trading and safe payments in your bank.
           </p>
           <div className="flex flex-col gap-3">
             <Button
@@ -83,15 +83,15 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
           </div>
 
           <h2 className="text-2xl font-serif font-bold text-[#2F4A3A] mb-2">
-            {isPending ? 'Verification Under Review' : isRejected ? 'Verification Requires Attention' : 'KYC & Trade Verification Required'}
+            {isPending ? 'Verified Tick Under Review' : isRejected ? 'Document Review Needed' : 'Get Verified Tick to Continue'}
           </h2>
 
           <p className="text-sm text-[#536458] mb-6 leading-relaxed">
             {isPending
-              ? 'Your Kisan ID / business documentation is being reviewed by our security desk. Verifications typically complete in under 2 hours.'
+              ? 'Your Kisan ID / business documentation is being reviewed. Verified ticks usually take less than 2 hours.'
               : isRejected
-              ? 'Your earlier documentation could not be verified. Please re-upload a clear copy of your Kisan Card, Aadhaar, or GST certificate.'
-              : 'To uphold zero-fraud standards for the Smart India Hackathon direct trade protocol, all sellers and buyers must verify their credentials before trading.'}
+              ? 'Your earlier documentation could not be verified. Please re-upload a clear copy of your Kisan Card, land record, or business license.'
+              : 'To keep transactions safe with 0% broker fee, all sellers and buyers get a verified tick before trading.'}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -101,7 +101,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
                 size="md"
                 onClick={() => onNavigate('onboarding')}
               >
-                {isPending ? 'View Status / Update Docs' : 'Complete Verification'}
+                {isPending ? 'View Status / Update Docs' : 'Get Verified Tick'}
               </Button>
             )}
             {onNavigate && (
@@ -110,7 +110,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
                 size="md"
                 onClick={() => onNavigate('marketplace')}
               >
-                Browse Marketplace
+                Buy Fresh Crops
               </Button>
             )}
           </div>

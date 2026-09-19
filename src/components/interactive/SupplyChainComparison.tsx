@@ -101,9 +101,9 @@ export const SupplyChainComparison: React.FC = () => {
                   {[
                     { title: 'Farmer', role: 'Takes price offered by village commission agent', cut: 'Farmer receives: ₹17.50/KG (Distress auction rate)', icon: Users },
                     { title: 'Local Trader / Agent', role: 'Charges 6-10% brokerage + uncalibrated weighing deduction', cut: '+ ₹2.50 commission markup', icon: Building },
-                    { title: 'Mandi Wholesaler', role: 'Unregulated APMC auction markup + loading cuts', cut: '+ ₹3.50 speculative margin', icon: Store },
+                    { title: 'Mandi Wholesaler', role: 'Unregulated mandi auction markup + loading cuts', cut: '+ ₹3.50 speculative margin', icon: Store },
                     { title: 'City Distributor', role: 'Secondary cold-storage transit loss & re-packing markups', cut: '+ ₹4.50 distribution overhead', icon: Truck },
-                    { title: 'Commercial Buyer', role: 'Pays inflated rate for 3-day-old degraded produce', cut: 'Buyer pays: ₹28.00/KG', icon: Store },
+                    { title: 'Buyer (Home or Shop)', role: 'Pays inflated rate for 3-day-old degraded produce', cut: 'Buyer pays: ₹28.00/KG', icon: Store },
                   ].map((step, idx, arr) => (
                     <div key={step.title} className="relative">
                       <div className="flex items-center justify-between p-4 bg-paper-bg rounded-2xl border border-dark-text/10">

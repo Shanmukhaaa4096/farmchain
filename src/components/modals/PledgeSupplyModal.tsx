@@ -113,11 +113,11 @@ export const PledgeSupplyModal: React.FC<PledgeSupplyModalProps> = ({
 
         </div>
 
-        {/* Estimated Direct Payout Banner */}
+        {/* Estimated Money in Bank Banner */}
         <div className="p-5 rounded-2xl bg-farm-green text-paper-bg flex items-center justify-between shadow-soft-sm font-mono">
           <div>
             <span className="text-[10px] text-harvest-yellow uppercase block font-bold tracking-wider">
-              ESTIMATED DIRECT SETTLEMENT
+              ESTIMATED MONEY IN BANK
             </span>
             <strong className="font-serif font-bold text-2xl text-paper-bg">
               ₹{totalPayout.toLocaleString()}

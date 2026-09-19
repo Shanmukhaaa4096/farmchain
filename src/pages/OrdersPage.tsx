@@ -72,7 +72,7 @@ const INITIAL_ORDERS: FarmerOrder[] = [
     driverName: 'Suresh Kumar',
     driverPhone: '+91 98492 01842',
     vehiclePlate: 'TS-08-UB-4420 (Tata 407 Reefer)',
-    notes: 'Standardized 25kg crates weighed and tagged at village gate. Automated digital escrow payout released upon dock weighbridge verification.'
+    notes: 'Standardized 25kg crates weighed and tagged at village gate. Safe payment released to your bank upon dock weighbridge verification.'
   },
   {
     id: 'ORD-002',
@@ -80,7 +80,7 @@ const INITIAL_ORDERS: FarmerOrder[] = [
     product: 'Green Chilli (G4 Hot)',
     quantityKg: 200,
     buyer: 'Spiceland Wholesale Traders',
-    buyerType: 'Wholesale Buyer',
+    buyerType: 'Bulk Buyer',
     stage: 'Accepted',
     stageIndex: 1,
     pickupDate: 'Tomorrow, 26 Sep 2026',
@@ -107,7 +107,7 @@ const INITIAL_ORDERS: FarmerOrder[] = [
     pickupLocation: 'Chevella Village Hub',
     ratePerKg: 58,
     totalPayout: 23200,
-    notes: 'Buyer purchase order locked with advance escrow hold. Crating supplies dispatched to village point.'
+    notes: 'Buyer purchase order locked with Safe Payment hold. Crating supplies dispatched to village point.'
   },
   {
     id: 'ORD-004',
@@ -168,14 +168,14 @@ export const OrdersPage: React.FC<OrdersPageProps> = ({ onNavigate, onOpenSellMo
                 Direct Dispatch Ledger
               </span>
               <span className="px-2.5 py-0.5 rounded-full bg-pure-white text-dark-text border border-dark-text/15 text-[10px] uppercase font-semibold">
-                5-Stage Escrow Tracker
+                5-Stage Safe Payment Tracker
               </span>
             </div>
             <h1 className="font-serif font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-dark-text">
               Orders &amp; Dispatch Status
             </h1>
             <p className="text-xs sm:text-base text-dark-text/70 mt-1 max-w-2xl">
-              Track multi-stage order lifecycles: <strong>Offered → Accepted → Pickup scheduled → Delivered → Paid</strong> with instant dock escrow release.
+              Track multi-stage order lifecycles: <strong>Offered → Accepted → Pickup scheduled → Delivered → Paid</strong> with instant direct bank payment upon delivery.
             </p>
           </div>
 
@@ -187,7 +187,7 @@ export const OrdersPage: React.FC<OrdersPageProps> = ({ onNavigate, onOpenSellMo
               className="text-xs tracking-wider uppercase font-semibold"
             >
               <Landmark className="w-3.5 h-3.5 mr-1" />
-              {showEscrowSimulator ? 'Hide Simulator' : 'Escrow Simulator'}
+              {showEscrowSimulator ? 'Hide Simulator' : 'Safe Payment Simulator'}
             </Button>
             {onOpenSellModal && (
               <Button

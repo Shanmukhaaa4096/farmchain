@@ -142,7 +142,7 @@ export const LogisticsMap: React.FC<LogisticsMapProps> = ({
             <div className="px-6 py-4 bg-dark-text text-pure-white flex items-center justify-between font-mono text-xs">
               <div className="flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-farm-green animate-ping"></span>
-                <span>GPS TELEMETRY // HYDERABAD RURAL CORRIDOR TS-08</span>
+                <span>LIVE GPS ROUTE // HYDERABAD RURAL CORRIDOR TS-08</span>
               </div>
               <div className="flex items-center gap-2">
                 <Button 
@@ -329,7 +329,7 @@ export const LogisticsMap: React.FC<LogisticsMapProps> = ({
               <p><strong className="font-mono text-dark-text">DRIVER:</strong> {route.driverName}</p>
               <p><strong className="font-mono text-dark-text">CONTACT:</strong> {route.driverPhone}</p>
               <p><strong className="font-mono text-dark-text">E-WAY BILL:</strong> #EWB-2026-9912-TS</p>
-              <p><strong className="font-mono text-dark-text">TRANSIT PERMIT:</strong> APMC DIRECT TRACE APPROVED</p>
+              <p><strong className="font-mono text-dark-text">TRANSIT PERMIT:</strong> DIRECT FARM EXEMPTION APPROVED</p>
             </div>
 
             <div className="pt-2">

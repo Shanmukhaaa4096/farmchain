@@ -78,7 +78,7 @@ export const MarketPricesPage: React.FC = () => {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
                   <span className="text-[10px] font-mono uppercase font-bold text-[#C77B58] tracking-wider block">
-                    PRICE BENCHMARK COMPARISON
+                    TODAY'S PRICE COMPARISON
                   </span>
                   <h2 className="font-editorial text-2xl font-bold text-[#163323]">
                     Mandi Auction Rate vs FarmChain Direct
@@ -200,7 +200,7 @@ export const MarketPricesPage: React.FC = () => {
               </Card>
               <Card variant="paper" className="p-6 space-y-2 font-sans">
                 <CheckCircle2 className="w-6 h-6 text-[#C77B58]" />
-                <strong className="text-sm font-bold text-[#163323] block">Pre-Lock Wholesale Contracts</strong>
+                <strong className="text-sm font-bold text-[#163323] block">Pre-Lock Bulk Contracts</strong>
                 <p className="text-xs text-[#536458] leading-relaxed">
                   Institutional buyers lock purchases 7–14 days in advance. Accept a forward offer before cutting the crop.
                 </p>

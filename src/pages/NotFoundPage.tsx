@@ -23,7 +23,7 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigate }) => {
             Unreachable Harvest Coordinate
           </h1>
           <p className="font-sans text-sm text-dark-text/70 leading-relaxed">
-            The agricultural route or page you requested does not exist or has moved to an updated telemetry node.
+            The agricultural route or page you requested does not exist or has moved to an updated location.
           </p>
         </div>
 

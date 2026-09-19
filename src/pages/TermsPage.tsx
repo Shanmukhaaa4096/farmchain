@@ -71,10 +71,10 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onNavigate }) => {
 
             <section className="space-y-2">
               <h2 className="font-serif font-bold text-xl text-dark-text">
-                4. Escrow and Direct Bank Settlement
+                4. Safe Payment and Direct Bank Settlement
               </h2>
               <p>
-                Buyers are required to maintain verified escrow or credit balances prior to posting purchase orders. Upon successful quality check and delivery confirmation at the buyer depot, 100% of the agreed farm-gate price transfers directly to the farmer's bank account or UPI VPA within 24 hours. Zero brokerage fees are subtracted from the farmer payout.
+                Buyers maintain verified safe payment or advance balances prior to confirming purchase orders. Upon successful quality check and delivery confirmation at the buyer depot, 100% of the agreed farm-gate price transfers directly to the farmer's bank account or UPI VPA within 24 hours. Zero brokerage fees are subtracted from the farmer payment.
               </p>
             </section>
 

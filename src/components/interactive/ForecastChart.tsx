@@ -72,7 +72,7 @@ export const ForecastChart: React.FC = () => {
 
         <div className="flex items-center gap-2 font-mono text-xs text-dark-text/75 bg-pure-white border border-dark-text/10 px-3.5 py-2 rounded-full shadow-soft-sm">
           <BrainCircuit className="w-4 h-4 text-farm-green" />
-          <span>MODEL: AGRI-LSTM-7D // 10-YEAR MANDI TELEMETRY</span>
+          <span>7-DAY PRICE FORECAST // 10-YEAR MANDI MARKET RECORDS</span>
         </div>
       </div>
 

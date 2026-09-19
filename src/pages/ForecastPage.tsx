@@ -13,25 +13,25 @@ export const ForecastPage: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-dark-text/10">
           <div className="space-y-3">
             <div className="flex items-center gap-2 font-mono text-xs">
-              <span className="px-2.5 py-1 bg-farm-green text-pure-white text-[10px] font-mono uppercase tracking-wider rounded-full">
-                Forward Demand Intelligence
+              <span className="px-2.5 py-1 bg-[#2F4A3A] text-white text-[10px] font-mono uppercase tracking-wider rounded-full">
+                Best Time to Sell
               </span>
-              <span className="px-2.5 py-1 bg-paper-bg text-dark-text border border-dark-text/15 text-[10px] font-mono uppercase rounded-full">
-                Agri-LSTM v2.4
+              <span className="px-2.5 py-1 bg-white text-[#2F4A3A] border border-[#2F4A3A]/15 text-[10px] font-mono uppercase rounded-full">
+                7-Day Price Forecast
               </span>
             </div>
-            <h1 className="font-serif font-medium text-3xl sm:text-5xl tracking-tight text-dark-text max-w-3xl leading-[1.1]">
-              Forward Demand Forecasting & Gluts Prevention
+            <h1 className="font-serif font-bold text-3xl sm:text-5xl tracking-tight text-[#2F4A3A] max-w-3xl leading-[1.1]">
+              Best Time to Sell: 7-Day Market Price Forecast
             </h1>
-            <p className="font-sans text-sm sm:text-base text-dark-text/70 max-w-2xl leading-relaxed">
-              Plant and harvest for actual forward buyer curves rather than speculating at harvest day. FarmChain models institutional consumption, festival spikes, and regional weather deviations.
+            <p className="font-sans text-sm sm:text-base text-[#536458] max-w-2xl leading-relaxed">
+              See expected prices for the next 7 days. Plan your harvest day to get higher earnings and avoid sudden price drops in local mandis.
             </p>
           </div>
 
-          <div className="p-5 bg-farm-green text-pure-white rounded-2xl border border-farm-green/30 font-mono text-xs shadow-soft shrink-0">
-            <span className="text-harvest-yellow block text-[10px] font-semibold uppercase tracking-wider">Historical Accuracy</span>
-            <strong className="text-2xl sm:text-3xl font-serif font-bold text-pure-white block mt-0.5">88.4% Mean MAP</strong>
-            <div className="text-[11px] text-pure-white/70 mt-1">Calibrated across 12 APMC Mandis</div>
+          <div className="p-5 bg-[#2F4A3A] text-white rounded-2xl border border-[#2F4A3A]/30 font-mono text-xs shadow-soft shrink-0">
+            <span className="text-[#E5B94A] block text-[10px] font-semibold uppercase tracking-wider">Forecast Accuracy</span>
+            <strong className="text-2xl sm:text-3xl font-serif font-bold text-white block mt-0.5">88.4% Accuracy</strong>
+            <div className="text-[11px] text-white/70 mt-1">Calibrated across 12 Local Mandis</div>
           </div>
         </div>
 

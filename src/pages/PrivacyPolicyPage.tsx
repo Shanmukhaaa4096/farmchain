@@ -26,7 +26,7 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = ({ onNavigate
               Privacy Policy
             </h1>
             <p className="font-mono text-xs text-dark-text/60">
-              LAST REVISED: 15 SEPTEMBER 2026 : APMC AND AGRISTACK COMPLIANT
+              LAST REVISED: 15 SEPTEMBER 2026 : AGRISTACK AND DIRECT TRADE COMPLIANT
             </p>
           </div>
 
@@ -48,13 +48,13 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = ({ onNavigate
               </h2>
               <ul className="list-disc pl-5 space-y-2">
                 <li>
-                  <strong className="text-dark-text">Farmer Profiles (Assisted Onboarding):</strong> Kisan Identification Number, farmer name, village, mandal, district, state, PIN code, field plot geospatial coordinates, acreage, primary crop varieties, and bank account / UPI VPA for direct escrow payouts.
+                  <strong className="text-dark-text">Farmer Profiles (Account Setup):</strong> Kisan Identification Number, farmer name, village, mandal, district, state, PIN code, field plot coordinates, acreage, primary crop varieties, and bank account / UPI VPA for direct safe payments in your bank.
                 </li>
                 <li>
-                  <strong className="text-dark-text">Commercial Buyers:</strong> Legal business name, GSTIN, FSSAI license number, commercial kitchen/depot delivery address, authorized representative contact, and escrow credit allocations.
+                  <strong className="text-dark-text">Buyers &amp; Kitchens:</strong> Legal business name or household contact, GSTIN/FSSAI if applicable, kitchen/home delivery address, authorized representative contact, and safe payment balances.
                 </li>
                 <li>
-                  <strong className="text-dark-text">Logistics & Telemetry:</strong> Vehicle registration numbers, calibrated digital weighbridge slips, GPS waypoint coordinates during active harvest transport, and temperature readings.
+                  <strong className="text-dark-text">Logistics &amp; Transport:</strong> Vehicle registration numbers, calibrated digital weighbridge slips, GPS waypoint coordinates during active harvest transport, and temperature readings.
                 </li>
               </ul>
             </section>

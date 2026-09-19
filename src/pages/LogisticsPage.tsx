@@ -84,17 +84,17 @@ export const LogisticsPage: React.FC<LogisticsPageProps> = ({
           <div>
             <div className="flex items-center gap-2 mb-2 font-mono text-xs text-dark-text/60">
               <span className="px-2.5 py-0.5 rounded-full bg-farm-green text-paper-bg text-[10px] uppercase tracking-wider font-semibold">
-                Reefer Fleet Network
+                Temperature-Controlled Fleet
               </span>
               <span className="px-2.5 py-0.5 rounded-full bg-pure-white text-dark-text border border-dark-text/15 text-[10px] uppercase font-semibold">
-                APMC Exemption Verified
+                Direct Farm Exemption Verified
               </span>
             </div>
             <h1 className="font-serif font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-dark-text">
-              Logistics &amp; Farm-Gate Dispatch
+              Pickup &amp; Delivery: Village Farm-Gate Dispatch
             </h1>
             <p className="text-xs sm:text-base text-dark-text/70 mt-1 max-w-2xl">
-              Coordinated single-loop farm-gate vehicle pickups, cluster aggregation, and temperature-controlled direct delivery straight to institutional docks.
+              Scheduled farm-gate vehicle pickups and temperature-controlled direct delivery straight from village hubs to buyer kitchens and depots.
             </p>
           </div>
 
@@ -111,7 +111,7 @@ export const LogisticsPage: React.FC<LogisticsPageProps> = ({
                   requireAuth(
                     'logistics',
                     action,
-                    'Logistics carrier authentication required to register fleet capacity.'
+                    'Logistics carrier sign-in required to register vehicle capacity.'
                   );
                 } else {
                   action();
@@ -120,17 +120,17 @@ export const LogisticsPage: React.FC<LogisticsPageProps> = ({
               className="shadow-soft-terracotta text-xs tracking-wider uppercase font-semibold"
             >
               <Truck className="w-4 h-4 mr-1.5" />
-              <span>Register Reefer Fleet</span>
+              <span>Register Pickup Vehicle</span>
             </Button>
           </div>
         </div>
 
-        {/* Live Circuits Cards */}
+        {/* Live Pickup Routes Cards */}
         <div className="space-y-4">
           <div className="flex items-center justify-between font-mono text-xs text-dark-text/60">
-            <span>ACTIVE TRANSIT CIRCUITS</span>
+            <span>ACTIVE PICKUP &amp; DELIVERY ROUTES</span>
             <span className="text-farm-green font-semibold flex items-center gap-1.5">
-              <Radio className="w-3.5 h-3.5 animate-pulse text-terracotta" /> Fleet Telemetry Live
+              <Radio className="w-3.5 h-3.5 animate-pulse text-terracotta" /> Live GPS &amp; Truck Tracking
             </span>
           </div>
 
@@ -145,7 +145,7 @@ export const LogisticsPage: React.FC<LogisticsPageProps> = ({
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-dark-text/10">
                   <div>
                     <span className="font-mono text-[10px] text-dark-text/50 font-bold block uppercase tracking-wider">
-                      CIRCUIT {circuit.id}
+                      ROUTE {circuit.id}
                     </span>
                     <strong className="font-serif font-bold text-xl text-dark-text">
                       {circuit.crop} • {circuit.quantityKg.toLocaleString()} KG

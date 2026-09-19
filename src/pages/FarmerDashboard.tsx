@@ -236,7 +236,7 @@ export const FarmerDashboard: React.FC<FarmerDashboardProps> = ({
 
           <div className="rounded-2xl border border-[#2F4A3A]/10 bg-[#FBF8F2] p-5 shadow-soft">
             <span className="text-[11px] font-mono text-[#536458] uppercase tracking-wider block">
-              Direct Bank Payouts
+              Money in Your Bank
             </span>
             <div className="font-editorial text-2xl sm:text-3xl font-bold text-[#2F4A3A] mt-1.5">
               ₹1,48,200
@@ -259,13 +259,13 @@ export const FarmerDashboard: React.FC<FarmerDashboardProps> = ({
           </div>
         </div>
 
-        {/* SECTION 1: INCOMING BUYER OFFERS (Direct Wholesale Bids) */}
+        {/* SECTION 1: INCOMING BUYER OFFERS (Direct Bulk Bids) */}
         <div className="space-y-4">
           <div className="flex items-center justify-between pb-3 border-b border-[#2F4A3A]/10">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-[#C77B58] animate-pulse" />
               <h2 className="font-editorial text-2xl font-bold text-[#163323]">
-                Incoming Wholesale Buyer Offers ({incomingOffers.filter(o => o.status === 'pending').length})
+                Incoming Bulk Buyer Offers ({incomingOffers.filter(o => o.status === 'pending').length})
               </h2>
             </div>
             <span className="font-mono text-xs text-[#536458]">Direct Bids With Safe Payment</span>
@@ -413,7 +413,7 @@ export const FarmerDashboard: React.FC<FarmerDashboardProps> = ({
               <Sprout className="w-12 h-12 text-[#536458]/40 mx-auto" />
               <h3 className="font-editorial text-2xl font-bold text-[#163323]">No crops added yet</h3>
               <p className="text-xs text-[#536458] max-w-sm mx-auto font-sans">
-                Tell us what you are growing this season to receive direct offers from verified wholesale buyers before harvest day.
+                Tell us what you are growing this season to receive direct offers from verified bulk buyers before harvest day.
               </p>
               <Button
                 variant="primary"

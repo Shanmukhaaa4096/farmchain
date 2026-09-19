@@ -81,7 +81,7 @@ export const CartPage: React.FC<CartPageProps> = ({
             </div>
             <div className="flex justify-between border-t border-[#2F4A3A]/10 pt-2">
               <span className="text-[#536458]">Payment Status:</span>
-              <span className="font-bold text-[#2F4A3A]">Safe Escrow Lock (Simulation)</span>
+              <span className="font-bold text-[#2F4A3A]">Safe Payment Lock (Simulation)</span>
             </div>
           </div>
 
@@ -229,7 +229,7 @@ export const CartPage: React.FC<CartPageProps> = ({
                 <div>
                   <strong className="block font-bold">Safe Payment Guarantee (Simulation)</strong>
                   <p className="text-[#536458] mt-0.5">
-                    For this hackathon demo, payments are simulated without real money charges. Payout to farmer bank accounts is simulated upon digital gate weighing.
+                    For this hackathon demo, payments are simulated without real money charges. Safe payment into farmer bank accounts is simulated upon digital gate weighing.
                   </p>
                 </div>
               </div>
@@ -344,7 +344,7 @@ export const CartPage: React.FC<CartPageProps> = ({
                 </Button>
 
                 <p className="text-[10px] text-center text-[#536458] font-mono">
-                  100% Direct Payout to Farmer Bank Accounts Upon Delivery
+                  100% Direct Payment to Farmer Bank Accounts Upon Delivery
                 </p>
               </form>
             </div>

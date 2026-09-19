@@ -228,13 +228,13 @@ export const PriceCalculator: React.FC = () => {
         <div className="flex items-center justify-between">
           <div>
             <h3 className="font-serif font-bold text-2xl tracking-tight text-dark-text">
-              APMC Mandi Indicative Benchmarks
+              Local Mandi Market Benchmarks
             </h3>
             <p className="font-mono text-xs text-dark-text/60">
               REAL-TIME GOV MANDI ARRIVALS // FOR NEGOTIATION BASELINES
             </p>
           </div>
-          <Badge variant="green" size="sm" dot>LIVE TELEMETRY</Badge>
+          <Badge variant="green" size="sm" dot>LIVE MANDI FEED</Badge>
         </div>
 
         <div className="overflow-x-auto rounded-2xl border border-dark-text/10 bg-pure-white shadow-soft">

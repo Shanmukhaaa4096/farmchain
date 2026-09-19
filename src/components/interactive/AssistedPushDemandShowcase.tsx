@@ -56,7 +56,7 @@ const REGIONAL_CONTENT: Record<LanguageCode, LanguageContent> = {
     acceptButtonText: 'ACCEPT ORDER',
     rejectButtonText: 'REJECT ORDER',
     acceptedSuccessTitle: 'ORDER ACCEPTED AND LOCKED',
-    acceptedSuccessDesc: 'Rs 12,000 held in Escrow. Reefer truck scheduled for 28 Sep at 06:30 AM at Chevella FPO Hub. 0% broker commission.',
+    acceptedSuccessDesc: 'Rs 12,000 locked in Safe Payment. Reefer truck scheduled for 28 Sep at 06:30 AM at Chevella FPO Hub. 0% broker commission.',
     rejectedTitle: 'ORDER DECLINED',
     rejectedDesc: 'Requirement re-routed to next nearest verified farmer cluster. Zero penalty or obligation.',
     assistedCallout: 'Assisted by Local Village Kisan Coordinator: M. Srinivas (FPO #TS-CHE-09)'
@@ -76,7 +76,7 @@ const REGIONAL_CONTENT: Record<LanguageCode, LanguageContent> = {
     acceptButtonText: 'ఆర్డర్ అంగీకరించండి',
     rejectButtonText: 'తిరస్కరించండి',
     acceptedSuccessTitle: 'ఆర్డర్ విజయవంతంగా ఖరారైంది',
-    acceptedSuccessDesc: 'రూ. 12,000 ఎస్క్రో ఖాతాలో భద్రపరచబడింది. సెప్టెంబర్ 28 ఉదయం 6:30 గంటలకు చేవెళ్ల కేంద్రం వద్ద ట్రక్ వస్తుంది. దళారుల కమీషన్ 0%.',
+    acceptedSuccessDesc: 'రూ. 12,000 సురక్షిత చెల్లింపుగా భద్రపరచబడింది. సెప్టెంబర్ 28 ఉదయం 6:30 గంటలకు చేవెళ్ల కేంద్రం వద్ద ట్రక్ వస్తుంది. దళారుల కమీషన్ 0%.',
     rejectedTitle: 'ఆర్డర్ తిరస్కరించబడింది',
     rejectedDesc: 'ఈ ఆర్డర్ తదుపరి సమీప రైతు క్లస్టర్‌కు మళ్లించబడింది. ఎటువంటి రుసుము లేదు.',
     assistedCallout: 'గ్రామ కిసాన్ సమన్వయకర్త సహాయం: ఎం. శ్రీనివాస్ (చేవెళ్ల ఎఫ్‌పీఓ)'
@@ -96,7 +96,7 @@ const REGIONAL_CONTENT: Record<LanguageCode, LanguageContent> = {
     acceptButtonText: 'आर्डर स्वीकार करें',
     rejectButtonText: 'अस्वीकार करें',
     acceptedSuccessTitle: 'आर्डर सफलतापूर्वक स्वीकृत',
-    acceptedSuccessDesc: 'रु 12,000 एस्क्रो में सुरक्षित। 28 सितम्बर सुबह 6:30 बजे चेवेल्ला एफपीओ पर गाड़ी पहुंचेगी। दलाली 0%.',
+    acceptedSuccessDesc: 'रु 12,000 सुरक्षित भुगतान में जमा। 28 सितम्बर सुबह 6:30 बजे चेवेल्ला एफपीओ पर गाड़ी पहुंचेगी। दलाली 0%.',
     rejectedTitle: 'आर्डर अस्वीकृत',
     rejectedDesc: 'मांग निकटतम दूसरे किसान को प्रेषित की गई। कोई जुर्माना या बाध्यता नहीं।',
     assistedCallout: 'ग्राम किसान समन्वयक सहायता: एम. श्रीनिवास (चेवेल्ला एफपीओ)'

@@ -102,7 +102,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
     if (currentUser.role === 'admin') {
       return [
-        { id: 'admin', label: t.nav.verificationRequests, sub: 'Inspect farmer & buyer KYC', icon: FileCheck2 },
+        { id: 'admin', label: t.nav.verificationRequests, sub: 'Review farmer & buyer documents', icon: FileCheck2 },
         { id: 'orders', label: t.nav.allOrders, sub: 'Oversee full network dispatch', icon: ListOrdered },
       ];
     }

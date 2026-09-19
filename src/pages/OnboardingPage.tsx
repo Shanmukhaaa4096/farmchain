@@ -103,10 +103,10 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onNavigate }) =>
           <span>Smart India Hackathon • Trust Protocol</span>
         </div>
         <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[#2F4A3A] tracking-tight">
-          {role === 'farmer' ? 'Farmer KYC & Land Verification' : 'Commercial Buyer Onboarding'}
+          {role === 'farmer' ? 'Get Farmer Verified Tick' : 'Get Buyer Verified Tick'}
         </h1>
         <p className="mt-2 text-base text-[#536458] max-w-xl mx-auto font-sans">
-          To maintain 0% broker fee and guaranteed direct bank payouts, all traders verify identity credentials.
+          To maintain 0% broker fee and safe payments in your bank, get a verified tick on your profile.
         </p>
 
         {/* Progress Stepper */}

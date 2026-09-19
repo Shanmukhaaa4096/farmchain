@@ -91,7 +91,7 @@ export const SimpleListProduceModal: React.FC<SimpleListProduceModalProps> = ({
         setStep(1);
         onClose();
       }}
-      title="List Produce Availability"
+      title="Add Your Crop for Sale"
       subtitle={`Phase ${step} of 3 • ${step === 1 ? 'Select Harvest Crop' : step === 2 ? 'Yield & Price Standard' : 'Dispatch Date & Farm Location'}`}
       maxWidth="lg"
     >
@@ -267,7 +267,7 @@ export const SimpleListProduceModal: React.FC<SimpleListProduceModalProps> = ({
               </div>
               
               <div className="flex items-center justify-between text-xs font-mono text-dark-text/60 pt-1">
-                <span>Estimated Contract Payout:</span>
+                <span>Estimated Money in Bank:</span>
                 <strong className="text-farm-green font-bold text-sm">
                   ₹{((Number(quantity) || 0) * (Number(expectedPrice) || 0)).toLocaleString()}
                 </strong>
@@ -346,7 +346,7 @@ export const SimpleListProduceModal: React.FC<SimpleListProduceModalProps> = ({
                 Pickup: {availableDate} • {location}
               </div>
               <div className="text-farm-green font-semibold pt-1 flex items-center gap-1">
-                <CheckCircle2 className="w-3.5 h-3.5" /> 0% Broker Fees • 100% Escrow Direct Bank Payout
+                <CheckCircle2 className="w-3.5 h-3.5" /> 0% Broker Fees • 100% Safe Payment in your Bank
               </div>
             </div>
           </div>

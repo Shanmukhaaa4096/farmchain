@@ -158,7 +158,7 @@ export const MarketplacePage: React.FC<MarketplacePageProps> = ({
                   : 'text-[#2F4A3A] hover:bg-[#F4EFE6]'
               }`}
             >
-              Wholesale Demands ({demands.length})
+              Bulk Buyer Demands ({demands.length})
             </button>
           </div>
         </div>
@@ -334,11 +334,11 @@ export const MarketplacePage: React.FC<MarketplacePageProps> = ({
 
           </div>
         ) : (
-          /* Wholesale Demands Tab */
+          /* Bulk Demands Tab */
           <div className="space-y-6">
             <div className="flex items-center justify-between pb-2">
               <span className="text-xs font-mono font-bold uppercase text-[#536458]">
-                WHOLESALE DEMANDS POSTED BY COMMERCIAL BUYERS
+                BULK ORDER DEMANDS POSTED BY VERIFIED BUYERS
               </span>
               {userRole === 'buyer' && onOpenPostDemand && (
                 <Button

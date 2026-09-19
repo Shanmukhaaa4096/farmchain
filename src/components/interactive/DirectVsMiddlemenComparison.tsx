@@ -76,7 +76,7 @@ export const DirectVsMiddlemenComparison: React.FC = () => {
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#C77B58]" />
                 <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#C77B58]">
-                  TRADITIONAL APMC MANDI CHAIN
+                  TRADITIONAL LOCAL MANDI CHAIN
                 </span>
               </div>
               <span className="text-[10px] font-mono font-bold uppercase bg-[#C77B58]/15 text-[#C77B58] px-2.5 py-0.5 rounded-full">
@@ -107,7 +107,7 @@ export const DirectVsMiddlemenComparison: React.FC = () => {
               </div>
 
               <div className="flex justify-center text-[#C77B58] text-[10px] font-mono">
-                ↓ APMC Yard Auction &amp; Loading Cess
+                ↓ Mandi Yard Auction &amp; Loading Fees
               </div>
 
               <div className="flex items-center gap-2.5 p-3 rounded-xl bg-[#F4EFE6] border border-[#2F4A3A]/10">

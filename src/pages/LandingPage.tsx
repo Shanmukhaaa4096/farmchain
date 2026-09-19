@@ -467,7 +467,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             title="Where Does the"
             highlightWord="Commission Go?"
             squiggleColor="#C77B58"
-            description="Traditional APMC physical mandis have 4 to 5 layers of intermediaries taking cuts. FarmChain removes every layer, giving farmers 25%+ more and buyers lower rates."
+            description="Traditional physical mandis have 4 to 5 layers of intermediaries taking cuts. FarmChain removes every layer, giving farmers 25%+ more and buyers lower rates."
           />
 
           <DirectVsMiddlemenComparison />
@@ -743,7 +743,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             title="Everything You Need"
             highlightWord="To Know."
             squiggleColor="#C77B58"
-            description="Clear answers on 0% commissions, simulated escrow safety, quality testing, and village pickup milk-runs."
+            description="Clear answers on 0% commissions, simulated Safe Payment in bank, quality testing, and village pickup milk-runs."
           />
 
           <Accordion

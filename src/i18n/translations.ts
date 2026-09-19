@@ -111,7 +111,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationSchema> = {
       title: 'How FarmChain Works',
       farmerTrackTitle: 'For Farmers & FPOs',
       buyerTrackTitle: 'For Buyers & Kitchens',
-      farmerStep1: 'List your crop: Tell us your harvest volume, variety, and village.',
+      farmerStep1: 'Add your crop: Tell us your harvest volume, variety, and village.',
       farmerStep2: 'Agree on price: Buyers make direct offers with no middleman.',
       farmerStep3: 'Village pickup: Trucks collect directly from your village point.',
       farmerStep4: 'Money in bank: Full payment sent to your bank within 2 hours of weighing.',

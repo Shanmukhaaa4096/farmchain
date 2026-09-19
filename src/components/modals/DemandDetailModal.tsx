@@ -270,7 +270,7 @@ export const DemandDetailModal: React.FC<DemandDetailModalProps> = ({
         {/* Modal Bottom CTAs */}
         <div className="pt-4 border-t border-dark-text/10 flex flex-wrap items-center justify-between gap-3">
           <div className="font-mono text-xs text-dark-text/60">
-            Escrow Status: <strong className="text-farm-green">Direct Bank Settlement</strong>
+            Payment Status: <strong className="text-farm-green">Safe Payment in Bank</strong>
           </div>
 
           <div className="flex items-center gap-3">

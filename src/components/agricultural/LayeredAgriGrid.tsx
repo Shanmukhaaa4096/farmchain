@@ -163,7 +163,7 @@ export const LayeredAgriGrid: React.FC<LayeredAgriGridProps> = ({ onNavigate }) 
               
               <div className="absolute bottom-3 left-3 right-3 text-paper-white font-mono text-xs">
                 <span className="text-[10px] text-harvest-yellow font-bold uppercase block">
-                  IOT TELEMETRY & EXTENSION
+                  SOIL TESTING &amp; FIELD CARE
                 </span>
                 <strong className="font-heading font-black text-sm uppercase text-paper-white block">
                   Soil Moisture & Caliber Verification

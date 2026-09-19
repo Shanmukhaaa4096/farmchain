@@ -110,7 +110,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
         <Card className="p-5 bg-[#FBF8F2] border border-[#2F4A3A]/10 rounded-2xl shadow-soft-sm">
           <span className="text-xs font-mono uppercase text-[#536458] block">Pending Review</span>
           <div className="text-3xl font-serif font-bold text-[#C77B58] mt-1">{pendingCount}</div>
-          <span className="text-[11px] text-[#536458] mt-1 block">Awaiting KYC Approval</span>
+          <span className="text-[11px] text-[#536458] mt-1 block">Awaiting Document Approval</span>
         </Card>
         <Card className="p-5 bg-[#FBF8F2] border border-[#2F4A3A]/10 rounded-2xl shadow-soft-sm">
           <span className="text-xs font-mono uppercase text-[#536458] block">Verified Accounts</span>
@@ -125,7 +125,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
         <Card className="p-5 bg-[#FBF8F2] border border-[#2F4A3A]/10 rounded-2xl shadow-soft-sm">
           <span className="text-xs font-mono uppercase text-[#536458] block">Verified Buyers</span>
           <div className="text-3xl font-serif font-bold text-[#2F4A3A] mt-1">{buyerCount}</div>
-          <span className="text-[11px] text-[#536458] mt-1 block">Wholesale Entities</span>
+          <span className="text-[11px] text-[#536458] mt-1 block">Bulk &amp; Commercial Buyers</span>
         </Card>
       </div>
 
@@ -225,7 +225,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
                   {user.verificationDocUrl && (
                     <div className="mt-2 inline-flex items-center gap-1 text-xs font-mono text-[#C77B58] hover:underline">
                       <FileText className="w-3.5 h-3.5" />
-                      <span>View Uploaded KYC Document</span>
+                      <span>View Uploaded Verification Document</span>
                     </div>
                   )}
                 </div>

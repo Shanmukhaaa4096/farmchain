@@ -38,11 +38,11 @@ export const EscrowSimulator: React.FC<EscrowSimulatorProps> = ({
   const stages = [
     {
       step: 1,
-      title: 'Advance Locked in Escrow',
-      actor: 'Wholesale Buyer (UrbanFork)',
-      desc: 'Buyer deposits 100% purchase amount into automated Escrow Bank Vault upon contract agreement.',
+      title: 'Advance Locked in Safe Payment',
+      actor: 'Verified Buyer (UrbanFork)',
+      desc: 'Buyer deposits 100% purchase amount into automated Safe Payment Bank Vault upon contract agreement.',
       icon: Lock,
-      badge: 'Escrow Secured',
+      badge: 'Safe Payment Locked',
     },
     {
       step: 2,
@@ -62,11 +62,11 @@ export const EscrowSimulator: React.FC<EscrowSimulatorProps> = ({
     },
     {
       step: 4,
-      title: 'Instant 100% Direct Payout',
+      title: 'Instant 100% Money in Bank',
       actor: 'Farmer Bank Account',
-      desc: 'Smart contract vault triggers instant NEFT/UPI disbursal. 0% broker fee deducted. ₹0 delayed credit.',
+      desc: 'Automated bank vault triggers instant NEFT/UPI deposit. 0% broker fee deducted. ₹0 delayed credit.',
       icon: Landmark,
-      badge: 'Payout Disbursed',
+      badge: 'Money Deposited',
     },
   ];
 
@@ -94,21 +94,21 @@ export const EscrowSimulator: React.FC<EscrowSimulatorProps> = ({
           <div className="flex items-center gap-2 mb-1.5">
             <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-mono font-bold uppercase tracking-wider">
               <ShieldCheck className="w-3.5 h-3.5" />
-              Direct Bank Escrow Engine
+              Direct Safe Payment Engine
             </span>
             <Badge variant="neutral">SAMPLE DATA SIMULATOR</Badge>
           </div>
           <h3 className="text-xl sm:text-2xl font-serif font-bold text-[#2F4A3A]">
-            Zero-Middleman Escrow Payout Flow
+            Zero-Middleman Safe Payment Flow
           </h3>
           <p className="text-xs text-[#536458] mt-1 font-sans">
-            Guaranteed 100% direct bank payout without commission agent holding, bad debts, or arbitrary cuts.
+            Guaranteed 100% money in your bank without commission agent holding, bad debts, or arbitrary cuts.
           </p>
         </div>
 
         <div className="text-left sm:text-right bg-white p-3.5 rounded-2xl border border-[#2F4A3A]/10 shrink-0">
           <span className="text-[10px] font-mono uppercase text-[#536458] block">
-            Simulated Total Payout:
+            Money to Farmer Bank:
           </span>
           <span className="text-2xl font-serif font-bold text-[#2F4A3A]">
             ₹{totalAmount.toLocaleString('en-IN')}
@@ -242,7 +242,7 @@ export const EscrowSimulator: React.FC<EscrowSimulatorProps> = ({
           ) : (
             <>
               <Sparkles className="w-4 h-4 mr-2" />
-              <span>Run Live Escrow Payout Simulation</span>
+              <span>Run Safe Payment Simulation</span>
             </>
           )}
         </Button>
@@ -255,7 +255,7 @@ export const EscrowSimulator: React.FC<EscrowSimulatorProps> = ({
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               <span className="font-serif font-bold text-sm text-emerald-900">
-                Direct Bank Payout Receipt Verified
+                Direct Bank Payment Receipt Verified
               </span>
             </div>
             <span className="font-mono text-[10px] text-emerald-800 font-bold">
@@ -278,7 +278,7 @@ export const EscrowSimulator: React.FC<EscrowSimulatorProps> = ({
             </div>
             <div>
               <span className="text-[10px] font-mono text-[#536458] block">Settlement Time:</span>
-              <strong className="text-[#2F4A3A]">Instant IMPS Payout</strong>
+              <strong className="text-[#2F4A3A]">Instant Direct Bank Deposit</strong>
             </div>
           </div>
         </div>

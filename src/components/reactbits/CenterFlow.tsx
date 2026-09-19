@@ -78,7 +78,7 @@ export const CenterFlow: React.FC<CenterFlowProps> = ({ className = '' }) => {
             </div>
             <div className="w-px h-6 bg-charcoal/20" />
             <div>
-              <span className="text-mandi-charcoal-muted block">ESCROW FUND</span>
+              <span className="text-mandi-charcoal-muted block">SAFE PAYMENT</span>
               <strong className="text-xs font-bold text-primary-green">100% SECURED</strong>
             </div>
           </div>
@@ -114,8 +114,8 @@ export const CenterFlow: React.FC<CenterFlowProps> = ({ className = '' }) => {
           <div className="p-3 bg-pure-white border border-dark-text shadow-tactile-sm flex items-center gap-2.5">
             <CheckCircle2 className="w-4 h-4 text-primary-green shrink-0" />
             <div>
-              <strong className="text-xs text-dark-text block">Buyers Receive & Escrow Pays</strong>
-              <span className="text-[10px] text-mandi-charcoal-muted">Instant bank payout to farmer</span>
+              <strong className="text-xs text-dark-text block">Buyers Receive &amp; Safe Payment Releases</strong>
+              <span className="text-[10px] text-mandi-charcoal-muted">Instant payment into farmer bank</span>
             </div>
           </div>
         </div>
@@ -164,10 +164,10 @@ export const CenterFlow: React.FC<CenterFlowProps> = ({ className = '' }) => {
             <Truck className="w-4 h-4" />
           </div>
           <div className="font-editorial text-lg text-dark-text font-bold">
-            Logistics & Direct Bank Escrow
+            Village Pickup &amp; Safe Payment in Bank
           </div>
           <p className="font-sans text-xs text-mandi-charcoal-muted">
-            Village pickup goes straight to buyer dock. Weighbridge signoff triggers automated escrow payment to farmer within 2 hours.
+            Village pickup goes straight to buyer dock. Weighbridge signoff triggers safe payment to farmer bank within 2 hours.
           </p>
         </div>
       </div>

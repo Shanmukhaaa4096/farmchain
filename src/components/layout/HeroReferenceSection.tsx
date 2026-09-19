@@ -42,7 +42,7 @@ export const HeroReferenceSection: React.FC<HeroReferenceSectionProps> = ({
             <span className="w-2 h-2 rounded-full bg-[#C77B58] animate-pulse" />
             <span className="font-semibold text-[#163323]">FARMCHAIN LIVE NETWORK</span>
             <span className="hidden sm:inline text-[#2F4A3A]/20">|</span>
-            <span className="hidden sm:inline text-[#2F4A3A] font-medium">184 VILLAGES CONNECTED DIRECTLY TO WHOLESALE KITCHENS</span>
+            <span className="hidden sm:inline text-[#2F4A3A] font-medium">184 VILLAGES CONNECTED DIRECTLY TO HOMES &amp; BUYERS</span>
           </div>
           <div className="font-medium text-[#2F4A3A] flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-[#A8B89A]" />
