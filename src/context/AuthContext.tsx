@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { AuthUser, UserRole, VerificationStatus } from '../types';
 import { authService, StoredUserRecord } from '../services/authService';
-import { sendOtpToPhone, verifyPhoneOtp, isDemoOtpMode } from '../lib/supabase';
+import { otpProvider, isDemoOtpMode } from '../lib/otp';
 
 export interface AuthContextType {
   currentUser: AuthUser | null;
@@ -65,8 +65,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const sendOtp = async (phone: string) => {
-    const res = await sendOtpToPhone(phone);
-    return res;
+    const res = await otpProvider.sendCode(phone);
+    return {
+      success: res.success,
+      message: res.message,
+      isDemo: res.isDemo ?? isDemoOtpMode,
+      error: res.error,
+    };
   };
 
   const verifyOtp = async (params: {
@@ -75,9 +80,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     role: UserRole;
     name?: string;
   }) => {
-    const res = await verifyPhoneOtp(params.phone, params.otp);
+    const res = await otpProvider.verifyCode(params.phone, params.otp);
     if (!res.success) {
-      return { success: false, error: res.error || 'Verification failed.' };
+      return { success: false, error: res.error || 'Wrong code. Try again.' };
     }
 
     const normalized = authService.normalizeMobile(params.phone);
@@ -102,7 +107,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         username: `user_${nationalNumber.slice(-4)}`,
         mobileNumber: nationalNumber,
         role: params.role,
-        name: params.name?.trim() || (params.role === 'farmer' ? 'Kisan Producer' : params.role === 'buyer' ? 'Wholesale Partner' : 'Fleet Operator'),
+        name: params.name?.trim() || res.user?.name || (params.role === 'farmer' ? 'Kisan Producer' : params.role === 'buyer' ? 'Wholesale Partner' : 'Fleet Operator'),
         identifier: authService.generateIdentifier(params.role),
         organization: params.role === 'farmer' ? 'Local Village Producer Group' : params.role === 'buyer' ? 'Procurement Desk' : 'Regional Cold Chain Fleet',
         location: params.role === 'farmer' ? 'Chevella, Telangana' : params.role === 'buyer' ? 'Hyderabad, Telangana' : 'National Highway 44 Fleet Hub',
@@ -191,10 +196,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const quickLoginAs = (role: UserRole) => {
+    // Admin access strictly prohibited via demo shortcuts
     if (role === 'admin') {
-      authService.setSession(ADMIN_USER);
-      setCurrentUser(ADMIN_USER);
-      setActiveRoleState('admin');
+      console.warn('Admin access is strictly disabled via demo shortcuts.');
       return;
     }
 

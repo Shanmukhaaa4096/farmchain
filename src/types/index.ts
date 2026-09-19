@@ -6,6 +6,7 @@ export interface AuthUser {
   id: string;
   username: string;
   mobileNumber: string;
+  email?: string;
   role: UserRole;
   name: string;
   identifier: string; // e.g., KISAN: TS-RR-902184, GSTIN: 36AAACU9120K, FLEET: TS-08-NP-2026, ADMIN: FC-SEC-01
