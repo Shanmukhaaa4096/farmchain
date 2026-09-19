@@ -1,5 +1,5 @@
 -- FarmChain Database Schema & Security Architecture
--- Smart India Hackathon: Direct Farmer-to-Buyer Marketplace (Zero Middlemen)
+-- Production Schema: Direct Farmer-to-Buyer Marketplace (Zero Middlemen)
 
 -- Enable UUID extension
 create extension if not exists "uuid-ossp";

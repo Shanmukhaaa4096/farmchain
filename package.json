@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "validate:data": "tsx scripts/validate-data.ts",
+    "setup:supabase": "tsx scripts/setup-supabase.ts",
     "build": "npm run validate:data && tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview"
