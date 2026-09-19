@@ -8,7 +8,7 @@ export interface StoredUserRecord extends AuthUser {
   passwordHash?: string;
 }
 
-// Pre-seeded demo accounts for instant evaluation
+// Pre-seeded demo accounts for instant evaluation (including 5 pending verification requests for admin)
 const DEFAULT_USERS: StoredUserRecord[] = [
   {
     id: 'usr-farmer-01',
@@ -19,7 +19,35 @@ const DEFAULT_USERS: StoredUserRecord[] = [
     identifier: 'KISAN: TS-RR-902184',
     organization: 'Chevella Farmers Producer Co-op',
     location: 'Chevella, Ranga Reddy, Telangana',
+    verificationStatus: 'pending',
+    verificationDocUrl: 'https://images.unsplash.com/photo-1544717305-2782549b5136',
     createdAt: '2026-01-15T09:00:00Z',
+  },
+  {
+    id: 'usr-farmer-02',
+    username: 'balaji_farmer',
+    mobileNumber: '9822100234',
+    role: 'farmer',
+    name: 'Balaji Kulkarni',
+    identifier: 'KISAN: MH-NS-382910',
+    organization: 'Lasalgaon Onion Farmers Collective',
+    location: 'Lasalgaon, Nashik, Maharashtra',
+    verificationStatus: 'pending',
+    verificationDocUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d',
+    createdAt: '2026-01-18T11:00:00Z',
+  },
+  {
+    id: 'usr-farmer-03',
+    username: 'anita_farmer',
+    mobileNumber: '9122400567',
+    role: 'farmer',
+    name: 'Anita Devi',
+    identifier: 'KISAN: BR-SP-550122',
+    organization: 'Samastipur Women Farmer SHG',
+    location: 'Samastipur Rural, Bihar',
+    verificationStatus: 'pending',
+    verificationDocUrl: 'https://images.unsplash.com/photo-1590682680695-43b964a3ae17',
+    createdAt: '2026-01-22T08:30:00Z',
   },
   {
     id: 'usr-buyer-01',
@@ -30,7 +58,34 @@ const DEFAULT_USERS: StoredUserRecord[] = [
     identifier: 'GSTIN: 36AAACU9120K',
     organization: 'UrbanFork Culinary & Retail Group',
     location: 'Gachibowli Central Hub, Hyderabad',
+    verificationStatus: 'verified',
     createdAt: '2026-02-01T10:30:00Z',
+  },
+  {
+    id: 'usr-buyer-02',
+    username: 'spicecraft_buyer',
+    mobileNumber: '9845012345',
+    role: 'buyer',
+    name: 'SpiceCraft Food Labs',
+    identifier: 'GSTIN: 29AAACS1029K1Z4',
+    organization: 'SpiceCraft Natural Seasonings Pvt Ltd',
+    location: 'Whitefield Industrial Area, Bangalore',
+    verificationStatus: 'pending',
+    verificationDocUrl: 'https://images.unsplash.com/photo-1450133064473-71024230f91b',
+    createdAt: '2026-02-08T14:15:00Z',
+  },
+  {
+    id: 'usr-buyer-03',
+    username: 'greenbasket_buyer',
+    mobileNumber: '9880198765',
+    role: 'buyer',
+    name: 'GreenBasket Daily Retail',
+    identifier: 'TRADE: KA-BLR-TL-8821',
+    organization: 'GreenBasket Fresh Supermarkets (12 Stores)',
+    location: 'Indiranagar Hub, Bangalore',
+    verificationStatus: 'pending',
+    verificationDocUrl: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf',
+    createdAt: '2026-02-14T16:00:00Z',
   },
   {
     id: 'usr-logistics-01',
@@ -41,6 +96,7 @@ const DEFAULT_USERS: StoredUserRecord[] = [
     identifier: 'FLEET: TS-08-NP-2026',
     organization: 'Kisan Reefer Rural Fleet Co-op',
     location: 'Telangana & Karnataka Corridor',
+    verificationStatus: 'verified',
     createdAt: '2026-02-15T14:00:00Z',
   },
 ];
@@ -70,12 +126,25 @@ class AuthService {
         localStorage.setItem(STORAGE_USERS_KEY, JSON.stringify(DEFAULT_USERS));
         return DEFAULT_USERS;
       }
-      const users = JSON.parse(data);
+      const users: StoredUserRecord[] = JSON.parse(data);
       if (!Array.isArray(users) || users.length === 0) {
         localStorage.setItem(STORAGE_USERS_KEY, JSON.stringify(DEFAULT_USERS));
         return DEFAULT_USERS;
       }
-      return users;
+      // Ensure all pre-seeded default users exist
+      const existingIds = new Set(users.map(u => u.id));
+      let merged = false;
+      const combined = [...users];
+      for (const def of DEFAULT_USERS) {
+        if (!existingIds.has(def.id)) {
+          combined.push(def);
+          merged = true;
+        }
+      }
+      if (merged) {
+        localStorage.setItem(STORAGE_USERS_KEY, JSON.stringify(combined));
+      }
+      return combined;
     } catch {
       return DEFAULT_USERS;
     }

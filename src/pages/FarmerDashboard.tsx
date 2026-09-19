@@ -9,24 +9,29 @@ import {
   AlertCircle, 
   Plus, 
   Truck,
-  Layers,
-  ArrowRight,
-  ChevronDown,
-  ChevronUp,
-  PackageCheck,
-  Phone
+  Layers, 
+  ArrowRight, 
+  ChevronDown, 
+  ChevronUp, 
+  PackageCheck, 
+  Phone,
+  ShieldCheck,
+  Award,
+  Scale
 } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
-import { DemandRequirement, Farmer, UserRole } from '../types';
+import { VerifiedBadge } from '../components/ui/VerifiedBadge';
+import { DemandRequirement, UserRole } from '../types';
 import { MOCK_FARMERS } from '../data/mockData';
+import { EmptyState } from '../components/ui/EmptyState';
 
 interface FarmerDashboardProps {
   demands: DemandRequirement[];
   onSelectDemand: (demand: DemandRequirement) => void;
   onPledgeDemand: (demand: DemandRequirement) => void;
-  onNavigate: (view: string) => void;
+  onNavigate: (view: string, params?: { id?: string }) => void;
   onOpenSellModal?: () => void;
   requireAuth?: (role: UserRole, action: () => void, promptMessage: string) => void;
   isAuthenticated?: boolean;
@@ -43,42 +48,113 @@ export const FarmerDashboard: React.FC<FarmerDashboardProps> = ({
 }) => {
   const currentFarmer = MOCK_FARMERS[0]; // Ramesh Reddy
 
+  // 1. Seeded 6 crops in inventory as required by PART A #5
   const [cropsInventory, setCropsInventory] = useState([
-    { crop: 'Tomatoes', variety: 'US-440 Hybrid', acreage: 2.5, readyDate: '24-28 Sep', estimatedKg: 1400, pledgedKg: 800, expectedPrice: 24 },
-    { crop: 'Green Chilli', variety: 'G4 Hot Slender', acreage: 1.2, readyDate: '02-05 Oct', estimatedKg: 650, pledgedKg: 200, expectedPrice: 48 },
-    { crop: 'Bell Peppers', variety: 'Indra Yellow/Red', acreage: 0.8, readyDate: '10-15 Oct', estimatedKg: 500, pledgedKg: 0, expectedPrice: 58 },
+    { id: 'c-1', crop: 'Tomatoes', variety: 'US-440 Hybrid', acreage: 2.5, readyDate: 'Tomorrow Morning', estimatedKg: 220, pledgedKg: 150, pricePerKg: 32, status: 'Ready' },
+    { id: 'c-2', crop: 'Green Chilli', variety: 'G4 Hot Slender', acreage: 1.2, readyDate: 'Ready for Pickup', estimatedKg: 90, pledgedKg: 80, pricePerKg: 64, status: 'Ready' },
+    { id: 'c-3', crop: 'Round Brinjal', variety: 'Bhagyamati Purple', acreage: 1.0, readyDate: 'In 2 Days', estimatedKg: 140, pledgedKg: 0, pricePerKg: 34, status: 'Ready' },
+    { id: 'c-4', crop: 'Teja Red Chilli', variety: 'Sun-Dried Hot', acreage: 1.5, readyDate: 'Stored Dry', estimatedKg: 600, pledgedKg: 300, pricePerKg: 185, status: 'Stored' },
+    { id: 'c-5', crop: 'Kufri Jyoti Potato', variety: 'Table Grade Oval', acreage: 1.8, readyDate: 'In 3 Days', estimatedKg: 400, pledgedKg: 0, pricePerKg: 22, status: 'Harvesting' },
+    { id: 'c-6', crop: 'Tender Okra (Bhindi)', variety: 'Radhika Tender', acreage: 0.8, readyDate: 'Tomorrow 6 AM', estimatedKg: 110, pledgedKg: 0, pricePerKg: 38, status: 'Ready' },
   ]);
 
-  // Incoming wholesale buyer offers state
+  // 2. Seeded 4 incoming wholesale buyer requests as required by PART A #5
   const [incomingOffers, setIncomingOffers] = useState([
     {
       id: 'OFF-2026-101',
       buyer: 'UrbanFork Kitchens',
-      buyerType: 'Restaurant Chain',
+      buyerType: 'Restaurant Chain (18 Outlets)',
       crop: 'Tomatoes (US-440 Hybrid)',
-      quantityKg: 500,
-      offeredRate: 26,
-      pickupDate: '28 Sep 2026',
-      status: 'pending', // 'pending' | 'accepted' | 'rejected'
-      total: 13000,
-      note: 'Need Grade A firm harvest. Verified Reefer collection at Village Gate #1.'
+      quantityKg: 200,
+      offeredRate: 32,
+      pickupDate: 'Tomorrow 07:30 AM',
+      status: 'pending',
+      total: 6400,
+      note: 'Need Grade A firm harvest for restaurant kitchens. Scheduled collection at Village Gate #1.'
     },
     {
       id: 'OFF-2026-102',
-      buyer: 'Spiceland Wholesale Traders',
-      buyerType: 'Wholesale Buyer',
+      buyer: 'SpiceCraft Natural Foods',
+      buyerType: 'Food Processing Corp',
       crop: 'Green Chilli (G4 Hot)',
-      quantityKg: 300,
-      offeredRate: 50,
+      quantityKg: 60,
+      offeredRate: 65,
+      pickupDate: '30 Sep 2026',
+      status: 'pending',
+      total: 3900,
+      note: 'Direct dock delivery, 100% Safe Payment locked in advance.'
+    },
+    {
+      id: 'OFF-2026-103',
+      buyer: 'FreshPlate Retail Supermarket',
+      buyerType: 'Retail Supermarket Chain',
+      crop: 'Round Brinjal (Bhagyamati)',
+      quantityKg: 100,
+      offeredRate: 34,
       pickupDate: '02 Oct 2026',
       status: 'pending',
-      total: 15000,
-      note: 'Direct dock delivery, 100% escrow advance locked.'
+      total: 3400,
+      note: 'Firm shiny skin required. Digital gate weighing agreed.'
+    },
+    {
+      id: 'OFF-2026-104',
+      buyer: 'Malwa Agro Traders',
+      buyerType: 'Wholesale Buyer',
+      crop: 'Teja Dry Red Chilli',
+      quantityKg: 300,
+      offeredRate: 185,
+      pickupDate: '05 Oct 2026',
+      status: 'pending',
+      total: 55500,
+      note: 'Moisture checked lot with calibrated moisture meter at village shed.'
+    }
+  ]);
+
+  // 3. Seeded 3 orders in different statuses as required by PART A #5
+  const [recentOrders, setRecentOrders] = useState([
+    {
+      id: 'ORD-2026-881',
+      crop: 'Tomatoes (Grade A)',
+      quantityKg: 150,
+      ratePerKg: 32,
+      totalAmount: 4800,
+      buyerName: 'UrbanFork Kitchens',
+      status: 'Pickup scheduled',
+      timing: 'Tomorrow, 07:30 AM',
+      vehiclePlate: 'TS-08-NP-2026',
+      driverName: 'Mohan Lal (+91 99887 76655)',
+      location: 'Village Hub Gate #1, Chevella'
+    },
+    {
+      id: 'ORD-2026-882',
+      crop: 'Green Chilli (G4 Slender)',
+      quantityKg: 80,
+      ratePerKg: 64,
+      totalAmount: 5120,
+      buyerName: 'SpiceCraft Natural Foods',
+      status: 'Delivered & Inspected',
+      timing: 'Delivered Today 11:00 AM',
+      vehiclePlate: 'TS-07-UA-4190',
+      driverName: 'Ramu K. (+91 98480 11223)',
+      location: 'Buyer Cold Dock, Hyderabad'
+    },
+    {
+      id: 'ORD-2026-883',
+      crop: 'Sharbati Gold Wheat',
+      quantityKg: 500,
+      ratePerKg: 31,
+      totalAmount: 15500,
+      buyerName: 'Deccan Agro Millers',
+      status: 'Paid',
+      timing: 'Yesterday, 04:30 PM',
+      vehiclePlate: 'MP-09-KA-8812',
+      driverName: 'Sanjay S. (+91 97551 22334)',
+      location: 'Money in Bank (SBI A/c ••••4091)'
     }
   ]);
 
   const [counterOfferId, setCounterOfferId] = useState<string | null>(null);
-  const [counterRate, setCounterRate] = useState<number>(28);
+  const [counterRate, setCounterRate] = useState<number>(34);
 
   const handleAcceptOffer = (offerId: string) => {
     setIncomingOffers(prev => prev.map(o => o.id === offerId ? { ...o, status: 'accepted' } : o));
@@ -88,43 +164,42 @@ export const FarmerDashboard: React.FC<FarmerDashboardProps> = ({
     setIncomingOffers(prev => prev.map(o => o.id === offerId ? { ...o, status: 'rejected' } : o));
   };
 
-  const [showMarketDetails, setShowMarketDetails] = useState(false);
-
   return (
-    <div className="py-8 sm:py-12 bg-paper-bg min-h-screen text-dark-text">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 space-y-8">
+    <div className="py-8 sm:py-12 bg-[#F4EFE6] min-h-screen text-[#2F4A3A]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-8">
         
         {/* Editorial Farmer Hub Header Card */}
-        <div className="rounded-3xl border border-dark-text/15 bg-farm-green text-paper-bg p-6 sm:p-8 shadow-soft-md relative overflow-hidden">
+        <div className="rounded-[32px] border border-[#2F4A3A]/15 bg-[#163323] text-[#FBF8F2] p-6 sm:p-8 shadow-soft-lg relative overflow-hidden">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 relative z-10">
             <div className="space-y-2">
-              <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
-                <span className="px-2.5 py-0.5 rounded-full bg-paper-bg/15 text-paper-bg border border-paper-bg/20 font-bold uppercase tracking-wider">
+              <div className="flex flex-wrap items-center gap-2.5 text-xs font-mono">
+                <span className="px-3 py-1 rounded-full bg-[#FBF8F2]/15 text-[#FBF8F2] border border-[#FBF8F2]/20 font-bold uppercase tracking-wider">
                   KISAN ID: {currentFarmer.kisanId}
                 </span>
-                <span className="text-paper-bg/60">•</span>
-                <span className="text-paper-bg/90 flex items-center gap-1">
-                  <MapPin className="w-3.5 h-3.5 text-harvest-yellow" />
+                <VerifiedBadge type="farmer" size="sm" />
+                <span className="text-[#FBF8F2]/60">•</span>
+                <span className="text-[#FBF8F2]/90 flex items-center gap-1 font-sans">
+                  <MapPin className="w-3.5 h-3.5 text-[#E5B94A]" />
                   {currentFarmer.village}, {currentFarmer.district}
                 </span>
               </div>
-              <h1 className="font-serif text-2xl sm:text-3xl font-bold tracking-tight text-paper-bg">
+              <h1 className="font-editorial text-2xl sm:text-4xl font-bold tracking-tight text-[#FBF8F2]">
                 Namaste, {currentFarmer.name.split(' ')[0]}
               </h1>
-              <p className="text-xs sm:text-sm text-paper-bg/80 max-w-xl">
-                Direct Farmer Ledger • Zero broker deductions • Direct bank escrow settlement within 2 hours of dock signoff.
+              <p className="text-xs sm:text-sm text-[#FBF8F2]/80 max-w-xl font-sans">
+                Direct Farmer Ledger • 0% broker fee • Money in your bank account within 2 hours of gate weighing.
               </p>
             </div>
 
             <div className="flex items-center gap-3 self-start sm:self-auto shrink-0">
               <Button
-                variant="clay"
+                variant="primary"
                 size="md"
-                onClick={onOpenSellModal || (() => onNavigate('marketplace'))}
-                className="shadow-soft-terracotta text-xs tracking-wider uppercase font-semibold"
+                onClick={onOpenSellModal || (() => onNavigate('market'))}
+                className="shadow-soft-terracotta text-xs tracking-wider uppercase font-semibold min-h-[44px]"
               >
                 <Plus className="w-4 h-4 mr-1.5" />
-                List Produce
+                <span>Sell Your Crop</span>
               </Button>
             </div>
           </div>
@@ -132,131 +207,68 @@ export const FarmerDashboard: React.FC<FarmerDashboardProps> = ({
 
         {/* 4 Essential Metric Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          
-          {/* Card 1: Today's Orders */}
           <div 
             onClick={() => onNavigate('orders')}
-            className="cursor-pointer rounded-2xl border border-dark-text/10 bg-pure-white p-5 shadow-soft-sm hover:border-farm-green/40 hover:shadow-soft-md transition-all group"
+            className="cursor-pointer rounded-2xl border border-[#2F4A3A]/10 bg-[#FBF8F2] p-5 shadow-soft hover:border-[#2F4A3A]/40 transition-all group"
           >
-            <span className="text-[11px] font-mono text-dark-text/50 uppercase tracking-wider block">
-              Today's Orders
+            <span className="text-[11px] font-mono text-[#536458] uppercase tracking-wider block">
+              Active Orders
             </span>
-            <div className="font-serif text-3xl font-bold text-dark-text mt-1.5 group-hover:text-farm-green transition-colors">
-              03
+            <div className="font-editorial text-3xl font-bold text-[#163323] mt-1.5 group-hover:text-[#C77B58] transition-colors">
+              {recentOrders.length}
             </div>
-            <div className="text-xs text-farm-green font-medium mt-1 flex items-center gap-1">
-              <CheckCircle2 className="w-3.5 h-3.5" /> On schedule for pickup
+            <div className="text-xs text-[#2F4A3A] font-medium mt-1 flex items-center gap-1">
+              <CheckCircle2 className="w-3.5 h-3.5" /> All on schedule
             </div>
           </div>
 
-          {/* Card 2: Pending Actions */}
-          <div 
-            onClick={() => onNavigate('marketplace')}
-            className="cursor-pointer rounded-2xl border border-dark-text/10 bg-pure-white p-5 shadow-soft-sm hover:border-farm-green/40 hover:shadow-soft-md transition-all group"
-          >
-            <span className="text-[11px] font-mono text-dark-text/50 uppercase tracking-wider block">
-              Matching Requests
+          <div className="rounded-2xl border border-[#2F4A3A]/10 bg-[#FBF8F2] p-5 shadow-soft">
+            <span className="text-[11px] font-mono text-[#536458] uppercase tracking-wider block">
+              Incoming Buyer Bids
             </span>
-            <div className="font-serif text-3xl font-bold text-terracotta mt-1.5">
-              02
+            <div className="font-editorial text-3xl font-bold text-[#C77B58] mt-1.5">
+              {incomingOffers.filter(o => o.status === 'pending').length}
             </div>
-            <div className="text-xs text-dark-text/60 mt-1">
-              Ready to pledge harvest
+            <div className="text-xs text-[#536458] mt-1">
+              Awaiting your confirmation
             </div>
           </div>
 
-          {/* Card 3: Total Earnings */}
-          <div className="rounded-2xl border border-dark-text/10 bg-pure-white p-5 shadow-soft-sm">
-            <span className="text-[11px] font-mono text-dark-text/50 uppercase tracking-wider block">
-              Total Earnings
+          <div className="rounded-2xl border border-[#2F4A3A]/10 bg-[#FBF8F2] p-5 shadow-soft">
+            <span className="text-[11px] font-mono text-[#536458] uppercase tracking-wider block">
+              Direct Bank Payouts
             </span>
-            <div className="font-serif text-2xl sm:text-3xl font-bold text-farm-green mt-1.5">
+            <div className="font-editorial text-2xl sm:text-3xl font-bold text-[#2F4A3A] mt-1.5">
               ₹1,48,200
             </div>
-            <div className="text-xs text-dark-text/60 mt-1">
-              Direct bank payouts
+            <div className="text-xs text-[#536458] mt-1">
+              0% broker deduction
             </div>
           </div>
 
-          {/* Card 4: Active Lots */}
-          <div className="rounded-2xl border border-dark-text/10 bg-pure-white p-5 shadow-soft-sm">
-            <span className="text-[11px] font-mono text-dark-text/50 uppercase tracking-wider block">
-              Active Lots
+          <div className="rounded-2xl border border-[#2F4A3A]/10 bg-[#FBF8F2] p-5 shadow-soft">
+            <span className="text-[11px] font-mono text-[#536458] uppercase tracking-wider block">
+              Crops Listed
             </span>
-            <div className="font-serif text-3xl font-bold text-dark-text mt-1.5">
-              03
+            <div className="font-editorial text-3xl font-bold text-[#163323] mt-1.5">
+              {cropsInventory.length} Lots
             </div>
-            <div className="text-xs text-dark-text/60 mt-1">
-              1,950 KG available
-            </div>
-          </div>
-
-        </div>
-
-        {/* SECTION 1: TODAY'S ACTIVE PICKUPS */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-dark-text/10">
-            <div className="flex items-center gap-2">
-              <Truck className="w-5 h-5 text-farm-green" />
-              <h2 className="font-serif text-xl font-bold text-dark-text">
-                Today's Scheduled Pickups
-              </h2>
-            </div>
-            <button
-              onClick={() => onNavigate('orders')}
-              className="text-xs font-semibold text-farm-green hover:underline flex items-center gap-1"
-            >
-              View All Orders →
-            </button>
-          </div>
-
-          <div className="rounded-2xl border border-dark-text/10 bg-pure-white p-5 shadow-soft-sm space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div>
-                <div className="flex items-center gap-2.5">
-                  <span className="font-serif font-bold text-lg text-dark-text">
-                    Tomatoes (Grade A)
-                  </span>
-                  <span className="font-mono text-xs font-semibold px-2.5 py-0.5 rounded-full bg-paper-bg text-dark-text border border-dark-text/10">
-                    800 KG
-                  </span>
-                </div>
-                <p className="text-xs text-dark-text/70 mt-1">
-                  Buyer: <strong className="text-dark-text">UrbanFork Kitchens</strong> • Rate: <strong className="text-farm-green">₹24/KG</strong> (₹19,200)
-                </p>
-                <div className="flex items-center gap-2 font-mono text-xs text-dark-text/60 mt-1.5">
-                  <Clock className="w-3.5 h-3.5 text-farm-green" />
-                  <span>Pickup: <strong className="text-dark-text">Today, 07:15 AM</strong> at Village Hub</span>
-                </div>
-              </div>
-
-              <div className="flex sm:flex-col items-center sm:items-end gap-2.5">
-                <span className="px-3 py-1 bg-farm-green/10 text-farm-green border border-farm-green/20 rounded-full font-mono font-semibold text-xs uppercase flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5" /> Reefer Dispatched
-                </span>
-                <button
-                  onClick={() => onNavigate('logistics')}
-                  className="text-xs font-semibold text-farm-green hover:underline"
-                >
-                  Track Vehicle →
-                </button>
-              </div>
+            <div className="text-xs text-[#536458] mt-1">
+              1,560 KG available
             </div>
           </div>
         </div>
 
-        {/* SECTION 1.5: INCOMING WHOLESALE BUYER OFFERS */}
+        {/* SECTION 1: INCOMING BUYER OFFERS (Direct Wholesale Bids) */}
         <div className="space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-dark-text/10">
+          <div className="flex items-center justify-between pb-3 border-b border-[#2F4A3A]/10">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-[#C77B58] animate-pulse" />
-              <h2 className="font-serif text-xl font-bold text-dark-text">
-                Incoming Buyer Offers (Direct Bids)
+              <h2 className="font-editorial text-2xl font-bold text-[#163323]">
+                Incoming Wholesale Buyer Offers ({incomingOffers.filter(o => o.status === 'pending').length})
               </h2>
             </div>
-            <span className="font-mono text-xs text-[#536458]">
-              {incomingOffers.filter(o => o.status === 'pending').length} Pending Review
-            </span>
+            <span className="font-mono text-xs text-[#536458]">Direct Bids With Safe Payment</span>
           </div>
 
           <div className="space-y-3">
@@ -267,18 +279,18 @@ export const FarmerDashboard: React.FC<FarmerDashboardProps> = ({
               return (
                 <div
                   key={offer.id}
-                  className={`rounded-2xl border p-5 transition-all shadow-soft-sm ${
+                  className={`rounded-2xl border p-5 transition-all shadow-soft ${
                     isAccepted
-                      ? 'bg-emerald-50/70 border-emerald-300'
+                      ? 'bg-emerald-50/80 border-emerald-300'
                       : isRejected
-                      ? 'bg-gray-50 border-gray-200 opacity-60'
-                      : 'bg-pure-white border-dark-text/10 hover:border-farm-green/30'
+                      ? 'bg-gray-100 border-gray-200 opacity-60'
+                      : 'bg-[#FBF8F2] border-[#2F4A3A]/15 hover:border-[#2F4A3A]/30'
                   }`}
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <strong className="font-serif font-bold text-lg text-dark-text">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <strong className="font-editorial font-bold text-xl text-[#163323]">
                           {offer.crop}
                         </strong>
                         <span className="font-mono text-xs text-[#536458]">
@@ -289,18 +301,19 @@ export const FarmerDashboard: React.FC<FarmerDashboardProps> = ({
                             ? 'bg-emerald-100 text-emerald-800'
                             : isRejected
                             ? 'bg-red-100 text-red-800'
-                            : 'bg-amber-100 text-amber-800'
+                            : 'bg-[#E5B94A]/25 text-[#163323]'
                         }`}>
                           {offer.status}
                         </span>
                       </div>
 
-                      <p className="text-xs text-dark-text/75">
-                        Offered by: <strong className="text-dark-text">{offer.buyer}</strong> ({offer.buyerType}) •
-                        Offered Rate: <strong className="text-farm-green text-sm">₹{offer.offeredRate}/KG</strong> (Total: ₹{offer.total.toLocaleString()})
+                      <p className="text-xs text-[#536458] font-sans">
+                        Offered by: <strong className="text-[#163323]">{offer.buyer}</strong> ({offer.buyerType}) •
+                        Offered Rate: <strong className="text-[#2F4A3A] font-bold text-sm">₹{offer.offeredRate}/KG</strong> (Total: ₹{offer.total.toLocaleString()})
                       </p>
-                      <p className="text-[11px] text-[#536458] font-mono">
-                        Pickup: {offer.pickupDate} • {offer.note}
+
+                      <p className="text-xs text-[#536458] italic font-sans pt-0.5">
+                        "{offer.note}"
                       </p>
                     </div>
 
@@ -311,7 +324,7 @@ export const FarmerDashboard: React.FC<FarmerDashboardProps> = ({
                             variant="primary"
                             size="sm"
                             onClick={() => handleAcceptOffer(offer.id)}
-                            className="text-xs px-4"
+                            className="text-xs font-semibold uppercase min-h-[38px] px-4"
                           >
                             Accept Offer
                           </Button>
@@ -319,16 +332,19 @@ export const FarmerDashboard: React.FC<FarmerDashboardProps> = ({
                             variant="outline"
                             size="sm"
                             onClick={() => handleRejectOffer(offer.id)}
-                            className="text-xs"
+                            className="text-xs font-semibold uppercase min-h-[38px] px-3"
                           >
                             Decline
                           </Button>
                         </>
                       )}
                       {isAccepted && (
-                        <span className="text-xs font-mono font-bold text-emerald-700 flex items-center gap-1">
-                          <CheckCircle2 className="w-4 h-4" /> Escrow Payout Locked
+                        <span className="font-mono text-xs font-bold text-emerald-700 flex items-center gap-1">
+                          <CheckCircle2 className="w-4 h-4" /> Locked into Harvest Schedule
                         </span>
+                      )}
+                      {isRejected && (
+                        <span className="font-mono text-xs text-gray-500">Declined</span>
                       )}
                     </div>
                   </div>
@@ -338,185 +354,167 @@ export const FarmerDashboard: React.FC<FarmerDashboardProps> = ({
           </div>
         </div>
 
-        {/* SECTION 2: MATCHED BUYER REQUESTS */}
+        {/* SECTION 2: CROPS CURRENTLY FOR SALE (6 seeded crops with Empty State support) */}
         <div className="space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-dark-text/10">
+          <div className="flex items-center justify-between pb-3 border-b border-[#2F4A3A]/10">
             <div className="flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-farm-green" />
-              <h2 className="font-serif text-xl font-bold text-dark-text">
-                Matched Buyer Requests
+              <Sprout className="w-5 h-5 text-[#2F4A3A]" />
+              <h2 className="font-editorial text-2xl font-bold text-[#163323]">
+                Your Crops for Sale ({cropsInventory.length})
+              </h2>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onOpenSellModal}
+              className="text-xs uppercase font-semibold"
+            >
+              <Plus className="w-3.5 h-3.5 mr-1" /> Add Crop
+            </Button>
+          </div>
+
+          {cropsInventory.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {cropsInventory.map((crop) => (
+                <div key={crop.id} className="bg-[#FBF8F2] p-5 rounded-2xl border border-[#2F4A3A]/15 shadow-soft space-y-3">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <span className="text-[10px] font-mono uppercase text-[#C77B58] font-bold block">
+                        {crop.variety}
+                      </span>
+                      <strong className="font-editorial text-xl font-bold text-[#163323] block">
+                        {crop.crop}
+                      </strong>
+                    </div>
+                    <span className="px-2 py-0.5 bg-[#2F4A3A]/10 text-[#2F4A3A] rounded-full text-[10px] font-mono font-bold uppercase">
+                      {crop.status}
+                    </span>
+                  </div>
+
+                  <div className="space-y-1 text-xs font-sans text-[#536458]">
+                    <div className="flex justify-between">
+                      <span>Available Lot:</span>
+                      <strong className="text-[#163323] font-mono">{crop.estimatedKg} KG</strong>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Target Rate:</span>
+                      <strong className="text-[#2F4A3A] font-mono">₹{crop.pricePerKg}/kg</strong>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Harvest Ready:</span>
+                      <span className="text-[#163323]">{crop.readyDate}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="p-10 bg-[#FBF8F2] rounded-[32px] border border-[#2F4A3A]/15 text-center space-y-4">
+              <Sprout className="w-12 h-12 text-[#536458]/40 mx-auto" />
+              <h3 className="font-editorial text-2xl font-bold text-[#163323]">No crops added yet</h3>
+              <p className="text-xs text-[#536458] max-w-sm mx-auto font-sans">
+                Tell us what you are growing this season to receive direct offers from verified wholesale buyers before harvest day.
+              </p>
+              <Button
+                variant="primary"
+                size="md"
+                onClick={onOpenSellModal}
+                className="text-xs uppercase font-semibold"
+              >
+                Add Your First Crop
+              </Button>
+            </div>
+          )}
+        </div>
+
+        {/* SECTION 3: RECENT ORDERS & 5-STAGE STATUS TRACKER */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-[#2F4A3A]/10">
+            <div className="flex items-center gap-2">
+              <Truck className="w-5 h-5 text-[#2F4A3A]" />
+              <h2 className="font-editorial text-2xl font-bold text-[#163323]">
+                Your Active Orders ({recentOrders.length})
               </h2>
             </div>
             <button
-              onClick={() => onNavigate('marketplace')}
-              className="text-xs font-semibold text-farm-green hover:underline flex items-center gap-1"
+              onClick={() => onNavigate('orders')}
+              className="text-xs font-semibold text-[#C77B58] hover:underline cursor-pointer"
             >
-              Browse All ({demands.length}) →
+              View All Orders →
             </button>
           </div>
 
           <div className="space-y-3">
-            {demands.slice(0, 2).map((demand) => (
-              <div
-                key={demand.id}
-                className="rounded-2xl border border-dark-text/10 bg-pure-white p-5 hover:border-farm-green/30 transition-all shadow-soft-sm"
-              >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-serif font-bold text-lg text-dark-text">
-                        {demand.crop}
-                      </span>
-                      <span className="font-mono text-xs text-dark-text/60">
-                        • {demand.quantityKg.toLocaleString()} KG NEEDED
-                      </span>
-                      <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-farm-green/10 text-farm-green border border-farm-green/20">
-                        {demand.qualityGrade}
-                      </span>
-                    </div>
-
-                    <p className="text-xs text-dark-text/70 mt-1">
-                      Buyer: <strong className="text-dark-text">{demand.buyerName}</strong> • Offer: <strong className="text-farm-green">₹{demand.targetPricePerKg}/KG</strong> • Delivery: {demand.requiredDate}
-                    </p>
+            {recentOrders.map((ord) => (
+              <div key={ord.id} className="bg-[#FBF8F2] p-5 rounded-2xl border border-[#2F4A3A]/15 shadow-soft flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="space-y-1 font-sans text-xs">
+                  <div className="flex items-center gap-2">
+                    <strong className="font-editorial text-lg text-[#163323]">{ord.crop}</strong>
+                    <span className="font-mono text-xs font-bold text-[#536458]">• {ord.quantityKg} KG</span>
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#2F4A3A] text-[#FBF8F2] uppercase">
+                      {ord.status}
+                    </span>
                   </div>
+                  <p className="text-[#536458]">
+                    Buyer: <strong className="text-[#163323]">{ord.buyerName}</strong> • Rate: <strong className="text-[#2F4A3A]">₹{ord.ratePerKg}/KG</strong> (Total: ₹{ord.totalAmount.toLocaleString()})
+                  </p>
+                  <p className="text-[#536458] flex items-center gap-1 font-mono text-[11px]">
+                    <Clock className="w-3.5 h-3.5 text-[#C77B58]" />
+                    <span>{ord.timing} • {ord.location}</span>
+                  </p>
+                </div>
 
-                  <div className="flex items-center gap-2 shrink-0">
-                    <Button
-                      variant="clay"
-                      size="sm"
-                      onClick={() => onPledgeDemand(demand)}
-                      className="text-xs px-4 shadow-soft-terracotta"
-                    >
-                      PLEDGE CROP →
-                    </Button>
-                    <button
-                      onClick={() => onSelectDemand(demand)}
-                      className="text-xs text-dark-text/60 hover:text-dark-text hover:underline px-2.5 py-1"
-                    >
-                      Specs
-                    </button>
-                  </div>
+                <div className="text-right shrink-0">
+                  <span className="font-mono text-xs text-[#536458] block">Vehicle: {ord.vehiclePlate}</span>
+                  <span className="text-xs text-[#2F4A3A] font-medium block">{ord.driverName}</span>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* SECTION 3: MY REGISTERED CROPS */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-dark-text/10">
-            <div className="flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-farm-green" />
-              <h2 className="font-serif text-xl font-bold text-dark-text">
-                My Registered Crops
+        {/* SECTION 4: INTEGRATED BEST TIME TO SELL WIDGET (Requirement 3) */}
+        <div className="bg-[#FBF8F2] p-6 sm:p-8 rounded-[32px] border border-[#2F4A3A]/15 shadow-soft space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <span className="text-[10px] font-mono uppercase font-bold text-[#C77B58] tracking-wider block">
+                HARVEST TIMING ADVICE
+              </span>
+              <h2 className="font-editorial text-2xl font-bold text-[#163323]">
+                Best Time to Sell: 7-Day Market Trend
               </h2>
             </div>
-            
             <button
-              onClick={onOpenSellModal || (() => onNavigate('marketplace'))}
-              className="text-xs font-semibold text-farm-green hover:underline flex items-center gap-1"
+              onClick={() => onNavigate('prices')}
+              className="text-xs font-semibold text-[#C77B58] hover:underline font-mono"
             >
-              <Plus className="w-3.5 h-3.5" />
-              <span>ADD CROP</span>
+              Open Full Price Forecast →
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {cropsInventory.map((item, idx) => (
-              <div key={idx} className="rounded-2xl border border-dark-text/10 bg-pure-white p-4 shadow-soft-sm space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="font-serif font-bold text-base text-dark-text">
-                    {item.crop}
-                  </strong>
-                  <span className="font-bold text-farm-green">₹{item.expectedPrice}/KG</span>
-                </div>
-                <p className="text-xs text-dark-text/60">
-                  {item.variety} • {item.acreage} Acres
-                </p>
-                <div className="flex items-center justify-between pt-2 border-t border-dark-text/10 text-xs font-mono">
-                  <span className="text-dark-text/60">Available:</span>
-                  <strong className="text-dark-text">{item.estimatedKg} KG</strong>
-                </div>
-                <div className="flex items-center justify-between text-xs font-mono">
-                  <span className="text-dark-text/60">Pledged:</span>
-                  <strong className="text-farm-green">{item.pledgedKg} KG</strong>
-                </div>
-                <div className="text-[11px] text-dark-text/50 pt-1 font-mono">
-                  Harvest Ready: <strong className="text-dark-text">{item.readyDate}</strong>
-                </div>
-              </div>
-            ))}
+          <p className="text-xs text-[#536458] font-sans leading-relaxed">
+            Market prices for <strong>Tomatoes</strong> are expected to rise by +14% by Friday due to weekend restaurant demand. Recommendation: Pick 150 kg on Thursday evening for Friday morning milk-run.
+          </p>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 text-center font-sans text-xs">
+            <div className="p-3 bg-[#F4EFE6] rounded-xl border border-[#2F4A3A]/10">
+              <span className="text-[#536458] text-[10px] block">Today (Wed)</span>
+              <strong className="text-sm text-[#163323]">₹32 / kg</strong>
+            </div>
+            <div className="p-3 bg-[#F4EFE6] rounded-xl border border-[#2F4A3A]/10">
+              <span className="text-[#536458] text-[10px] block">Tomorrow (Thu)</span>
+              <strong className="text-sm text-[#163323]">₹33 / kg</strong>
+            </div>
+            <div className="p-3 bg-[#A8B89A]/25 rounded-xl border border-[#A8B89A]/50">
+              <span className="text-[#2F4A3A] font-bold text-[10px] block">Friday (Peak Demand)</span>
+              <strong className="text-sm text-[#2F4A3A] font-bold">₹36 / kg ★</strong>
+            </div>
+            <div className="p-3 bg-[#F4EFE6] rounded-xl border border-[#2F4A3A]/10">
+              <span className="text-[#536458] text-[10px] block">Saturday</span>
+              <strong className="text-sm text-[#163323]">₹34 / kg</strong>
+            </div>
           </div>
         </div>
-
-        {/* PROGRESSIVE DISCLOSURE: AI DEMAND FORECAST & FPO POOLING DETAILS */}
-        <div className="pt-4 border-t border-dark-text/10 text-center">
-          <button
-            onClick={() => setShowMarketDetails(!showMarketDetails)}
-            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider px-5 py-2.5 rounded-full border border-dark-text/15 bg-pure-white hover:bg-paper-bg shadow-soft-sm text-dark-text transition-colors"
-          >
-            <span>{showMarketDetails ? 'Hide 7-Day Forecast & FPO Details ▲' : 'View 7-Day Forward Demand Forecast & FPO Details ▼'}</span>
-          </button>
-        </div>
-
-        {showMarketDetails && (
-          <div className="space-y-4 pt-2 animate-in fade-in duration-200">
-            
-            {/* Forward Demand Forecast */}
-            <div className="rounded-2xl border border-dark-text/10 bg-pure-white p-5 shadow-soft-sm space-y-3">
-              <div className="flex items-center justify-between pb-2 border-b border-dark-text/10">
-                <div className="flex items-center gap-2">
-                  <TrendingUp className="w-4 h-4 text-farm-green" />
-                  <strong className="font-serif text-sm font-bold text-dark-text">
-                    7-Day Regional Forward Demand (Telangana Corridor)
-                  </strong>
-                </div>
-                <span className="px-2.5 py-0.5 rounded-full bg-harvest-yellow/20 text-dark-text font-mono text-[10px] font-bold">
-                  88% CONFIDENCE
-                </span>
-              </div>
-
-              <p className="text-xs text-dark-text/70 leading-relaxed">
-                Tomatoes: Expected regional demand is <strong className="text-dark-text">3,100 KG</strong> (+29% surge). Wholesale prices expected to hold firm at ₹22 - ₹26/KG over the next 7 days.
-              </p>
-
-              <div className="pt-1">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => onNavigate('forecast')}
-                  className="text-xs font-semibold"
-                >
-                  Open Detailed Forecast Engine →
-                </Button>
-              </div>
-            </div>
-
-            {/* FPO Group Aggregation Details */}
-            <div className="rounded-2xl border border-dark-text/10 bg-pure-white p-5 shadow-soft-sm space-y-3">
-              <div className="flex items-center gap-2">
-                <Layers className="w-4 h-4 text-farm-green" />
-                <strong className="font-serif text-sm font-bold text-dark-text">
-                  Chevella FPO Group Pooling Status
-                </strong>
-              </div>
-              <p className="text-xs text-dark-text/70 leading-relaxed">
-                You and 2 other farmers in Shankarpally and Moinabad are pooling 2,400 KG tomatoes for UrbanFork Kitchens. Coordinated Reefer Truck pickup confirmed for 25 Sep, 07:15 AM.
-              </p>
-              <div className="pt-1">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => onNavigate('logistics')}
-                  className="text-xs font-semibold"
-                >
-                  <Truck className="w-3.5 h-3.5 mr-1" /> Track Collection Route
-                </Button>
-              </div>
-            </div>
-
-          </div>
-        )}
 
       </div>
     </div>

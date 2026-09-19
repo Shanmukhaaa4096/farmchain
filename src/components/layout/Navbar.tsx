@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Sprout, 
   Menu, 
@@ -9,17 +9,25 @@ import {
   ChevronDown, 
   Home, 
   Globe,
-  ShieldCheck
+  ShieldCheck,
+  ShoppingCart,
+  HelpCircle,
+  Clock,
+  Package,
+  CheckCircle2,
+  FileCheck2,
+  ListOrdered
 } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Sheet } from '../ui/Sheet';
 import { UserRole, AuthUser } from '../../types';
 import { useLanguage } from '../../context/LanguageContext';
 import { SupportedLanguage } from '../../i18n/translations';
+import { useCart } from '../../context/CartContext';
 
 interface NavbarProps {
   currentView: string;
-  onNavigate: (view: string) => void;
+  onNavigate: (view: string, params?: { id?: string }) => void;
   activeRole: UserRole;
   onRoleChange: (role: UserRole) => void;
   onOpenAuth: (mode?: 'signin' | 'signup') => void;
@@ -41,53 +49,74 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenSellModal
 }) => {
   const { language, setLanguage, t } = useLanguage();
+  const { itemCount } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
-  const [moreToolsOpen, setMoreToolsOpen] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
 
-  const primaryNavItems = [
-    { id: 'landing', label: t.nav.home, icon: Home },
-    { id: 'farmer', label: t.nav.forFarmers, icon: Sprout },
-    { id: 'buyer', label: t.nav.forBuyers, icon: Building2 },
-    { id: 'how-it-works', label: t.nav.howItWorks, icon: TrendingUp },
-  ];
+  // Close mobile menu whenever view changes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [currentView]);
 
-  const secondaryTools = [
-    { id: 'orders', label: t.nav.orders, desc: 'Track active & past contracts' },
-    { id: 'marketplace', label: t.nav.marketplace, desc: 'Browse live produce & buyer demands' },
-    { id: 'logistics', label: 'Logistics Circuits', desc: 'Fleet telemetry & village milk-runs' },
-    { id: 'prices', label: t.nav.prices, desc: 'APMC mandi benchmarks vs direct prices' },
-    { id: 'forecast', label: 'AI Demand Forecast', desc: 'Agri-LSTM price curves' },
-    { id: 'onboarding', label: 'KYC Verification', desc: 'Submit farmer/buyer trade credentials' },
-    { id: 'admin', label: 'Security Desk', desc: 'Admin KYC & compliance audit queue' },
-    { id: 'database', label: 'System Architecture', desc: 'PostgreSQL schema & scalability' },
-  ];
+  // Determine current user effective role
+  const effectiveRole: UserRole | 'logged_out' = 
+    isAuthenticated && currentUser ? currentUser.role : 'logged_out';
 
-  const handleNavClick = (id: string) => {
-    if (id === 'how-it-works') {
-      if (currentView === 'landing') {
-        const journeyEl = document.getElementById('how-it-works') || document.getElementById('farm-to-market-journey');
-        if (journeyEl) {
-          journeyEl.scrollIntoView({ behavior: 'smooth' });
-          return;
-        }
-      }
+  // Build role-based nav items strictly adhering to user instructions:
+  // Logged out: Buy Fresh Crops, Today's Prices, How it Works, Help, Login
+  // Farmer: My Farm, My Crops, My Orders, Today's Prices, Best Time to Sell
+  // Buyer: Buy Fresh Crops, My Orders, Cart, Today's Prices
+  // Admin: Verification Requests, All Orders
+  const getNavItems = () => {
+    if (!isAuthenticated || !currentUser) {
+      return [
+        { id: 'market', label: t.nav.buyFreshCrops, sub: t.nav.buyFreshCropsSub, icon: Sprout },
+        { id: 'prices', label: t.nav.todaysPrices, sub: t.nav.todaysPricesSub, icon: TrendingUp },
+        { id: 'how-it-works', label: t.nav.howItWorks, sub: t.nav.howItWorksSub, icon: CheckCircle2 },
+        { id: 'help', label: t.nav.help, sub: t.nav.helpSub, icon: HelpCircle },
+      ];
     }
-    onNavigate(id);
+
+    if (currentUser.role === 'farmer') {
+      return [
+        { id: 'farmer', label: t.nav.myFarm, sub: 'Your farm hub & active offers', icon: Sprout },
+        { id: 'farmer', label: t.nav.myCrops, sub: 'Manage crops for sale', icon: Package },
+        { id: 'orders', label: t.nav.myOrders, sub: t.nav.myOrdersSub, icon: ListOrdered },
+        { id: 'prices', label: t.nav.todaysPrices, sub: t.nav.todaysPricesSub, icon: TrendingUp },
+        { id: 'prices', label: t.nav.bestTimeToSell, sub: t.nav.bestTimeToSellSub, icon: Clock },
+      ];
+    }
+
+    if (currentUser.role === 'buyer') {
+      return [
+        { id: 'market', label: t.nav.buyFreshCrops, sub: t.nav.buyFreshCropsSub, icon: Sprout },
+        { id: 'orders', label: t.nav.myOrders, sub: t.nav.myOrdersSub, icon: ListOrdered },
+        { id: 'cart', label: `${t.nav.cart}${itemCount > 0 ? ` (${itemCount})` : ''}`, sub: 'Review selected fresh crops', icon: ShoppingCart },
+        { id: 'prices', label: t.nav.todaysPrices, sub: t.nav.todaysPricesSub, icon: TrendingUp },
+      ];
+    }
+
+    if (currentUser.role === 'admin') {
+      return [
+        { id: 'admin', label: t.nav.verificationRequests, sub: 'Inspect farmer & buyer KYC', icon: FileCheck2 },
+        { id: 'orders', label: t.nav.allOrders, sub: 'Oversee full network dispatch', icon: ListOrdered },
+      ];
+    }
+
+    // Default fallback
+    return [
+      { id: 'market', label: t.nav.buyFreshCrops, sub: t.nav.buyFreshCropsSub, icon: Sprout },
+      { id: 'prices', label: t.nav.todaysPrices, sub: t.nav.todaysPricesSub, icon: TrendingUp },
+      { id: 'orders', label: t.nav.myOrders, sub: t.nav.myOrdersSub, icon: ListOrdered },
+    ];
   };
 
-  const getRoleIcon = (role: UserRole) => {
-    switch (role) {
-      case 'farmer':
-        return <Sprout className="w-3.5 h-3.5 text-[#E5B94A]" />;
-      case 'buyer':
-        return <Building2 className="w-3.5 h-3.5 text-[#E5B94A]" />;
-      case 'logistics':
-        return <Truck className="w-3.5 h-3.5 text-[#E5B94A]" />;
-      case 'admin':
-        return <ShieldCheck className="w-3.5 h-3.5 text-[#E5B94A]" />;
-    }
+  const navItems = getNavItems();
+
+  const handleNavClick = (id: string) => {
+    onNavigate(id);
+    setMobileMenuOpen(false);
   };
 
   const languageLabels: Record<SupportedLanguage, string> = {
@@ -99,16 +128,17 @@ export const Navbar: React.FC<NavbarProps> = ({
   return (
     <>
       <header className="sticky top-0 z-40 bg-[#F4EFE6]/95 border-b border-[#2F4A3A]/10 backdrop-blur-md">
-        {/* Minimal Editorial Top Ticker */}
+        
+        {/* Editorial Top Ticker */}
         <div className="bg-[#163323] text-[#FBF8F2] px-4 sm:px-6 py-1.5 text-xs font-mono flex items-center justify-between select-none">
           <div className="flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#E5B94A] animate-pulse shrink-0"></span>
+            <span className="h-1.5 w-1.5 rounded-full bg-[#E5B94A] animate-pulse shrink-0" />
             <span className="font-bold text-[#E5B94A] text-[11px] tracking-wider uppercase">
-              18.5 MT ACTIVE WHOLESALE DEMAND
+              100% DIRECT FROM FARM
             </span>
             <span className="text-[#FBF8F2]/40 hidden sm:inline">•</span>
             <span className="hidden sm:inline text-[#FBF8F2]/90 text-[11px]">
-              Direct Farm-Gate Payout • 0% Broker Fee
+              0% Broker Fee • Direct Bank Deposit • Village Pickup
             </span>
           </div>
 
@@ -117,10 +147,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="relative">
               <button
                 onClick={() => setLangDropdownOpen(!langDropdownOpen)}
-                className="flex items-center gap-1 text-[11px] font-sans font-bold uppercase text-[#E5B94A] hover:text-[#FBF8F2] transition-colors cursor-pointer"
+                className="flex items-center gap-1 text-[11px] font-sans font-bold uppercase text-[#E5B94A] hover:text-[#FBF8F2] transition-colors cursor-pointer min-h-[32px]"
                 aria-label="Change language"
               >
-                <Globe className="w-3 h-3" />
+                <Globe className="w-3.5 h-3.5" />
                 <span>{languageLabels[language]}</span>
                 <ChevronDown className="w-2.5 h-2.5" />
               </button>
@@ -151,97 +181,35 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {isAuthenticated && currentUser ? (
               <span className="text-[#FBF8F2]/90 font-mono text-[10px] hidden sm:inline">
-                Signed in as <strong className="text-[#E5B94A]">{currentUser.name}</strong>
+                Signed in as <strong className="text-[#E5B94A]">{currentUser.name}</strong> ({currentUser.role})
               </span>
             ) : (
               <button
                 onClick={() => onOpenAuth('signin')}
-                className="text-[#E5B94A] font-bold hover:underline"
+                className="text-[#E5B94A] font-bold hover:underline cursor-pointer"
               >
-                {t.nav.signIn} →
+                {t.nav.login} →
               </button>
             )}
           </div>
         </div>
 
-        {/* Main Centered Minimal Navbar */}
+        {/* Main Desktop Navbar */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             
-            {/* Left Nav Links */}
-            <nav className="hidden lg:flex items-center gap-7 font-sans text-xs uppercase tracking-[0.15em] font-semibold text-[#2F4A3A]">
-              <button
-                onClick={() => handleNavClick('farmer')}
-                className={`transition-colors py-1 hover:text-[#C77B58] border-b-2 pb-0.5 cursor-pointer ${
-                  currentView === 'farmer' ? 'border-[#C77B58] text-[#C77B58]' : 'border-transparent'
-                }`}
-              >
-                {t.nav.forFarmers}
-              </button>
-              <button
-                onClick={() => handleNavClick('buyer')}
-                className={`transition-colors py-1 hover:text-[#C77B58] border-b-2 pb-0.5 cursor-pointer ${
-                  currentView === 'buyer' ? 'border-[#C77B58] text-[#C77B58]' : 'border-transparent'
-                }`}
-              >
-                {t.nav.forBuyers}
-              </button>
-              <button
-                onClick={() => handleNavClick('how-it-works')}
-                className="transition-colors py-1 hover:text-[#C77B58] border-b-2 border-transparent pb-0.5 cursor-pointer"
-              >
-                {t.nav.howItWorks}
-              </button>
-
-              {/* More Tools Dropdown */}
-              <div className="relative">
-                <button
-                  onClick={() => setMoreToolsOpen(!moreToolsOpen)}
-                  className="uppercase tracking-[0.15em] text-[#2F4A3A]/80 hover:text-[#2F4A3A] flex items-center gap-1 py-1 transition-colors cursor-pointer"
-                >
-                  <span>MORE</span>
-                  <ChevronDown className="w-3 h-3" />
-                </button>
-
-                {moreToolsOpen && (
-                  <div className="absolute left-0 mt-2 w-64 bg-[#FBF8F2] border border-[#2F4A3A]/15 rounded-2xl shadow-soft-lg p-3 font-sans text-xs space-y-1 z-50">
-                    <div className="text-[10px] text-[#2F4A3A]/60 font-mono font-bold uppercase px-2 py-1 border-b border-[#2F4A3A]/10">
-                      PLATFORM MODULES
-                    </div>
-                    {secondaryTools.map((tool) => (
-                      <button
-                        key={tool.id}
-                        onClick={() => {
-                          onNavigate(tool.id);
-                          setMoreToolsOpen(false);
-                        }}
-                        className="w-full text-left p-2 rounded-xl hover:bg-[#F4EFE6] transition-colors block cursor-pointer"
-                      >
-                        <strong className="font-editorial text-sm font-bold text-[#163323] block">
-                          {tool.label}
-                        </strong>
-                        <span className="text-[11px] text-[#2F4A3A]/70 block">
-                          {tool.desc}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </nav>
-
             {/* Mobile Menu Button */}
             <div className="flex items-center lg:hidden">
               <button
                 onClick={() => setMobileMenuOpen(true)}
-                className="min-h-[44px] min-w-[44px] flex items-center justify-center text-[#163323] hover:text-[#C77B58]"
+                className="min-h-[44px] min-w-[44px] flex items-center justify-center text-[#163323] hover:text-[#C77B58] cursor-pointer"
                 aria-label="Toggle Menu"
               >
                 <Menu className="w-6 h-6" />
               </button>
             </div>
 
-            {/* Brand Logo (Centered) */}
+            {/* Brand Logo */}
             <div 
               onClick={() => onNavigate('landing')}
               className="flex flex-col items-center justify-center cursor-pointer select-none group"
@@ -254,37 +222,62 @@ export const Navbar: React.FC<NavbarProps> = ({
               </span>
             </div>
 
-            {/* Right Action CTAs */}
-            <div className="flex items-center gap-3 sm:gap-6">
-              <div className="hidden lg:flex items-center gap-6 font-sans text-xs uppercase tracking-[0.15em] font-semibold text-[#2F4A3A]">
+            {/* Role-Based Desktop Nav Links */}
+            <nav className="hidden lg:flex items-center gap-6 font-sans text-xs uppercase tracking-[0.14em] font-semibold text-[#2F4A3A]">
+              {navItems.map((item, idx) => (
                 <button
-                  onClick={() => onNavigate('marketplace')}
-                  className={`transition-colors py-1 hover:text-[#C77B58] border-b-2 pb-0.5 cursor-pointer ${
-                    currentView === 'marketplace' ? 'border-[#C77B58] text-[#C77B58]' : 'border-transparent'
+                  key={`${item.id}-${idx}`}
+                  onClick={() => handleNavClick(item.id)}
+                  className={`transition-colors py-1 hover:text-[#C77B58] border-b-2 pb-0.5 cursor-pointer min-h-[44px] flex items-center ${
+                    currentView === item.id ? 'border-[#C77B58] text-[#C77B58]' : 'border-transparent'
                   }`}
                 >
-                  {t.nav.marketplace}
+                  <span>{item.label}</span>
                 </button>
-                <button
-                  onClick={() => onNavigate('prices')}
-                  className={`transition-colors py-1 hover:text-[#C77B58] border-b-2 pb-0.5 cursor-pointer ${
-                    currentView === 'prices' ? 'border-[#C77B58] text-[#C77B58]' : 'border-transparent'
-                  }`}
-                >
-                  {t.nav.prices}
-                </button>
-              </div>
+              ))}
+            </nav>
 
+            {/* Right Action Section */}
+            <div className="flex items-center gap-3 sm:gap-4">
+              
+              {/* Cart Icon Quick Access */}
+              <button
+                onClick={() => onNavigate('cart')}
+                className="relative min-h-[44px] min-w-[44px] flex items-center justify-center text-[#163323] hover:text-[#C77B58] transition-colors cursor-pointer"
+                aria-label="View Cart"
+              >
+                <ShoppingCart className="w-5 h-5" />
+                {itemCount > 0 && (
+                  <span className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-[#C77B58] text-[#FBF8F2] text-[10px] font-mono font-bold flex items-center justify-center">
+                    {itemCount}
+                  </span>
+                )}
+              </button>
+
+              {/* Farmer Quick Action: Sell Produce */}
+              {(!isAuthenticated || currentUser?.role === 'farmer') && onOpenSellModal && (
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={onOpenSellModal}
+                  className="hidden sm:inline-flex text-[11px] uppercase tracking-wider font-semibold min-h-[40px] px-4"
+                >
+                  <Sprout className="w-3.5 h-3.5 mr-1" />
+                  <span>Sell Crop</span>
+                </Button>
+              )}
+
+              {/* User Session Menu / Login CTA */}
               {isAuthenticated && currentUser ? (
                 <div className="relative">
                   <button
                     onClick={() => setUserDropdownOpen(!userDropdownOpen)}
                     className="flex items-center gap-2 min-h-[44px] px-3.5 py-1.5 bg-[#FBF8F2] border border-[#2F4A3A]/15 rounded-full shadow-soft-sm hover:bg-[#F4EFE6] transition-colors cursor-pointer"
                   >
-                    <div className="w-6 h-6 bg-[#2F4A3A] rounded-full flex items-center justify-center">
-                      {getRoleIcon(currentUser.role)}
+                    <div className="w-6 h-6 bg-[#2F4A3A] rounded-full flex items-center justify-center text-[#E5B94A] text-xs font-bold font-mono">
+                      {currentUser.name[0]}
                     </div>
-                    <span className="font-sans text-xs font-semibold text-[#163323] max-w-[100px] truncate">
+                    <span className="font-sans text-xs font-semibold text-[#163323] max-w-[90px] truncate">
                       {currentUser.name}
                     </span>
                     <ChevronDown className="w-3 h-3 text-[#2F4A3A]/60" />
@@ -300,15 +293,43 @@ export const Navbar: React.FC<NavbarProps> = ({
                           {currentUser.role} Account
                         </span>
                       </div>
-                      <button
-                        onClick={() => {
-                          onNavigate(currentUser.role === 'buyer' ? 'buyer' : 'farmer');
-                          setUserDropdownOpen(false);
-                        }}
-                        className="w-full text-left py-1.5 hover:text-[#C77B58] block cursor-pointer"
-                      >
-                        {t.nav.dashboard} →
-                      </button>
+
+                      {currentUser.role === 'farmer' && (
+                        <button
+                          onClick={() => {
+                            onNavigate('farmer');
+                            setUserDropdownOpen(false);
+                          }}
+                          className="w-full text-left py-1.5 hover:text-[#C77B58] block cursor-pointer"
+                        >
+                          {t.nav.myFarm} →
+                        </button>
+                      )}
+
+                      {currentUser.role === 'buyer' && (
+                        <button
+                          onClick={() => {
+                            onNavigate('buyer');
+                            setUserDropdownOpen(false);
+                          }}
+                          className="w-full text-left py-1.5 hover:text-[#C77B58] block cursor-pointer"
+                        >
+                          Commercial Buyer Desk →
+                        </button>
+                      )}
+
+                      {currentUser.role === 'admin' && (
+                        <button
+                          onClick={() => {
+                            onNavigate('admin');
+                            setUserDropdownOpen(false);
+                          }}
+                          className="w-full text-left py-1.5 text-[#C77B58] font-bold block cursor-pointer"
+                        >
+                          {t.nav.verificationRequests} →
+                        </button>
+                      )}
+
                       <button
                         onClick={() => {
                           onNavigate('orders');
@@ -316,8 +337,19 @@ export const Navbar: React.FC<NavbarProps> = ({
                         }}
                         className="w-full text-left py-1.5 hover:text-[#C77B58] block cursor-pointer"
                       >
-                        {t.nav.orders} →
+                        {t.nav.myOrders} →
                       </button>
+
+                      <button
+                        onClick={() => {
+                          onNavigate('onboarding');
+                          setUserDropdownOpen(false);
+                        }}
+                        className="w-full text-left py-1.5 hover:text-[#C77B58] block cursor-pointer text-[#2F4A3A]"
+                      >
+                        {t.nav.getVerifiedTick} →
+                      </button>
+
                       {onSignOut && (
                         <button
                           onClick={() => {
@@ -333,161 +365,133 @@ export const Navbar: React.FC<NavbarProps> = ({
                   )}
                 </div>
               ) : (
-                <div className="flex items-center gap-2 sm:gap-3">
+                <div className="flex items-center gap-2">
                   <button
                     onClick={() => onOpenAuth('signin')}
                     className="min-h-[44px] px-3 py-2 text-xs font-sans font-semibold tracking-[0.14em] text-[#163323] uppercase hover:text-[#C77B58] transition-colors cursor-pointer"
                   >
-                    {t.nav.signIn}
+                    {t.nav.login}
                   </button>
 
                   <Button
                     variant="primary"
                     size="sm"
                     onClick={() => onOpenAuth('signup')}
-                    className="text-[11px]"
+                    className="text-[11px] uppercase tracking-wider font-semibold min-h-[40px] px-4"
                   >
-                    {t.nav.join}
+                    Join
                   </Button>
                 </div>
               )}
+
             </div>
 
           </div>
         </div>
+
       </header>
 
-      {/* Accessible Slide-Over Sheet Mobile Drawer */}
+      {/* Mobile Drawer Navigation Sheet (At most 6 single-line items, 44px tap targets, closes on route change) */}
       <Sheet
         isOpen={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
         title="FarmChain Navigation"
-        side="left"
       >
-        <div className="space-y-6 font-sans">
+        <div className="space-y-6 pt-2">
           
-          {/* Language Selector in Drawer */}
-          <div className="space-y-2 pb-4 border-b border-[#2F4A3A]/10">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#C77B58]">
-              Select Language / भाषा / భాష
-            </span>
-            <div className="grid grid-cols-3 gap-2">
-              <button
-                onClick={() => setLanguage('en')}
-                className={`min-h-[44px] px-2 rounded-xl text-xs font-bold border ${language === 'en' ? 'bg-[#2F4A3A] text-[#FBF8F2] border-[#2F4A3A]' : 'bg-[#FBF8F2] text-[#2F4A3A] border-[#2F4A3A]/15'}`}
-              >
-                English
-              </button>
-              <button
-                onClick={() => setLanguage('hi')}
-                className={`min-h-[44px] px-2 rounded-xl text-xs font-bold border ${language === 'hi' ? 'bg-[#2F4A3A] text-[#FBF8F2] border-[#2F4A3A]' : 'bg-[#FBF8F2] text-[#2F4A3A] border-[#2F4A3A]/15'}`}
-              >
-                हिन्दी
-              </button>
-              <button
-                onClick={() => setLanguage('te')}
-                className={`min-h-[44px] px-2 rounded-xl text-xs font-bold border ${language === 'te' ? 'bg-[#2F4A3A] text-[#FBF8F2] border-[#2F4A3A]' : 'bg-[#FBF8F2] text-[#2F4A3A] border-[#2F4A3A]/15'}`}
-              >
-                తెలుగు
-              </button>
+          {/* User Session Banner if logged in */}
+          {isAuthenticated && currentUser && (
+            <div className="p-3.5 rounded-2xl bg-[#2F4A3A] text-[#FBF8F2] space-y-1">
+              <span className="text-[10px] font-mono text-[#E5B94A] uppercase block">
+                Signed in as
+              </span>
+              <strong className="font-editorial text-base block text-[#FBF8F2]">
+                {currentUser.name}
+              </strong>
+              <span className="text-xs text-[#A8B89A] block uppercase font-mono">
+                {currentUser.role} Account
+              </span>
             </div>
+          )}
+
+          {/* Role-based Menu Items (At most 6 single-line items with 44px+ tap targets) */}
+          <div className="space-y-1">
+            <span className="text-[10px] font-mono uppercase text-[#536458] font-bold px-2 block mb-2">
+              MENU
+            </span>
+            {navItems.slice(0, 6).map((item, idx) => (
+              <button
+                key={`mobile-${item.id}-${idx}`}
+                onClick={() => handleNavClick(item.id)}
+                className={`w-full min-h-[44px] flex items-center justify-between px-3 py-2.5 rounded-xl text-left transition-colors font-sans text-sm font-semibold cursor-pointer ${
+                  currentView === item.id 
+                    ? 'bg-[#2F4A3A] text-[#FBF8F2]' 
+                    : 'text-[#163323] hover:bg-[#F4EFE6]'
+                }`}
+              >
+                <span className="truncate">{item.label}</span>
+                <span className="text-xs text-[#536458]/70 text-right text-[11px] font-normal truncate ml-2">
+                  {item.sub}
+                </span>
+              </button>
+            ))}
           </div>
 
-          {/* Main Navigation Links */}
-          <div className="space-y-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#2F4A3A]/60">
-              Quick Links
-            </span>
-            <div className="space-y-1.5">
-              {primaryNavItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = currentView === item.id;
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => {
-                      handleNavClick(item.id);
-                      setMobileMenuOpen(false);
-                    }}
-                    className={`w-full min-h-[48px] px-4 py-3 rounded-2xl border text-left font-sans text-xs font-bold uppercase tracking-wider flex items-center gap-3 transition-all ${
-                      isActive
-                        ? 'bg-[#2F4A3A] text-[#FBF8F2] border-[#2F4A3A] shadow-soft'
-                        : 'bg-[#FBF8F2] text-[#163323] border-[#2F4A3A]/10 hover:bg-[#F4EFE6]'
-                    }`}
-                  >
-                    <Icon className="w-5 h-5 shrink-0" />
-                    <span>{item.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+          {/* Quick Actions in Mobile Menu */}
+          <div className="pt-4 border-t border-[#2F4A3A]/10 space-y-2">
+            {(!isAuthenticated || currentUser?.role === 'farmer') && onOpenSellModal && (
+              <Button
+                variant="primary"
+                size="md"
+                fullWidth
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenSellModal();
+                }}
+                className="min-h-[44px] text-xs uppercase tracking-wider font-semibold"
+              >
+                <Sprout className="w-4 h-4 mr-2" />
+                <span>Sell Your Crop</span>
+              </Button>
+            )}
 
-          {/* Secondary Tools */}
-          <div className="space-y-2 pt-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#2F4A3A]/60">
-              Platform Modules
-            </span>
-            <div className="grid grid-cols-2 gap-2">
-              {secondaryTools.map((tool) => (
-                <button
-                  key={tool.id}
-                  onClick={() => {
-                    onNavigate(tool.id);
-                    setMobileMenuOpen(false);
-                  }}
-                  className="min-h-[44px] p-3 rounded-xl bg-[#FBF8F2] border border-[#2F4A3A]/10 text-left hover:bg-[#F4EFE6] transition-colors"
-                >
-                  <strong className="text-xs font-bold text-[#163323] block truncate">
-                    {tool.label}
-                  </strong>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Auth Action */}
-          <div className="pt-4 border-t border-[#2F4A3A]/10">
-            {isAuthenticated && currentUser ? (
-              <div className="space-y-2">
-                <div className="text-xs text-[#2F4A3A]">
-                  Logged in as <strong>{currentUser.name}</strong> ({currentUser.role})
-                </div>
-                {onSignOut && (
-                  <button
-                    onClick={() => {
-                      onSignOut();
-                      setMobileMenuOpen(false);
-                    }}
-                    className="w-full min-h-[44px] py-2.5 rounded-full border border-[#C77B58] text-[#C77B58] font-bold uppercase tracking-wider text-xs"
-                  >
-                    {t.nav.signOut}
-                  </button>
-                )}
-              </div>
-            ) : (
-              <div className="grid grid-cols-2 gap-3">
+            {!isAuthenticated ? (
+              <div className="grid grid-cols-2 gap-2 pt-2">
                 <Button
                   variant="outline"
                   size="md"
+                  fullWidth
                   onClick={() => {
-                    onOpenAuth('signin');
                     setMobileMenuOpen(false);
+                    onOpenAuth('signin');
                   }}
+                  className="min-h-[44px] text-xs font-semibold uppercase"
                 >
-                  {t.nav.signIn}
+                  {t.nav.login}
                 </Button>
                 <Button
                   variant="primary"
                   size="md"
+                  fullWidth
                   onClick={() => {
-                    onOpenAuth('signup');
                     setMobileMenuOpen(false);
+                    onOpenAuth('signup');
                   }}
+                  className="min-h-[44px] text-xs font-semibold uppercase"
                 >
-                  {t.nav.join}
+                  Join
                 </Button>
               </div>
+            ) : (
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  if (onSignOut) onSignOut();
+                }}
+                className="w-full min-h-[44px] text-center text-xs font-bold text-[#C77B58] hover:underline uppercase pt-2 cursor-pointer"
+              >
+                {t.nav.signOut}
+              </button>
             )}
           </div>
 
